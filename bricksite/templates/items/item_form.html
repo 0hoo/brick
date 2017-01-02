@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% load semanticui %}
+
+{% block content %}
+<h1 class="ui header">
+    Add My Brick
+    <div class="sub header">{{ product.title }}, {{ product.product_code }}</div>
+</h1>
+<form method="post" class="ui form segment">
+    {% csrf_token %}
+    {{ form|semanticui }}
+    {{ things.management_form }}
+    <table class="ui table">
+        {% for thing_form in things.forms %}
+        {% if forloop.first %}
+        <thead>
+        <tr>
+            {% for field in thing_form.visible_fields %}
+                <th>{{ field.label|capfirst }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        {% endif %}
+        <tr class="formset_row">
+            {% for field in thing_form.visible_fields %}
+            <td>
+                {% if forloop.first %}
+                    {% for hidden in thing_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                {% endif %}
+                {{ field.errors.as_ul }}
+                {{ field }}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <button type="submit" class="ui blue button">Save Item</button>
+ </form>
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $('.formset_row').formset({
+        addText: 'add thing',
+        deleteText: 'remove',
+        prefix: 'thing_set'
+    });
+</script>
+{% endblock %}

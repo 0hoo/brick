@@ -1,0 +1,33 @@
+import time
+from datetime import datetime
+from django import template
+from django.template import defaultfilters
+
+register = template.Library()
+
+
+def date_time_milliseconds(date_or_datetime):
+    date_time = date_or_datetime.date() if isinstance(date_or_datetime, datetime) else date_or_datetime
+    return int(time.mktime(date_time.timetuple()) * 1000)
+
+
+@register.simple_tag
+def generate_chart_array(entries, date_field, value_field, javascript_var_name):
+    result = 'var %s = [' % javascript_var_name
+    result += '\n'
+    for entry in entries:
+        value = defaultfilters.default_if_none(getattr(entry, value_field), 0)
+        result += '{x: %s, y: %s}, ' % (date_time_milliseconds(getattr(entry, date_field)), value)
+        result += '\n'
+    result += '];'
+    return result
+
+
+@register.simple_tag
+def generate_c3_array(entries, field, label, is_date=False):
+    result = "['%s', " % label
+    for entry in entries:
+        value = defaultfilters.default_if_none(getattr(entry, field), 0) if not is_date else date_time_milliseconds(getattr(entry, field))
+        result += '%s, ' % value
+    result += ']'
+    return result

@@ -1,0 +1,21 @@
+<div class="ui card">
+    <div class="content">
+        <div class="description center aligned">
+            <h3 class="ui header">{{ title }}</h3>
+            <div class="ui {{ value_size }} statistic">
+                <div class="value">
+                    {% if icon %}
+                    <i class="{{ icon }} icon"></i>
+                    {% endif %}
+                     {{ value }}
+                </div>
+                <div class="label">{{ label }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="extra content">
+        <div class="right floated">
+            {{ extra }}
+        </div>
+    </div>
+</div>

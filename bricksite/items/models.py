@@ -1,0 +1,98 @@
+import time
+
+from django.db import models
+from django.urls import reverse
+from django.contrib.auth.models import User
+
+from django_extensions.db.models import TimeStampedModel
+
+from products.models import Product
+
+
+class Item(TimeStampedModel):
+    product = models.ForeignKey(Product)
+    user = models.ForeignKey(User)
+    buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    target_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    owned = models.BooleanField(default=True)
+    wish = models.BooleanField(default=False)
+    quantity = models.PositiveIntegerField(default=1)
+
+    @property
+    def estimated_profit(self):
+        return self.total_estimated - self.total_buying_price
+
+    @property
+    def buying_average_price(self):
+        return self.total_buying_price / self.quantity
+
+    @property
+    def total_buying_price(self):
+        things = self.thing_set.all()
+        buying = self.buying_price if self.buying_price else self.product.official_price
+        if things.count() > 0:
+            return sum(t.buying_price if t.buying_price else buying for t in things)
+        else:
+            return buying * self.quantity
+
+    @property
+    def total_estimated(self):
+        things, last_bricklink_record, last_ebay_record = (self.thing_set.all(),
+                                                           self.product.last_bricklink_record(),
+                                                           self.product.last_ebay_record())
+        things_count = things.count()
+        new_price = last_bricklink_record.new_average_price if last_bricklink_record and last_bricklink_record.new_average_price else \
+            (last_ebay_record.new_average_price if last_ebay_record and last_ebay_record.new_average_price else
+             self.product.official_price)
+
+        if things_count > 0:
+            opened_count = sum(t.opened for t in things)
+            unopned_count = things_count - opened_count
+            used_price = last_bricklink_record.used_average_price if last_bricklink_record and last_bricklink_record.used_average_price else \
+                (last_ebay_record.used_average_price if last_ebay_record and last_ebay_record.used_average_price else
+                 self.product.official_price)
+            return unopned_count * new_price + opened_count * used_price
+        else:
+            return new_price * self.quantity
+
+    def get_absolute_url(self):
+        return reverse('items:detail', args=[str(self.id)])
+
+    def __str__(self):
+        return '{} {} {}'.format(self.user.username, self.product.product_code, self.product.title)
+
+    class Meta:
+        unique_together = ['product', 'user']
+
+
+class ItemRecord(TimeStampedModel):
+    item = models.ForeignKey(Item, related_name='record_set')
+    quantity = models.PositiveIntegerField(default=1)
+    opened_quantity = models.PositiveIntegerField(default=0)
+    estimated_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    estimated_profit = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+
+    @property
+    def created_raw(self):
+        return int(time.mktime(self.created.timetuple()) * 1000)
+
+    def __str__(self):
+        return '{} {} Record {}'.format(self.item.user.username, self.item.product.title, self.created)
+
+    class Meta:
+        get_latest_by = 'created'
+        ordering = ('-created',)
+        verbose_name = 'Item Record'
+
+
+class Thing(TimeStampedModel):
+    item = models.ForeignKey(Item, related_name='thing_set')
+    buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    opened = models.BooleanField(default=False)
+    note = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return '{} - {} {}'.format(self.item.product.title, "Opened" if self.opened else "Unopened", self.buying_price)
+
+    class Meta:
+        verbose_name = 'Thing'

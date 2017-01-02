@@ -1,0 +1,40 @@
+{% if is_paginated %}
+<div class="ui right floated pagination menu">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous }}" class="icon item">
+        <i class="left chevron icon"></i>
+    </a>
+    {% else %}
+    <a href="#" class="icon item">
+        <i class="left chevron icon"></i>
+    </a>
+    {% endif %}
+
+    {% if show_first %}
+        <a class="item" href="?page=1">1</a>
+    {% endif %}
+
+    {% for page in page_numbers %}
+        {% ifequal page page_obj.number %}
+        <a class="item" href="#">{{ page }}</a>
+        {% else %}
+        <a class="item" href="?page={{ page }}">{{ page }}</a>
+        {% endifequal %}
+    {% endfor %}
+
+    {% if show_last %}
+    <a class="item">...</a>
+    <a class="item" href="?page=last">{{ paginator.num_pages }}</a>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="icon item">
+        <i class="right chevron icon"></i>
+    </a>
+    {% else %}
+    <a href="#" class="icon item">
+        <i class="right chevron icon"></i>
+    </a>
+    {% endif %}
+</div>
+{% endif %}

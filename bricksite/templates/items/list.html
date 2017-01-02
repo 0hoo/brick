@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load price_tags %}
+
+{% block content %}
+<h1 class="ui header">My Bricks</h1>
+<button class="ui green button">Add My Brick</button>
+<table class="ui very basic compact table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name </th>
+        <th>Quantity</th>
+        <th>Buying</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td >{{ item.product.product_code }}</td>
+            <td><a href="{% url 'items:detail' item.id %}">{{ item.product.title }}</a></td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="5">
+            {% include 'snippets/pagination.html' %}
+        </th>
+    </tr>
+    </tfoot>
+</table>
+{% endblock %}

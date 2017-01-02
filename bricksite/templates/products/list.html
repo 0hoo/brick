@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="ui header">Registered Bricks in TrackMyBrick</h1>
+<p>There are {{ products_count }} bricks registed in TrackMyBrick.</p>
+<button class="ui green button">Add My Brick</button>
+<button class="ui gray button">Register Missing Bricks in TrackMyBrick</button>
+<table class="ui very basic compact table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name </th>
+        <th>Price ($)</th>
+        <th>Ages </th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td >{{ product.product_code }}</td>
+            <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
+            <td>${{ product.official_price }}</td>
+            <td>{{ product.ages }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="5">
+            {% include 'snippets/pagination.html' %}
+        </th>
+    </tr>
+    </tfoot>
+</table>
+{% endblock %}
