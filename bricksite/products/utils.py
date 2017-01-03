@@ -1,3 +1,4 @@
+from decimal import Decimal
 from datetime import datetime
 
 from .models import Product, EbayRecord
