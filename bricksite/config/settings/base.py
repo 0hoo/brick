@@ -152,3 +152,5 @@ try:
     from .local import *  # noqa
 except ImportError:
     pass
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '138.68.20.85']
