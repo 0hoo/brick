@@ -1,22 +1,23 @@
 {% if is_paginated %}
 <div class="ui right floated pagination menu">
     {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous }}" class="icon item">
+    <a href="?page={{ page_obj.previous_page_number }}" class="icon item">
         <i class="left chevron icon"></i>
     </a>
     {% else %}
-    <a href="#" class="icon item">
+    <a href="#" class="icon item disabled">
         <i class="left chevron icon"></i>
     </a>
     {% endif %}
 
     {% if show_first %}
         <a class="item" href="?page=1">1</a>
+        <a class="item">...</a>
     {% endif %}
 
     {% for page in page_numbers %}
         {% ifequal page page_obj.number %}
-        <a class="item" href="#">{{ page }}</a>
+        <a class="item active" href="#">{{ page }}</a>
         {% else %}
         <a class="item" href="?page={{ page }}">{{ page }}</a>
         {% endifequal %}
@@ -32,7 +33,7 @@
         <i class="right chevron icon"></i>
     </a>
     {% else %}
-    <a href="#" class="icon item">
+    <a href="#" class="icon item disabled">
         <i class="right chevron icon"></i>
     </a>
     {% endif %}

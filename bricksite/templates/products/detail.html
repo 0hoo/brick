@@ -19,7 +19,7 @@ showLineChartC3('#chart-new', [
     {% generate_c3_array product.bricklink_record_set.all field='new_max_price' label='New Maximum' %},
     {% generate_c3_array product.bricklink_record_set.all field='new_min_price' label='New Minimum' %},
     {% endautoescape %}
-], 720);
+], 920);
 showLineChartC3('#chart-used', [
     {% autoescape off %}
     {% generate_c3_array product.bricklink_record_set.all field='created' label='date' is_date=True %},
@@ -27,7 +27,7 @@ showLineChartC3('#chart-used', [
     {% generate_c3_array product.bricklink_record_set.all field='used_max_price' label='Used Maximum' %},
     {% generate_c3_array product.bricklink_record_set.all field='used_min_price' label='Used Minimum' %},
     {% endautoescape %}
-], 720);
+], 920);
 showLineChartC3('#chart-ebay-new', [
     {% autoescape off %}
     {% generate_c3_array product.ebay_record_set.all field='created' label='date' is_date=True %},
@@ -35,7 +35,7 @@ showLineChartC3('#chart-ebay-new', [
     {% generate_c3_array product.ebay_record_set.all field='new_max_price' label='New Maximum' %},
     {% generate_c3_array product.ebay_record_set.all field='new_min_price' label='New Minimum' %},
     {% endautoescape %}
-], 720);
+], 920);
 showLineChartC3('#chart-ebay-used', [
     {% autoescape off %}
     {% generate_c3_array product.ebay_record_set.all field='created' label='date' is_date=True %},
@@ -43,7 +43,7 @@ showLineChartC3('#chart-ebay-used', [
     {% generate_c3_array product.ebay_record_set.all field='used_max_price' label='Used Maximum' %},
     {% generate_c3_array product.ebay_record_set.all field='used_min_price' label='Used Minimum' %},
     {% endautoescape %}
-], 720);
+], 920);
 {% endblock %}
 
 {% block content %}

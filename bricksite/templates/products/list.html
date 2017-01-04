@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load humanize %}
+{% load price_tags %}
 
 {% block content %}
 <h1 class="ui header">Registered Bricks in TrackMyBrick</h1>
@@ -19,7 +21,7 @@
         <tr>
             <td >{{ product.product_code }}</td>
             <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
-            <td>${{ product.official_price }}</td>
+            <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
             <td>{{ product.ages }}</td>
         </tr>
         {% endfor %}

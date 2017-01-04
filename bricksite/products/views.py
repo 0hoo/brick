@@ -15,7 +15,7 @@ class ProductListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
-        adjacent_pages = 9
+        adjacent_pages = 3
         page_number = context['page_obj'].number
         num_pages = context['paginator'].num_pages
         start_page = max(page_number - adjacent_pages, 1)
@@ -30,6 +30,7 @@ class ProductListView(LoginRequiredMixin, ListView):
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
         })
+        print(context['page_obj'])
         return context
 
 

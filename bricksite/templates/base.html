@@ -18,7 +18,7 @@
         }
 
         .main.container {
-            padding-top: 7em;
+            padding-top: 5em;
         }
 
         .wireframe {
@@ -29,11 +29,15 @@
             margin: 2em 0em 0em;
             padding: 1em 0em;
         }
+
+        .ui.text.container {
+            min-width: 900px!important;
+        }
     </style>
 </head>
 <body>
     <div class="ui fixed inverted menu">
-        <div class="ui container" style="width: 720px;">
+        <div class="ui container" style="width: 906px;">
             <a href="{% url 'dashboard:index' %}" class="header item">Track My Brick</a>
             <a href="{% url 'products:list' %}" class="item">Products</a>
             <a href="{% url 'dashboard:index' %}" class="item">Dashboard</a>
