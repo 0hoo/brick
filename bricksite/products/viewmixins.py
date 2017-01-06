@@ -2,7 +2,11 @@ from django.db.models import Count
 
 from braces.views import OrderableListMixin
 
-class BrickOrderableListMixin(OrderableListMixin):
+
+class NullOrderableListMixin(OrderableListMixin):
+    """
+    Customized Mixin of OrderableListMixin http://django-braces.readthedocs.io to sort null int type values
+    """
     def get_ordered_queryset(self, queryset=None):
         order_by = self.order_by
         self.ordering = self.request.GET.get("ordering", (self.ordering or "asc"))

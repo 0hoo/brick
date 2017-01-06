@@ -2,13 +2,13 @@ from django.views.generic import ListView, DetailView
 
 from braces.views import LoginRequiredMixin
 
-from .viewmixins import BrickOrderableListMixin
+from .viewmixins import NullOrderableListMixin
 from .models import Product
 
 from items.models import Item
 
 
-class ProductListView(LoginRequiredMixin, BrickOrderableListMixin, ListView):
+class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'products/list.html'
