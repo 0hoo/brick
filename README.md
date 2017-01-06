@@ -1,5 +1,9 @@
 # brick
 
+# Note
+- Python 3.5.2를 설치바람. Python3.6과 scrapy-djangoitem에 충돌있음
+
+
 # Linux
 (for a small instance)
 - sudo dd if=/dev/zero of=/swapfile bs=1024 count=524288
@@ -18,8 +22,9 @@
 - python3 -m venv venv
 - pip install --upgrade pip
 - source venv/bin/activate
-- pip3 install requirements.txt
+- pip3 install -r requirements.txt
 - cd bricksite
+- venv/bin/activate 파일의 맨 끝에 export DJANGO_SECRET_KEY=1c3-cr3am-15-yummy_0hoo 추가 (키는 변경할 것)
 - python3 manage.py migrate
 
 - MySQL 설정 필요. 비번은 config.settings.local에 있는 대로
