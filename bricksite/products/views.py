@@ -2,16 +2,19 @@ from django.views.generic import ListView, DetailView
 
 from braces.views import LoginRequiredMixin
 
+from .viewmixins import BrickOrderableListMixin
 from .models import Product
 
 from items.models import Item
 
 
-class ProductListView(LoginRequiredMixin, ListView):
+class ProductListView(LoginRequiredMixin, BrickOrderableListMixin, ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'products/list.html'
     paginate_by = 20
+    order_by = 'official_price'
+    ordering = 'desc'
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
@@ -30,7 +33,6 @@ class ProductListView(LoginRequiredMixin, ListView):
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
         })
-        print(context['page_obj'])
         return context
 
 
