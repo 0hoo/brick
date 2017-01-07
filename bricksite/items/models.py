@@ -1,6 +1,7 @@
 import time
 
 from django.db import models
+from django.db.models import Avg, Sum
 from django.urls import reverse
 from django.contrib.auth.models import User
 
@@ -12,28 +13,36 @@ from products.models import Product
 class Item(TimeStampedModel):
     product = models.ForeignKey(Product)
     user = models.ForeignKey(User)
-    buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     target_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
-    owned = models.BooleanField(default=True)
-    wish = models.BooleanField(default=False)
-    quantity = models.PositiveIntegerField(default=1)
+
+    # buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    #owned = models.BooleanField(default=True)
+    #wish = models.BooleanField(default=False)
+    #quantity = models.PositiveIntegerField(default=1)
+
+    @property
+    def quantity(self):
+        return self.thing_set.count()
+
+    @property
+    def average_buying_price(self):
+        return self.thing_set.exclude(buying_price__isnull=True).aggregate(Avg('buying_price'))['buying_price__avg']
+
+    @property
+    def total_buying_price(self):
+        return self.thing_set.exclude(buying_price__isnull=True).aggregate(Sum('buying_price'))['buying_price__sum']
+
+    @property
+    def estimated_total_buying_price(self):
+        return sum((thing.buying_price or self.product.official_price for thing in self.thing_set.all()))
 
     @property
     def estimated_profit(self):
-        return self.total_estimated - self.total_buying_price
+        return self.total_estimated - self.estimated_total_buying_price
 
     @property
     def buying_average_price(self):
         return self.total_buying_price / self.quantity
-
-    @property
-    def total_buying_price(self):
-        things = self.thing_set.all()
-        buying = self.buying_price if self.buying_price else self.product.official_price
-        if things.count() > 0:
-            return sum(t.buying_price if t.buying_price else buying for t in things)
-        else:
-            return buying * self.quantity
 
     @property
     def total_estimated(self):

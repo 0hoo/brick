@@ -15,7 +15,7 @@ class ProductKwargModelFormMixin(object):
 class ItemForm(UserKwargModelFormMixin, ProductKwargModelFormMixin, ModelForm):
     class Meta:
         model = Item
-        fields = ['quantity', 'buying_price', 'target_price', 'owned']
+        fields = ['target_price']
 
     def save(self, force_insert=False, force_update=False, commit=True):
         obj = super(ItemForm, self).save(commit=False)
