@@ -15,11 +15,6 @@ class Item(TimeStampedModel):
     user = models.ForeignKey(User)
     target_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
-    # buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
-    #owned = models.BooleanField(default=True)
-    #wish = models.BooleanField(default=False)
-    #quantity = models.PositiveIntegerField(default=1)
-
     @property
     def quantity(self):
         return self.thing_set.count()

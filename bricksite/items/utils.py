@@ -20,4 +20,4 @@ def update_item_record(user):
         record.estimated_profit = item.estimated_profit
         record.save()
 
-    logger.info("SAVE ITEM HISTORIES: %s %s", user.username, items.count())
+    logger.info("SAVE ITEM RECORDS: %s %s", user.username, items.count())
