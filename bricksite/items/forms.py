@@ -31,6 +31,9 @@ class ThingForm(ModelForm):
     class Meta:
         model = Thing
         fields = ['buying_price', 'opened', 'note']
+        widgets = {
+            'note': forms.Textarea(attrs={'rows': 1, 'style': 'padding: 9px 14px'}),
+        }
 
 ThingFormCreateSet = inlineformset_factory(Item, Thing, form=ThingForm, extra=1)
 ThingFormUpdateSet = inlineformset_factory(Item, Thing, form=ThingForm, extra=0)

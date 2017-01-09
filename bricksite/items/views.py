@@ -94,15 +94,11 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsM
         if self.request.POST:
             context['things'] = ThingFormCreateSet(self.request.POST)
         else:
-            context['things'] = ThingFormCreateSet()
+            formset = ThingFormCreateSet()
+            for thing_form in formset:
+                thing_form.initial = {'buying_price': self.product.official_price}
+            context['things'] = formset
         return context
-
-    def get_initial(self):
-        initial = super(ItemCreateView, self).get_initial()
-        if self.product.official_price:
-            initial['buying_price'] = self.product.official_price
-        initial['owned'] = True
-        return initial
 
     def form_valid(self, form):
         context = self.get_context_data()
