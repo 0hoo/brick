@@ -37,6 +37,22 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
         return context
 
 
+class ProductSearchForAddView(LoginRequiredMixin, NullOrderableListMixin, ListView):
+    model = Product
+    context_object_name = 'products'
+    template_name = 'products/search.html'
+    paginate_by = 50
+    order_by = 'official_price'
+    ordering = 'desc'
+
+    def get_queryset(self):
+        search = self.request.GET.get('search', '')
+        if search:
+            return self.model.objects.search(search)
+        else:
+            return Product.objects.none()
+
+
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     context_object_name = 'product'

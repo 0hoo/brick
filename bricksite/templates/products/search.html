@@ -3,10 +3,20 @@
 {% load price_tags %}
 
 {% block content %}
-<h1 class="ui header">Registered Bricks in TrackMyBrick</h1>
-<p>There are {{ paginator.count }} bricks registed in TrackMyBrick.</p>
-<a class="ui green button" href="{% url 'products:search' %}">Add My Brick</a>
-<button class="ui gray button">Register Missing Bricks in TrackMyBrick</button>
+<h1 class="ui header">Search Bricks</h1>
+<!---->
+<form class="ui form">
+    <div class="fields">
+        <div class="eight wide field">
+            <input id="search-field" type="text" name="search" placeholder="Type product number or title">
+        </div>
+        <div class="eight wide field">
+            <button class="ui button" type="submit">Search</button>
+            <button class="ui gray button">Register Missing Bricks in TrackMyBrick</button>
+        </div>
+    </div>
+
+</form>
 <table class="ui very basic compact table">
     <thead>
     <tr>
