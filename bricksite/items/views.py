@@ -43,33 +43,6 @@ class EditItemView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
         return context
 
 
-class AddItemView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsMixin, CreateView):
-    form_class = ItemForm
-    template_name = 'items/item_form.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        handler = super(UserFormKwargsMixin, self).dispatch(request, *args, **kwargs)
-        existing_items = Item.objects.filter(product=self.product).filter(user=request.user)
-        if existing_items.count() > 0:
-            return redirect(reverse('items:detail', args=[str(existing_items[0].id)]))
-        return handler
-
-    def get_no_product_url(self):
-        return reverse('products:product_search_for_add')
-
-    def get_context_data(self, **kwargs):
-        context = super(AddItemView, self).get_context_data(**kwargs)
-        context['product'] = self.product
-        return context
-
-    def get_initial(self):
-        initial = super(AddItemView, self).get_initial()
-        if self.product.official_price:
-            initial['buying_price'] = self.product.official_price
-        initial['owned'] = True
-        return initial
-
-
 class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsMixin, CreateView):
     form_class = ItemForm
     template_name = 'items/item_form.html'
