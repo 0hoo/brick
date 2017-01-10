@@ -43,4 +43,6 @@
     - crawler 디렉토리에서 scrapy crawl lego
 - 브릭링크 데이터
     - crawler 디렉토리에서 scrapy crawl bricklink
-
+- 이베이 데이터
+    - crawler 디렉토리에서 scrapy crawl ebay
+    - 그후 bricksite 디렉토리에서 python3 scripts/run_ebay_record.py
