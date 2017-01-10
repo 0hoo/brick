@@ -6,6 +6,7 @@ from .viewmixins import NullOrderableListMixin
 from .models import Product
 
 from items.models import Item
+from bookmarks.models import Bookmark
 
 
 class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
@@ -43,8 +44,13 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
-        existing_items = Item.objects.filter(product=self.get_object()).filter(user=self.request.user)
+        product = self.get_object()
+        existing_items = Item.objects.filter(product=product).filter(user=self.request.user)
         if existing_items.count() > 0:
             context['have_item'] = existing_items[0]
+
+        existing_bookmarks = Bookmark.objects.filter(product=product).filter(user=self.request.user)
+        if existing_bookmarks.count() > 0:
+            context['have_bookmark'] = existing_bookmarks[0]
 
         return context
