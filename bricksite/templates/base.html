@@ -59,13 +59,15 @@
     </div>
 
     <div class="ui main text container">
-            {% for category, message in messages %}
-                <div class="ui message {{ category }}">
-                    <div class="header">
-                        {{ message }}
-                    </div>
-                </div>
-            {% endfor %}
+        {% for message in messages %}
+            <div class="ui message {{ message.tags }}">
+                <i class="close icon"></i>
+                {% if message.extra_tags %}
+                <div class="header">{{ message.extra_tags }}</div>
+                {% endif %}
+                {{ message }}
+            </div>
+        {% endfor %}
         {% block content %}{% endblock %}
     </div>
     {% block javascript %}{% endblock %}

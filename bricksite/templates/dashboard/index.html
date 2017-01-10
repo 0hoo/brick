@@ -9,7 +9,7 @@
 <div class="ui four stackable cards">
     {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.owned_count extra=dashboard.target_at %}
     {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.owned_quantity extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Bookmarked" value_size="small" icon="inbox" value=5 extra=dashboard.target_at %}
+    {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count extra=dashboard.target_at %}
     {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.owned_official_price|floatformat:2|intcomma icon="dollar" extra=dashboard.target_at %}
 </div>
 <div class="ui three stackable cards">

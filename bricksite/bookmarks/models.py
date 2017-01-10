@@ -8,7 +8,7 @@ from products.models import Product
 
 class Bookmark(TimeStampedModel):
     product = models.ForeignKey(Product)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='bookmark_set')
 
     class Meta:
         get_latest_by = 'created'
