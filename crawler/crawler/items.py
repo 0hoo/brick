@@ -1,6 +1,6 @@
 from scrapy_djangoitem import DjangoItem
 
-from products.models import Product, BricklinkRecord, EbayRecord
+from products.models import Product, BricklinkRecord, EbayItem
 
 
 class ProductItem(DjangoItem):
@@ -11,5 +11,5 @@ class BricklinkRecordItem(DjangoItem):
     django_model = BricklinkRecord
 
 
-class EbayRecordItem(DjangoItem):
-    django_model = EbayRecord
+class EbayItem(DjangoItem):
+    django_model = EbayItem

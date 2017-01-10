@@ -1,7 +1,7 @@
 import logging
 import scrapy
 
-from ..items import EbayRecordItem
+from ..items import EbayItem
 from .utils import xpath_get_price
 
 from products.models import Product
@@ -32,7 +32,7 @@ class EbaySpider(scrapy.Spider):
             yield scrapy.Request(link, callback=self.parse_ebay_item, meta={'product': product})
 
     def parse_ebay_item(self, response):
-        item = EbayRecordItem()
+        item = EbayItem()
         item['product'] = response.meta['product']
         item['link'] = response.url
         item['title'] = response.xpath("//h1[@class='it-ttl']/text()").extract()[0]

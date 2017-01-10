@@ -95,7 +95,7 @@ class EbayItem(TimeStampedModel):
     price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return '[Used:{}] {}: {} {}'.format(self.used, self.product.product_number, self.price, self.title)
+        return '[Used:{}] {}: {} {}'.format(self.used, self.product.product_code, self.price, self.title)
 
     class Meta:
         verbose_name = 'Ebay Item'

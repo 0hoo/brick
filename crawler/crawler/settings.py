@@ -28,8 +28,8 @@ ROBOTSTXT_OBEY = True
 
 # Django
 top = os.path.split(os.getcwd())[0]
-legosite = top + '/bricksite'
-sys.path.append(legosite)
+bricksite = top + '/bricksite'
+sys.path.append(bricksite)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings'
 django.setup()
 

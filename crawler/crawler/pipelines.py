@@ -3,14 +3,14 @@ from datetime import datetime
 
 from django.db import IntegrityError
 
-from .items import ProductItem, EbayRecordItem, BricklinkRecordItem
+from .items import ProductItem, EbayItem, BricklinkRecordItem
 from products.models import BricklinkRecord
 
 logger = logging.getLogger()
 
 
 class EbayPipeline(object):
-    def process_item(self, item: EbayRecordItem, spider):
+    def process_item(self, item: EbayItem, spider):
         item.save()
         return item
 
@@ -28,14 +28,14 @@ class BricklinkPipeline(object):
 
         if len(items) > 0:
             logger.debug('UPDATE EXIST HISTORY')
-            history = items[0]
-            history.new_min_price = item.get('new_min_price')
-            history.new_max_price = item.get('new_max_price')
-            history.new_average_price = item.get('new_average_price')
-            history.used_min_price = item.get('used_min_price')
-            history.used_max_price = item.get('used_max_price')
-            history.used_average_price = item.get('used_average_price')
-            history.save()
+            record = items[0]
+            record.new_min_price = item.get('new_min_price')
+            record.new_max_price = item.get('new_max_price')
+            record.new_average_price = item.get('new_average_price')
+            record.used_min_price = item.get('used_min_price')
+            record.used_max_price = item.get('used_max_price')
+            record.used_average_price = item.get('used_average_price')
+            record.save()
         else:
             logger.debug('SAVE NEW HISTORY')
             item.save()

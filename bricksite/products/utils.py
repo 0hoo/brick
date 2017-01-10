@@ -4,8 +4,9 @@ from datetime import datetime
 from .models import Product, EbayRecord
 
 
-def update_history_from_ebay():
+def update_record_from_ebay():
     today = datetime.utcnow().date()
+
     for product in Product.objects.all():
         ebay_items = product.ebay_item_set.filter(created__date=today)
         if ebay_items.count() == 0:
@@ -51,11 +52,11 @@ def update_history_from_ebay():
             item.delete()
 
         if new_count > 0 or used_count > 0:
-            history, created = EbayRecord.objects.get_or_create(product=product, created__date=today)
-            history.new_min_price = ebay_new_min_price
-            history.new_max_price = ebay_new_max_price
-            history.new_average_price = ebay_new_average_price
-            history.used_min_price = ebay_used_min_price
-            history.used_max_price = ebay_used_max_price
-            history.used_average_price = ebay_used_average_price
-            history.save()
+            record, created = EbayRecord.objects.get_or_create(product=product, created__date=today)
+            record.new_min_price = ebay_new_min_price
+            record.new_max_price = ebay_new_max_price
+            record.new_average_price = ebay_new_average_price
+            record.used_min_price = ebay_used_min_price
+            record.used_max_price = ebay_used_max_price
+            record.used_average_price = ebay_used_average_price
+            record.save()
