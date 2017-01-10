@@ -31,7 +31,7 @@ showLineChartC3('#chart-profit', [
 </h1>
 <div class="ui grid">
     <div class="row">
-        <div class="six wide column">
+        <div class="five wide column">
             <div class="ui card">
                 <div class="image">
                     <img src="{{ item.product.official_image_url }}">
@@ -62,7 +62,7 @@ showLineChartC3('#chart-profit', [
                 </div>
             </div>
         </div>
-        <div class="ten wide column grid">
+        <div class="eleven wide column grid">
             <div class="column">
                 <div class="ui two column grid">
                     <div class="column">
@@ -78,7 +78,7 @@ showLineChartC3('#chart-profit', [
                                 <td class="six wide">
                                     <div class="ui label">Buying</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.buying_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ item.total_buying_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
@@ -114,7 +114,10 @@ showLineChartC3('#chart-profit', [
                         </table>
                     </div>
                 </div>
-                How we estimated price: 3 unopend things x latest bricklink price for new product ($12.5), 37.5. Plus 2 opened things x latest bricklink price for used product ($10.0), 20.0.
+                <div class="ui divider"></div>
+                <p>You have <strong>{{ item.quantity }}</strong> things of this brick.</p>
+
+                How we estimated price: <strong>3 unopend</strong> things x latest bricklink price for new product <strong>($12.5), 37.5</strong>. Plus <strong>2 opened</strong> things x latest bricklink price for used product <strong>($10.0), 20.0.</strong>
                 <br/>
                 Total estimated price: $37.5 + $20.0 = $57.50
             </div>

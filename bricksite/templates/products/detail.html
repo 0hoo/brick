@@ -57,7 +57,7 @@ showLineChartC3('#chart-ebay-used', [
 </h1>
 <div class="ui grid">
     <div class="row">
-        <div class="six wide column">
+        <div class="five wide column">
             <div class="ui card">
                 <div class="image">
                     <img src="{{ product.official_image_url }}">
@@ -88,138 +88,125 @@ showLineChartC3('#chart-ebay-used', [
                 </div>
             </div>
         </div>
-        <div class="ten wide column">
+        <div class="eleven wide column grid">
+            <div class="column">
+                <div class="ui four column grid">
+                    <div class="column">
+                        <h3 class="ui header">Bricklink<div class="sub header">New</div></h3>
+                        <table class="ui very basic table">
+                            <tbody>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Avg</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_bricklink_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Max</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_bricklink_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Min</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_bricklink_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="column">
+                        <h3 class="ui header">Bricklink<div class="sub header">Used</div></h3>
+                        <table class="ui very basic table">
+                            <tbody>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Avg</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_bricklink_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Max</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_bricklink_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Min</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_bricklink_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="column">
+                        <h3 class="ui header">Ebay<div class="sub header">New</div></h3>
+                        <table class="ui very basic table">
+                            <tbody>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Avg</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_ebay_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Max</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_ebay_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Min</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_ebay_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="column">
+                        <h3 class="ui header">Ebay<div class="sub header">Used</div></h3>
+                        <table class="ui very basic table">
+                            <tbody>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Avg</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_ebay_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Max</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_ebay_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Min</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ product.last_ebay_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui divider"></div>
+
             {% if product.marketing_text %}
             <div class="description">
                 {{ product.marketing_text }}
             </div>
             <div class="ui hidden divider"></div>
             {% endif %}
-            <a class="ui blue button" href="{% url 'items:add' %}?product={{ product.product_code }}"><i class="icon inbox"></i>Add To My Brick</a>
-            <button class="ui black button"><i class="icon shopping bag"></i>Bookmark</button>
-            <div class="ui hidden divider"></div>
-            <button class="ui button"><i class="icon world"></i>Official Site</button>
-            <button class="ui button"><i class="icon world"></i>Bricklink</button>
-            <button class="ui button"><i class="icon world"></i>Search in Ebay</button>
-        </div>
-    </div>
-    <div class="ui divider"></div>
-    <div class="row">
-         <div class="four wide column">
-            <h3 class="ui header">
-                <div class="ui black label">New</div> Bricklink
-                <div class="sub header"></div>
-            </h3>
-
-            <table class="ui very basic table">
-                <tbody>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Avg</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_bricklink_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Max</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_bricklink_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Min</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_bricklink_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="four wide column">
-            <h3 class="ui header">
-                <div class="ui olive label">Used</div> Bricklink
-                <div class="sub header"></div>
-            </h3>
-
-            <table class="ui very basic table">
-                <tbody>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Avg</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_bricklink_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Max</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_bricklink_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Min</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_bricklink_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-         <div class="four wide column">
-            <h3 class="ui header">
-                <div class="ui black label">New</div> Ebay
-                <div class="sub header"></div>
-            </h3>
-
-            <table class="ui very basic table">
-                <tbody>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Avg</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_ebay_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Max</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_ebay_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Min</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_ebay_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="four wide column">
-            <h3 class="ui header">
-            <div class="ui olive label">Used</div> Ebay
-            <div class="sub header"></div>
-            </h3>
-
-            <table class="ui very basic table">
-                <tbody>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Avg</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_ebay_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Max</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_ebay_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                <tr>
-                    <td class="six wide">
-                        <div class="ui label">Min</div>
-                    </td>
-                    <td class="ten wide right aligned">{{ product.last_ebay_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
-                </tr>
-                </tbody>
-            </table>
+            <a class="ui blue small button" href="{% url 'items:add' %}?product={{ product.product_code }}"><i class="icon inbox"></i>Add To My Brick</a>
+            <button class="ui black small button"><i class="icon shopping bag"></i>Bookmark</button>
+            <button class="ui small button"><i class="icon world"></i>Official</button>
+            <button class="ui small button"><i class="icon world"></i>Bricklink</button>
+            <button class="ui small button"><i class="icon world"></i>Ebay</button>
         </div>
     </div>
     <div class="ui divider"></div>
