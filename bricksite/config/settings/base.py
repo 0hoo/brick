@@ -45,6 +45,7 @@ PROJECT_APPS = [
     'items',
     'dashboard',
     'users',
+    'bookmarks',
     'common',
 ]
 

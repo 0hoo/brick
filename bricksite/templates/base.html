@@ -46,6 +46,7 @@
             <a href="{% url 'products:list' %}" class="item">Products</a>
             <a href="{% url 'dashboard:index' %}" class="item">Dashboard</a>
             <a href="{% url 'items:list' %}" class="item">Items</a>
+            <a href="{% url 'bookmarks:list' %}" class="item">Bookmarks</a>
             <a href="/" class="item">Stats</a>
             <div class="right menu">
                 {% if user.is_authenticated %}

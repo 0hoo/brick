@@ -40,6 +40,9 @@ class Product(TimeStampedModel):
         except EbayRecord.DoesNotExist:
             return None
 
+    def get_absolute_url(self):
+        return reverse('products:detail', args=[str(self.id)])
+
     def __str__(self):
         return '{} : {}'.format(self.title, self.product_code)
 

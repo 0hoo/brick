@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^items/', include('items.urls')),
     url(r'^users/', include('users.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
+    url(r'^bookmarks/', include('bookmarks.urls')),
     url(r'^admin/', admin.site.urls),
 ]
