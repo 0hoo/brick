@@ -1,6 +1,7 @@
+from django.db import transaction
 from django.shortcuts import redirect, reverse
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
-from django.db import transaction
+from django.contrib import messages
 
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
@@ -81,6 +82,7 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsM
             if things.is_valid():
                 things.instance = self.object
                 things.save()
+        messages.success(self.request, 'You successfully added a brick item.', extra_tags='Items')
         return super(ItemCreateView, self).form_valid(form)
 
 
@@ -107,4 +109,5 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
             if things.is_valid():
                 things.instance = self.object
                 things.save()
+        messages.success(self.request, 'You brick item is just updated', extra_tags='Items')
         return super(ItemUpdateView, self).form_valid(form)
