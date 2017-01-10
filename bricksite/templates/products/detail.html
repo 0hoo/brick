@@ -202,8 +202,13 @@ showLineChartC3('#chart-ebay-used', [
             </div>
             <div class="ui hidden divider"></div>
             {% endif %}
+
+            {% if have_item %}
+            <a class="ui grey small button" href="{% url 'items:detail' have_item.id %}"><i class="icon inbox"></i>View My Brick</a>
+            {% else %}
             <a class="ui blue small button" href="{% url 'items:add' %}?product={{ product.product_code }}"><i class="icon inbox"></i>Add To My Brick</a>
-            <button class="ui black small button"><i class="icon shopping bag"></i>Bookmark</button>
+            <button class="ui grey small button"><i class="icon shopping bag"></i>Bookmark</button>
+            {% endif %}
             <button class="ui small button"><i class="icon world"></i>Official</button>
             <button class="ui small button"><i class="icon world"></i>Bricklink</button>
             <button class="ui small button"><i class="icon world"></i>Ebay</button>

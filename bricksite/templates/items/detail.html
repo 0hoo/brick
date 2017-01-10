@@ -123,9 +123,9 @@ showLineChartC3('#chart-profit', [
             </div>
             <div class="ui hidden divider"></div>
             <div class="ui basic">
-                <button class="ui button gray"><i class="icon payment"></i>Sold Brick</button>
-                <a href="{% url 'items:edit' item.id %}" class="ui button black"><i class="icon edit"></i>Edit Brick</a>
-                <button class="ui button black"><i class="icon travel"></i>Edit Things</button>
+                <a href="{% url 'products:detail' item.product.id %}" class="ui grey small button">View Product</a>
+                <button class="ui small button gray"><i class="icon payment"></i>Sold Brick</button>
+                <a href="{% url 'items:edit' item.id %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
             </div>
         </div>
     </div>
