@@ -4,7 +4,7 @@ from datetime import datetime
 from django.db import IntegrityError
 
 from .items import ProductItem, EbayItem, BricklinkRecordItem
-from products.models import BricklinkRecord
+from products.models import Product, BricklinkRecord
 
 logger = logging.getLogger()
 
@@ -51,4 +51,18 @@ class ProductPipeline(object):
         try:
             return item.save()
         except IntegrityError as e:
-            logger.info("Duplicate - Skip: " + item['title'])
+            logger.info('Catch IntegrityError')
+            product = Product.objects.get(product_code=item['product_code'])
+            product.title = item['title']
+            product.official_price = item.get('official_price', None)
+            product.official_image_url = item.get('official_image_url', '')
+            product.ages = item.get('ages', '')
+            product.pieces = item.get('pieces', '')
+            product.marketing_text = item.get('marketing_text', '')
+            product.official_url = item.get('official_url', '')
+            product.theme_title = item.get('theme_title', None)
+            product.official_review_count = item.get('official_review_count', None)
+            product.official_rating = item.get('official_rating', None)
+            product.bricklink_url = item.get('bricklink_url', '')
+            product.save()
+            logger.info("Update: " + item['title'])

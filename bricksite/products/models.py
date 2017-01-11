@@ -22,6 +22,11 @@ class Product(TimeStampedModel):
     ages = models.CharField(max_length=255, blank=True)
     pieces = models.CharField(max_length=255, blank=True)
     marketing_text = models.TextField(blank=True)
+    official_url = models.URLField(blank=True)
+    theme_title = models.CharField(max_length=255, blank=True)
+    official_review_count = models.PositiveIntegerField(null=True, blank=True)
+    official_rating = models.FloatField(null=True, blank=True)
+    bricklink_url = models.URLField(blank=True)
 
     objects = ProductManager()
 

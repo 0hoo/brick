@@ -47,4 +47,14 @@ class LegoSpider(scrapy.Spider):
         product['ages'] = xpath_get(response, "//*[@class='product-details__ages']/text()")
         product['pieces'] = xpath_get(response, "//*[@class='product-details__piece-count']/text()")
         product['marketing_text'] = xpath_get(response, "//*[@class='product-features__description']/p/text()")
+        product['official_url'] = response.url
+        breadcrumb_links = response.xpath("//*[@data-test='breadcrumb-link']/span/text()").extract()
+        if len(breadcrumb_links) > 1:
+            product['theme_title'] = breadcrumb_links[1]
+        review_count_text = xpath_get(response, "//*[@class='overview__reviews']/text()")
+        if review_count_text and len(review_count_text.split(' ')) > 1:
+            product['official_review_count'] = int(review_count_text[0])
+        rating_values = response.xpath("//*[@itemprop='aggregateRating']/*[@itemprop='ratingValue']/text()").extract()
+        if rating_values and len(rating_values) > 1:
+            product['official_rating'] = float(rating_values[1])
         yield product
