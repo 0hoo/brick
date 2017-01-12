@@ -58,47 +58,7 @@ showLineChartC3('#chart-ebay-used', [
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            <div class="ui card">
-                <div class="image">
-                    <img src="{{ product.official_image_url }}">
-                </div>
-                <div class="content">
-                    <table class="ui definition table">
-                        <tbody>
-                        {% if product.official_price %}
-                        <tr>
-                            <td>Official</td>
-                            <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if product.theme_title %}
-                        <tr>
-                            <td>Theme</td>
-                            <td>{{ product.theme_title }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if product.ages %}
-                        <tr>
-                            <td>Ages</td>
-                            <td>{{ product.ages }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if product.pieces %}
-                        <tr>
-                            <td>Pieces</td>
-                            <td>{{ product.pieces }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if product.official_rating %}
-                        <tr>
-                            <td>Rating</td>
-                            <td>{{ product.official_rating }} / 5.0</td>
-                        </tr>
-                        {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            {% include "snippets/product_card.html" with product=product %}
         </div>
         <div class="eleven wide column grid">
             <div class="column">
@@ -231,7 +191,7 @@ showLineChartC3('#chart-ebay-used', [
                 {% endif %}
             {% endif %}
             <a class="ui small yellow button" href="{{ product.official_url }}"><i class="icon world"></i>Official</a>
-            <a class="ui small button"><i class="icon world"></i>Bricklink</a>
+            <a class="ui small button" href="{{ product.bricklink_url }}"><i class="icon world"></i>Bricklink</a>
             <button class="ui small button"><i class="icon world"></i>Ebay</button>
         </div>
     </div>

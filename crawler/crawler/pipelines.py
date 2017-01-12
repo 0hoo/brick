@@ -21,9 +21,7 @@ class BricklinkPipeline(object):
         items = BricklinkRecord.objects.filter(created__date=datetime.utcnow().date(),
                                                product__product_code=product.product_code)
 
-        product.last_min_price = item.get('new_min_price')
-        product.last_max_price = item.get('new_max_price')
-        product.last_average_price = item.get('new_average_price')
+        product.bricklink_url = item.get('bricklink_url')
         product.save()
 
         if len(items) > 0:

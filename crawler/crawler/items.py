@@ -1,3 +1,4 @@
+import scrapy
 from scrapy_djangoitem import DjangoItem
 
 from products.models import Product, BricklinkRecord, EbayItem
@@ -9,6 +10,7 @@ class ProductItem(DjangoItem):
 
 class BricklinkRecordItem(DjangoItem):
     django_model = BricklinkRecord
+    bricklink_url = scrapy.Field()
 
 
 class EbayItem(DjangoItem):

@@ -32,35 +32,7 @@ showLineChartC3('#chart-profit', [
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            <div class="ui card">
-                <div class="image">
-                    <img src="{{ item.product.official_image_url }}">
-                </div>
-                <div class="content">
-                    <table class="ui definition table">
-                        <tbody>
-                        {% if item.product.official_price %}
-                        <tr>
-                            <td>Official</td>
-                            <td>{{ item.product.official_price|floatformat:2|intcomma|price_no_data }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if item.product.ages %}
-                        <tr>
-                            <td>Ages</td>
-                            <td>{{ item.product.ages }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if item.product.pieces %}
-                        <tr>
-                            <td>Pieces</td>
-                            <td>{{ item.product.pieces }}</td>
-                        </tr>
-                        {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            {% include "snippets/product_card.html" with product=item.product %}
         </div>
         <div class="eleven wide column grid">
             <div class="column">

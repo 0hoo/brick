@@ -35,6 +35,7 @@ class BricklinkSpider(InitSpider):
 
     def parse_price(self, response: scrapy.http.Response):
         item = BricklinkRecordItem()
+        item['bricklink_url'] = response.url
         item['product'] = response.meta['product']
         new_rows = response.xpath("//table[@id='id-main-legacy-table']/tr/td/table[3]/tr[3]/td[3]/table//table/tr")
         if len(new_rows) > 0:
