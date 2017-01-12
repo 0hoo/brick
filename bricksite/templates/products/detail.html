@@ -216,7 +216,7 @@ showLineChartC3('#chart-ebay-used', [
             {% endif %}
 
             {% if product.official_review_count %}
-            This brick has <strong>{{ product.official_review_count }} reviews</strong></strong> in official web site. <a href="{{ product.official_url }}/#product-reviews">Go check it</a>
+            This brick has <strong>{{ product.official_review_count }} review{{ product.official_review_count|pluralize }}</strong></strong> in official web site. <a href="{{ product.official_url }}/#product-reviews">Go check it</a>
             <div class="ui hidden divider"></div>
             {% endif %}
 
