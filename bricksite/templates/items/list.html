@@ -12,6 +12,8 @@
         <th>Name </th>
         <th>Quantity</th>
         <th>Buying</th>
+        <th>Profit</th>
+        <th>Theme</th>
     </tr>
     </thead>
     <tbody>
@@ -21,15 +23,10 @@
             <td><a href="{% url 'items:detail' item.id %}">{{ item.product.title }}</a></td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
+            <td>{{ item.estimated_profit|floatformat:2|intcomma|price_no_data:"" }}</td>
+            <td>{{ item.product.theme_title }}</td>
         </tr>
         {% endfor %}
     </tbody>
-    <tfoot>
-    <tr>
-        <th colspan="5">
-            {% include 'snippets/pagination.html' %}
-        </th>
-    </tr>
-    </tfoot>
 </table>
 {% endblock %}

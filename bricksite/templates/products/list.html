@@ -12,8 +12,10 @@
     <tr>
         <th>#</th>
         <th>Name </th>
+        <th>Theme</th>
         <th>Price ($)</th>
         <th>Ages </th>
+        <th>Rating </th>
     </tr>
     </thead>
     <tbody>
@@ -21,8 +23,10 @@
         <tr>
             <td >{{ product.product_code }}</td>
             <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
+            <td>{{ product.theme_title }} </td>
             <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
             <td>{{ product.ages }}</td>
+            <td>{{ product.official_rating }}</td>
         </tr>
         {% endfor %}
     </tbody>
