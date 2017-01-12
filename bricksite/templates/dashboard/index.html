@@ -7,51 +7,51 @@
     <div class="sub header">Last updated at 16:40, today</div>
 </h1>
 <div class="ui four stackable cards">
-    {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.owned_count extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.owned_quantity extra=dashboard.target_at %}
+    {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count extra=dashboard.target_at %}
+    {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity extra=dashboard.target_at %}
     {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.owned_official_price|floatformat:2|intcomma icon="dollar" extra=dashboard.target_at %}
+    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" extra=dashboard.target_at %}
 </div>
 <div class="ui three stackable cards">
     {% include "dashboard/widget.html" with title="Total Value" value_size="small" value=dashboard.total_estimated_price icon="dollar" extra=dashboard.target_at %}
     {% include "dashboard/widget.html" with title="Total Profit"  value_size="small" value=dashboard.total_profit icon="dollar" extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Total Buying" value_size="small" value=dashboard.owned_buying_price|floatformat:2|intcomma icon="dollar" extra=dashboard.target_at %}
+    {% include "dashboard/widget.html" with title="Total Buying" value_size="small" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" extra=dashboard.target_at %}
 </div>
 <div class="ui four stackable cards">
     {% if use_ebay %}
-        {% include "dashboard/widget.html" with title="New Average" value_size="tiny" value=dashboard.owned_new_average_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}    
+        {% include "dashboard/widget.html" with title="New Average" value_size="tiny" value=dashboard.new_average_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
     {% else %}
-        {% include "dashboard/widget.html" with title="New Average" value_size="tiny" value=dashboard.owned_new_average_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
+        {% include "dashboard/widget.html" with title="New Average" value_size="tiny" value=dashboard.new_average_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
     {% endif %}
 
     {% if use_ebay %}
-        {% include "dashboard/widget.html" with title="New Average" value_size="tiny" value=dashboard.owned_new_max_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}    
+        {% include "dashboard/widget.html" with title="New Average" value_size="tiny" value=dashboard.new_max_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
     {% else %}
-        {% include "dashboard/widget.html" with title="New Max" value_size="tiny" value=dashboard.owned_new_max_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
+        {% include "dashboard/widget.html" with title="New Max" value_size="tiny" value=dashboard.new_max_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
     {% endif %}
 
     {% if use_ebay %}
-        {% include "dashboard/widget.html" with title="New Min" value_size="tiny" value=dashboard.owned_new_min_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
+        {% include "dashboard/widget.html" with title="New Min" value_size="tiny" value=dashboard.new_min_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
     {% else %}
-        {% include "dashboard/widget.html" with title="New Min" value_size="tiny" value=dashboard.owned_new_min_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
+        {% include "dashboard/widget.html" with title="New Min" value_size="tiny" value=dashboard.new_min_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
     {% endif %}
 
     {% if use_ebay %}
-        {% include "dashboard/widget.html" with title="Used Average" value_size="tiny" value=dashboard.owned_used_average_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
+        {% include "dashboard/widget.html" with title="Used Average" value_size="tiny" value=dashboard.used_average_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
     {% else %}
-        {% include "dashboard/widget.html" with title="Used Average" value_size="tiny" value=dashboard.owned_used_average_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
+        {% include "dashboard/widget.html" with title="Used Average" value_size="tiny" value=dashboard.used_average_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
     {% endif %}
 
     {% if use_ebay %}
-        {% include "dashboard/widget.html" with title="Used Max" value_size="tiny" value=dashboard.owned_used_max_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
+        {% include "dashboard/widget.html" with title="Used Max" value_size="tiny" value=dashboard.used_max_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
     {% else %}
-        {% include "dashboard/widget.html" with title="Used Max" value_size="tiny" value=dashboard.owned_used_max_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
+        {% include "dashboard/widget.html" with title="Used Max" value_size="tiny" value=dashboard.used_max_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
     {% endif %}
 
     {% if use_ebay %}
-        {% include "dashboard/widget.html" with title="Used Min" value_size="tiny" value=dashboard.owned_used_min_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
+        {% include "dashboard/widget.html" with title="Used Min" value_size="tiny" value=dashboard.used_min_ebay_price|floatformat:2|intcomma icon="dollar" extra="Ebay" %}
     {% else %}
-        {% include "dashboard/widget.html" with title="Used Min" value_size="tiny" value=dashboard.owned_used_min_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
+        {% include "dashboard/widget.html" with title="Used Min" value_size="tiny" value=dashboard.used_min_price|floatformat:2|intcomma icon="dollar" extra="Bricklink" %}
     {% endif %}
 
     {% include "dashboard/widget.html" with title="Total Target" value_size="tiny" value=dashboard.total_target_price|floatformat:2|intcomma icon="dollar" extra=dashboard.target_at %}
