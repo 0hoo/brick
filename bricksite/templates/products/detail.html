@@ -71,6 +71,12 @@ showLineChartC3('#chart-ebay-used', [
                             <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
                         </tr>
                         {% endif %}
+                        {% if product.theme_title %}
+                        <tr>
+                            <td>Theme</td>
+                            <td>{{ product.theme_title }}</td>
+                        </tr>
+                        {% endif %}
                         {% if product.ages %}
                         <tr>
                             <td>Ages</td>
@@ -81,6 +87,12 @@ showLineChartC3('#chart-ebay-used', [
                         <tr>
                             <td>Pieces</td>
                             <td>{{ product.pieces }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if product.official_rating %}
+                        <tr>
+                            <td>Rating</td>
+                            <td>{{ product.official_rating }} / 5.0</td>
                         </tr>
                         {% endif %}
                         </tbody>
@@ -203,6 +215,11 @@ showLineChartC3('#chart-ebay-used', [
             <div class="ui hidden divider"></div>
             {% endif %}
 
+            {% if product.official_review_count %}
+            This brick has <strong>{{ product.official_review_count }} reviews</strong></strong> in official web site. <a href="{{ product.official_url }}/#product-reviews">Go check it</a>
+            <div class="ui hidden divider"></div>
+            {% endif %}
+
             {% if have_item %}
                 <a class="ui grey small button" href="{% url 'items:detail' have_item.id %}"><i class="icon inbox"></i>View My Brick</a>
             {% else %}
@@ -213,8 +230,8 @@ showLineChartC3('#chart-ebay-used', [
                 <a class="ui grey small button" href="{% url 'bookmarks:update' %}?product_id={{ product.id }}"><i class="icon shopping bag"></i>Bookmark</a>
                 {% endif %}
             {% endif %}
-            <button class="ui small button"><i class="icon world"></i>Official</button>
-            <button class="ui small button"><i class="icon world"></i>Bricklink</button>
+            <a class="ui small yellow button" href="{{ product.official_url }}"><i class="icon world"></i>Official</a>
+            <a class="ui small button"><i class="icon world"></i>Bricklink</a>
             <button class="ui small button"><i class="icon world"></i>Ebay</button>
         </div>
     </div>
