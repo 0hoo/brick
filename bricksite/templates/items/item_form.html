@@ -7,39 +7,48 @@
     Add My Brick
     <div class="sub header">{{ product.title }}, {{ product.product_code }}</div>
 </h1>
-<form method="post" class="ui form segment">
-    {% csrf_token %}
-    {{ things.management_form }}
-    {% for thing_form in things.forms %}
-        {{ thing_form.non_field_errors }}
-        <div class="fields formset_fields">
-            <div class="six wide field">
-                <label>Buying Price</label>
-                {% if forloop.first %}
-                    {% for hidden in thing_form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
-                {% endif %}
-                {{ thing_form.buying_price.errors }}
-                {{ thing_form.buying_price }}
-            </div>
-            <div class="five wide field">
-                <label>Opened</label>
-                <div class="ui toggle checkbox segment" style="margin-top: 0px; padding: 7px 14px; width: 100%">
-                    <input type="checkbox" name="gift">
-                    <label>Package is <strong>Unopened</strong></label>
-                </div>
-            </div>
-            <div class="five wide field">
-                <label>Note</label>
-                {{ thing_form.note }}
-            </div>
+<div class="ui grid">
+    <div class="row">
+        <div class="five wide column">
+            {% include "snippets/product_card.html" with product=product %}
         </div>
-    {% endfor %}
-    <div class="ui divider"></div>
-    {{ form|semanticui }}
-    <button type="submit" class="ui blue button">Save Item</button>
- </form>
+        <div class="eleven wide column grid">
+            <form method="post" class="ui form segment">
+                {% csrf_token %}
+                {{ things.management_form }}
+                {% for thing_form in things.forms %}
+                    {{ thing_form.non_field_errors }}
+                    <div class="fields formset_fields">
+                        <div class="six wide field">
+                            <label>Buying Price</label>
+                            {% if forloop.first %}
+                                {% for hidden in thing_form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+                            {% endif %}
+                            {{ thing_form.buying_price.errors }}
+                            {{ thing_form.buying_price }}
+                        </div>
+                        <div class="five wide field">
+                            <label>Package Opened</label>
+                            <div class="ui toggle checkbox segment" style="margin-top: 0px; padding: 7px 14px; width: 100%">
+                                <input type="checkbox" name="gift">
+                                <label><strong>Unopened</strong></label>
+                            </div>
+                        </div>
+                        <div class="five wide field">
+                            <label>Note</label>
+                            {{ thing_form.note }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="ui divider"></div>
+                {{ form|semanticui }}
+                <button type="submit" class="ui blue button">Save Item</button>
+             </form>
+        </div>
+    </div>
+</div>
 <script src="{% static 'js/jquery.formset.js' %}"></script>
 <script type="text/javascript">
     $('.formset_fields').formset({

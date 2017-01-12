@@ -87,7 +87,7 @@ showLineChartC3('#chart-profit', [
                     </div>
                 </div>
                 <div class="ui divider"></div>
-                <p>You have <strong>{{ item.quantity }}</strong> things of this brick.</p>
+                <p>You have <strong>{{ item.quantity }}</strong> thing{{ item.quantity|pluralize }} of this brick.</p>
 
                 How we estimated price: <strong>3 unopend</strong> things x latest bricklink price for new product <strong>($12.5), 37.5</strong>. Plus <strong>2 opened</strong> things x latest bricklink price for used product <strong>($10.0), 20.0.</strong>
                 <br/>
