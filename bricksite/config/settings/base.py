@@ -144,6 +144,13 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+LOGIN_REDIRECT_URL = '/'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
 LOGIN_REDIRECT_URL = '/products'
 
@@ -153,4 +160,4 @@ try:
 except ImportError:
     pass
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '138.68.20.85']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '138.68.20.85', '162.243.252.89']
