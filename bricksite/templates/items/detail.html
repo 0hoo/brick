@@ -21,6 +21,7 @@ showLineChartC3('#chart-profit', [
 {% endblock %}
 
 {% block content %}
+
 <div class="ui breadcrumb">
   <a href="{% url 'items:list' %}" class="section">Items</a>
   <div class="divider"> / </div>
@@ -112,6 +113,25 @@ showLineChartC3('#chart-profit', [
         </div>
     </div>
     <div class="ui divider"></div>
+     {% if item.product.ebay_item_set %}
+    <div class="row">
+        <div class="sixteen wide column">
+            <table class="ui compact red table">
+                <thead><tr><th>Items in Ebay</th><th>Price</th><th>Package</th></tr></thead>
+                <tbody>
+                    {% for ebay_item in item.product.ebay_item_set.all %}
+                    <tr>
+                    <td><a href="{{ ebay_item.link }}">{{ ebay_item.title }}</a></td>
+                    <td>{{ ebay_item.price }}</td>
+                    <td>{% if ebay_item.used %}<strong>Used</strong>{% else %}<strong>New</strong>{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ui divider"></div>
+    {% endif %}
     <div class="row">
          <div class="four wide column">
             <h3 class="ui header">

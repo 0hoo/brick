@@ -13,6 +13,9 @@ class ProductManager(models.Manager):
             Q(title__icontains=title_or_product_code) | Q(product_code__icontains=title_or_product_code)
         ).order_by('title')[:10]
 
+    def theme_titles(self):
+        return self.values_list('theme_title', flat=True).distinct().order_by('theme_title')
+
 
 class Product(TimeStampedModel):
     product_code = models.CharField(max_length=255, unique=True)

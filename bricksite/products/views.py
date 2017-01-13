@@ -8,17 +8,22 @@ from .models import Product
 from items.models import Item
 from bookmarks.models import Bookmark
 
+from django.db import models
 
 class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'products/list.html'
-    paginate_by = 20
+    paginate_by = 40
     order_by = 'official_price'
     ordering = 'desc'
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
+        theme_titles = Product.objects.theme_titles()
+        print(theme_titles.count())
+        #theme_titles = Product.objects.values('theme_title').distinct('theme_title')
+
         adjacent_pages = 3
         page_number = context['page_obj'].number
         num_pages = context['paginator'].num_pages
@@ -33,6 +38,7 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
+            'theme_titles': theme_titles,
         })
         return context
 

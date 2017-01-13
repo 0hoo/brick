@@ -7,35 +7,55 @@
 <p>There are {{ paginator.count }} bricks registed in TrackMyBrick.</p>
 <a class="ui green button" href="{% url 'products:search' %}">Add My Brick</a>
 <button class="ui gray button">Register Missing Bricks in TrackMyBrick</button>
-<table class="ui very basic compact table">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Name </th>
-        <th>Theme</th>
-        <th>Price ($)</th>
-        <th>Ages </th>
-        <th>Rating </th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for product in products %}
-        <tr>
-            <td >{{ product.product_code }}</td>
-            <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
-            <td>{{ product.theme_title }} </td>
-            <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
-            <td>{{ product.ages }}</td>
-            <td>{{ product.official_rating }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-    <tfoot>
-    <tr>
-        <th colspan="5">
-            {% include 'snippets/pagination.html' %}
-        </th>
-    </tr>
-    </tfoot>
-</table>
+<div class="ui divider hidden"></div>
+<div class="ui grid">
+    <div class="twelve wide column">
+        <table class="ui very basic compact table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name </th>
+                <th>Theme</th>
+                <th>Price ($)</th>
+                <th>Ages </th>
+                <th>Rating </th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td >{{ product.product_code }}</td>
+                    <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
+                    <td>{{ product.theme_title }} </td>
+                    <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td>{{ product.ages }}</td>
+                    <td>{{ product.official_rating }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="5">
+                    {% include 'snippets/pagination.html' %}
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="four wide column">
+        <div class="ui segment">
+            <div class="ui relaxed divided list">
+                {% for theme_title in theme_titles %}
+                {% if theme_title %}
+                    <div class="item">
+                        <div class="content">
+                            <div class="header"><a href="#">{{ theme_title }}</a></div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
