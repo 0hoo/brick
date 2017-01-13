@@ -8,6 +8,7 @@ from .models import Product
 from items.models import Item
 from bookmarks.models import Bookmark
 
+
 class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     model = Product
     context_object_name = 'products'
@@ -15,6 +16,11 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     paginate_by = 40
     order_by = 'official_price'
     ordering = 'desc'
+
+    def get_queryset(self):
+        queryset = super(ProductListView, self).get_queryset()
+        theme_title = self.kwargs.get('theme_title', None)
+        return queryset.filter(theme_title=theme_title) if theme_title else queryset
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)

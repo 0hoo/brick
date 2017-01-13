@@ -49,7 +49,7 @@
                 {% if theme_title %}
                     <div class="item">
                         <div class="content">
-                            <div class="header"><a href="#">{{ theme_title }}</a></div>
+                            <div class="header"><a href="{% url 'products:list_by_theme' theme_title %}">{{ theme_title }}</a></div>
                         </div>
                     </div>
                 {% endif %}
