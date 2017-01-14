@@ -62,7 +62,7 @@ class BricklinkSpider(InitSpider):
         yield item
 
     def engine_started(self):
-        post_message_to_telegram_bot("Bricklink Cralwing is started.")
+        post_message_to_telegram_bot("Bricklink Crawling is started.")
 
     def engine_stopped(self):
-        post_message_to_telegram_bot("Bricklink Cralwing is done.")
+        post_message_to_telegram_bot("Bricklink Crawling is done.")
