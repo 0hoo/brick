@@ -24,6 +24,7 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
+        theme_title = self.kwargs.get('theme_title', None)
         theme_titles = Product.objects.theme_titles()
 
         adjacent_pages = 3
@@ -41,6 +42,7 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
             'theme_titles': theme_titles,
+            'theme_title': theme_title,
         })
         return context
 
