@@ -2,11 +2,14 @@
 import logging
 
 import scrapy
+from scrapy import signals
+from scrapy import Spider
 from scrapy.spiders.init import InitSpider
 from scrapy.http import FormRequest
 
 from ..items import BricklinkRecordItem
 from .utils import xpath_get_price
+from .utils import post_message_to_telegram_bot
 
 from products.models import Product
 
@@ -18,6 +21,13 @@ class BricklinkSpider(InitSpider):
     custom_settings = {'ITEM_PIPELINES': {'crawler.pipelines.BricklinkPipeline': 400}}
     allowed_domains = ['bricklink.com']
     start_urls = ['http://www.bricklink.com/com']
+
+    @classmethod
+    def from_crawler(cls, crawler, *args, **kwargs):
+        spider = super(BricklinkSpider, cls).from_crawler(crawler, *args, **kwargs)
+        crawler.signals.connect(spider.engine_started, signal=signals.engine_started)
+        crawler.signals.connect(spider.engine_stopped, signal=signals.engine_stopped)
+        return spider
 
     def init_request(self):
         yield FormRequest(url='https://www.bricklink.com/ajax/renovate/login.ajax',
@@ -50,3 +60,9 @@ class BricklinkSpider(InitSpider):
             item['used_max_price'] = xpath_get_price(used_rows[5], "td/b/text()")
 
         yield item
+
+    def engine_started(self):
+        post_message_to_telegram_bot("Bricklink Cralwing is started.")
+
+    def engine_stopped(self):
+        post_message_to_telegram_bot("Bricklink Cralwing is done.")
