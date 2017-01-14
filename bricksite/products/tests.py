@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from .models import Product, BricklinkRecord, EbayRecord, EbayItem
-from .utils import update_history_from_ebay
+from .utils import update_record_from_ebay
 
 
 class ProductTests(TestCase):
@@ -33,13 +33,13 @@ class EbayRecordTest(TestCase):
 
     def test_update_history_from_ebay_make_no_history(self):
         self.assertEqual(EbayRecord.objects.count(), 0)
-        update_history_from_ebay()
+        update_record_from_ebay()
         self.assertEqual(EbayRecord.objects.count(), 0)
 
     def test_update_history_from_ebay_update_history(self):
         self.assertEqual(EbayRecord.objects.count(), 0)
         EbayItem.objects.create(product=self.product, used=False, price=15.0)
-        update_history_from_ebay()
+        update_record_from_ebay()
         self.assertEqual(EbayRecord.objects.count(), 1)
         history = EbayRecord.objects.latest()
         self.assertEqual(history.new_min_price, self.product.official_price)
@@ -50,7 +50,7 @@ class EbayRecordTest(TestCase):
         self.assertEqual(history.used_average_price, 0)
 
         EbayItem.objects.create(product=self.product, used=False, price=20.0)
-        update_history_from_ebay()
+        update_record_from_ebay()
         history = EbayRecord.objects.latest()
         self.assertEqual(EbayRecord.objects.count(), 1)
         self.assertEqual(history.new_min_price, self.product.official_price)
@@ -58,7 +58,7 @@ class EbayRecordTest(TestCase):
         self.assertEqual(history.new_average_price, (15.0 + 20.0) / 2.0)
 
         EbayItem.objects.create(product=self.product,used=True, price=11.0)
-        update_history_from_ebay()
+        update_record_from_ebay()
         history = EbayRecord.objects.latest()
         self.assertEqual(EbayRecord.objects.count(), 1)
         self.assertEqual(history.used_min_price, self.product.official_price)
@@ -71,6 +71,6 @@ class EbayRecordTest(TestCase):
         EbayItem.objects.create(product=self.product, used=True, price=price)
         price = (self.product.official_price / Decimal(3.0)) - Decimal(1.0)
         EbayItem.objects.create(product=self.product, used=False, price=price)
-        update_history_from_ebay()
+        update_record_from_ebay()
         self.assertEqual(EbayRecord.objects.count(), 0)
         self.assertEqual(EbayItem.objects.count(), 0)

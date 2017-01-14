@@ -17,20 +17,6 @@ class Dashboard(TimeStampedModel):
     total_official_price = models.DecimalField(max_digits=8, decimal_places=2)
     total_target_price = models.DecimalField(max_digits=8, decimal_places=2)
 
-    new_min_price = models.DecimalField(max_digits=8, decimal_places=2)
-    new_max_price = models.DecimalField(max_digits=8, decimal_places=2)
-    new_average_price = models.DecimalField(max_digits=8, decimal_places=2)
-    used_min_price = models.DecimalField(max_digits=8, decimal_places=2)
-    used_max_price = models.DecimalField(max_digits=8, decimal_places=2)
-    used_average_price = models.DecimalField(max_digits=8, decimal_places=2)
-
-    new_min_ebay_price = models.DecimalField(max_digits=8, decimal_places=2)
-    new_max_ebay_price = models.DecimalField(max_digits=8, decimal_places=2)
-    new_average_ebay_price = models.DecimalField(max_digits=8, decimal_places=2)
-    used_min_ebay_price = models.DecimalField(max_digits=8, decimal_places=2)
-    used_max_ebay_price = models.DecimalField(max_digits=8, decimal_places=2)
-    used_average_ebay_price = models.DecimalField(max_digits=8, decimal_places=2)
-
     target_at = models.DateField()
 
     def __str__(self):
