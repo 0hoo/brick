@@ -1,5 +1,8 @@
 import logging
+
 import scrapy
+from scrapy import signals
+from scrapy import Spider
 
 from ..items import EbayItem
 from .utils import xpath_get_price

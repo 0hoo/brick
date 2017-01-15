@@ -1,6 +1,8 @@
 import logging
 
 import scrapy
+from scrapy import signals
+from scrapy import Spider
 from scrapy_splash import SplashRequest
 
 from ..items import ProductItem
