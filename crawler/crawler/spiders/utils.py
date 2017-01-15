@@ -1,7 +1,8 @@
 from typing import AnyStr, Any
-import scrapy
 import requests
 import logging
+
+import scrapy
 
 logger = logging.getLogger()
 

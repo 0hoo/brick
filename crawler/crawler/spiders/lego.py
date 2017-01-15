@@ -5,6 +5,7 @@ from scrapy_splash import SplashRequest
 
 from ..items import ProductItem
 from .utils import xpath_get
+from .utils import post_message_to_telegram_bot
 
 logger = logging.getLogger()
 
@@ -20,6 +21,13 @@ class LegoSpider(scrapy.Spider):
                         'http://shop.lego.com/en-US/LEGO-Gift-Card-2853101',
                         'http://shop.lego.com/en-US/Reload-Gift-Card',
                         ]
+
+    @classmethod
+    def from_crawler(cls, crawler, *args, **kwargs):
+        spider = super(LegoSpider, cls).from_crawler(crawler, *args, **kwargs)
+        crawler.signals.connect(spider.engine_started, signal=signals.engine_started)
+        crawler.signals.connect(spider.engine_stopped, signal=signals.engine_stopped)
+        return spider
 
     def parse(self, response: scrapy.http.Response):
         yield SplashRequest(self.start_urls[0], dont_filter=True, callback=self.parse_list, args={'wait': 3.0})
@@ -58,3 +66,9 @@ class LegoSpider(scrapy.Spider):
         if rating_values and len(rating_values) > 1:
             product['official_rating'] = float(rating_values[1])
         yield product
+
+    def engine_started(self):
+        post_message_to_telegram_bot("Lego Crawling is started.")
+
+    def engine_stopped(self):
+        post_message_to_telegram_bot("Lego Crawling is done.")
