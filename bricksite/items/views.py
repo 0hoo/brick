@@ -20,7 +20,9 @@ class ItemListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super(ItemListView, self).get_queryset()
-        return queryset.filter(user=self.request.user)
+        queryset = queryset.filter(user=self.request.user)
+        theme_title = self.kwargs.get('theme_title', None)
+        return queryset.filter(product__theme_title=theme_title) if theme_title else queryset
 
 
 class ItemDetailView(LoginRequiredMixin, DetailView):

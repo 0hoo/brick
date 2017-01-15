@@ -5,28 +5,57 @@
 {% block content %}
 <h1 class="ui header">My Bricks</h1>
 <a class="ui green button" href="{% url 'products:search' %}">Add My Brick</a>
-<table class="ui very basic compact table">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Name </th>
-        <th>Quantity</th>
-        <th>Buying</th>
-        <th>Profit</th>
-        <th>Theme</th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for item in items %}
-        <tr>
-            <td >{{ item.product.product_code }}</td>
-            <td><a href="{% url 'items:detail' item.id %}">{{ item.product.title }}</a></td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
-            <td>{{ item.estimated_profit|floatformat:2|intcomma|price_no_data:"" }}</td>
-            <td>{{ item.product.theme_title }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="ui divider hidden"></div>
+<div class="ui grid">
+    <div class="twelve wide column">
+        <table class="ui very basic compact table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name </th>
+                <th>Quantity</th>
+                <th>Buying</th>
+                <th>Profit</th>
+                <th>Theme</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td >{{ item.product.product_code }}</td>
+                    <td><a href="{% url 'items:detail' item.id %}">{{ item.product.title }}</a></td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
+                    <td>{{ item.estimated_profit|floatformat:2|intcomma|price_no_data:"" }}</td>
+                    <td>{{ item.product.theme_title }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="four wide column">
+        <div class="ui segment">
+            <div class="ui relaxed divided list">
+                <div class="item">
+                    <div class="content">
+                        <div class="header">
+                            {% if not theme_title %}<div class="ui green label"></div>{% endif %}
+                            <a href="{% url 'items:list' %}">All My Bricks</a>
+                        </div>
+                    </div>
+                </div>
+                {% for theme in user.profile.theme_titles %}
+                    {% if theme %}
+                        <div class="item">
+                            <div class="content">
+                                {% if theme == theme_title %}<div class="ui green label"></div>{% endif %}
+                                <a href="{% url 'items:list_by_theme' theme %}">{{ theme }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
