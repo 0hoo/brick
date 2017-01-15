@@ -112,6 +112,7 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     model = Item
     form_class = ItemForm
     template_name = 'items/item_form.html'
+    context_object_name = 'item'
 
     def get_context_data(self, **kwargs):
         context = super(ItemUpdateView, self).get_context_data(**kwargs)

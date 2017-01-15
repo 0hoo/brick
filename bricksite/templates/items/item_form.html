@@ -56,7 +56,9 @@
         addCssClass: 'add-row ui secondary basic button',
         deleteText: 'Remove',
         deleteCssClass: 'delete-row ui button',
-        prefix: 'thing_set'
+        prefix: 'thing_set',
+        askWhenDelete: {% if item %}true{% else %}false{% endif %},
+        hideDeleteForFirst: {% if item %}false{% else %}true{% endif %},
     });
 </script>
 {% endblock %}

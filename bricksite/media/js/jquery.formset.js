@@ -74,6 +74,13 @@
                 }
 
                 row.find('a.' + delCssSelector).click(function() {
+                    var askWhenDelete = options.askWhenDelete;
+                    if (askWhenDelete) {
+                        if (!confirm('Are you sure you want to delete this thing?')) {
+                            return;
+                        }
+                    }
+
                     var row = $(this).parents('.' + options.formCssClass),
                         del = row.find('input:hidden[id $= "-DELETE"]'),
                         buttonRow = row.siblings("a." + addCssSelector + ', .' + options.formCssClass + '-add'),
@@ -136,7 +143,10 @@
             if (hasChildElements(row)) {
                 row.addClass(options.formCssClass);
                 if (row.is(':visible')) {
-                    insertDeleteLink(row);
+                    if (options.hideDeleteForFirst && i == 0) {
+                    } else {
+                        insertDeleteLink(row);
+                    }
                     applyExtraClasses(row, i);
                 }
             }
@@ -194,6 +204,9 @@
                     buttonRow = $($(this).parents('tr.' + options.formCssClass + '-add').get(0) || this)
                     delCssSelector = $.trim(options.deleteCssClass).replace(/\s+/g, '.');
                 applyExtraClasses(row, formCount);
+                if (options.hideDeleteForFirst) {
+                    insertDeleteLink(row);
+                }
                 row.insertBefore(buttonRow).show();
                 row.find(childElementSelector).each(function() {
                     updateElementIndex($(this), options.prefix, formCount);
@@ -226,6 +239,8 @@
         extraClasses: [],                // Additional CSS classes, which will be applied to each form in turn
         keepFieldValues: '',             // jQuery selector for fields whose values should be kept when the form is cloned
         added: null,                     // Function called each time a new form is added
-        removed: null                    // Function called each time a form is deleted
+        removed: null,                   // Function called each time a form is deleted
+        askWhenDelete: false, //zerohoo.kim: Ask when click delete
+        hideDeleteForFirst: false //zerohoo.kim: When true, it doesn't show delete button for the first row
     };
 })(jQuery);
