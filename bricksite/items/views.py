@@ -24,6 +24,26 @@ class ItemListView(LoginRequiredMixin, ListView):
         theme_title = self.kwargs.get('theme_title', None)
         return queryset.filter(product__theme_title=theme_title) if theme_title else queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(ItemListView, self).get_context_data(**kwargs)
+        items = context['items']
+        buying_price = 0
+        estimated_price = 0
+        profit = 0
+        official_price = 0
+        for item in items:
+            buying_price += float(item.total_buying_price or 0)
+            estimated_price += item.total_estimated
+            profit += item.estimated_profit
+            official_price += float(item.product.official_price * item.quantity)
+        context.update({
+            'buying_price': buying_price,
+            'estimated_price': estimated_price,
+            'profit': profit,
+            'official_price': official_price,
+        })
+        return context
+
 
 class ItemDetailView(LoginRequiredMixin, DetailView):
     model = Item

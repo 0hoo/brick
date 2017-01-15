@@ -10,8 +10,9 @@
 <h1 class="ui header">All Registered Bricks in TrackMyBrick</h1>
 <p>There are <strong>{{ paginator.count }}</strong> bricks registered in TrackMyBrick.</p>
 {% endif %}
-<a class="ui green button" href="{% url 'products:search' %}">Add My Brick</a>
-<button class="ui gray button">Register Missing Bricks in TrackMyBrick</button>
+<a class="ui green small button" href="{% url 'products:search' %}">Add My Brick</a>
+<a class="ui yellow small button" href="{% url 'products:search' %}">Search Brick</a>
+<button class="ui gray small button">Register Missing Bricks in TrackMyBrick</button>
 <div class="ui divider hidden"></div>
 <div class="ui grid">
     <div class="twelve wide column">

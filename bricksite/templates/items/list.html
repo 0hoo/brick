@@ -4,56 +4,76 @@
 
 {% block content %}
 <h1 class="ui header">My Bricks</h1>
-<a class="ui green button" href="{% url 'products:search' %}">Add My Brick</a>
+<a class="ui green button small" href="{% url 'products:search' %}">Add My Brick</a>
 <div class="ui divider hidden"></div>
 <div class="ui grid">
-    <div class="twelve wide column">
-        <table class="ui very basic compact table">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Name </th>
-                <th>Quantity</th>
-                <th>Buying</th>
-                <th>Profit</th>
-                <th>Theme</th>
-            </tr>
-            </thead>
-            <tbody>
-                {% for item in items %}
-                <tr>
-                    <td >{{ item.product.product_code }}</td>
-                    <td><a href="{% url 'items:detail' item.id %}">{{ item.product.title }}</a></td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
-                    <td>{{ item.estimated_profit|floatformat:2|intcomma|price_no_data:"" }}</td>
-                    <td>{{ item.product.theme_title }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="twelve wide column">
+            <div class="ui label">
+                Official<div class="detail">{{ official_price|floatformat:2|intcomma|price_no_data:"" }}</div>
+            </div>
+            <div class="ui label">
+                Buying<div class="detail">{{ buying_price|floatformat:2|intcomma|price_no_data:"" }}</div>
+            </div>
+            <div class="ui label">
+                Esimated Price<div class="detail">{{ estimated_price|floatformat:2|intcomma|price_no_data:"" }}</div>
+            </div>
+            <div class="ui label blue">
+                Profit<div class="detail">{{ profit|floatformat:2|intcomma|price_no_data:"" }}</div>
+            </div>
+        </div>
     </div>
-    <div class="four wide column">
-        <div class="ui segment">
-            <div class="ui relaxed divided list">
-                <div class="item">
-                    <div class="content">
-                        <div class="header">
-                            {% if not theme_title %}<div class="ui green label"></div>{% endif %}
-                            <a href="{% url 'items:list' %}">All My Bricks</a>
-                        </div>
-                    </div>
-                </div>
-                {% for theme in user.profile.theme_titles %}
-                    {% if theme %}
-                        <div class="item">
+    <div class="row">
+        <div class="twelve wide column">
+            <table class="ui very basic compact table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name </th>
+                    <th>Theme</th>
+                    <th>Quantity</th>
+                    <th>Buying</th>
+                    <th>Profit</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td >{{ item.product.product_code }}</td>
+                        <td><a href="{% url 'items:detail' item.id %}">{{ item.product.title }}</a></td>
+                        <td>{{ item.product.theme_title }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
+                        <td>{{ item.estimated_profit|floatformat:2|intcomma|price_no_data:"" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="four wide column">
+            <div class="ui segment">
+                <div class="ui relaxed divided list">
+                    <div class="item">
+                        <div class="content">
+                            <div class="header">
+                                {% if not theme_title %}<div class="ui green label"></div>{% endif %}
+                                <a href="{% url 'items:list' %}">All My Bricks</a>
+                            </div>
                             <div class="content">
-                                {% if theme == theme_title %}<div class="ui green label"></div>{% endif %}
-                                <a href="{% url 'items:list_by_theme' theme %}">{{ theme }}</a>
                             </div>
                         </div>
-                    {% endif %}
-                {% endfor %}
+                    </div>
+                    {% for theme in user.profile.theme_titles %}
+                        {% if theme %}
+                            <div class="item">
+                                <div class="content">
+                                    {% if theme == theme_title %}<div class="ui green label"></div>{% endif %}
+                                    <a href="{% url 'items:list_by_theme' theme %}">{{ theme }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
