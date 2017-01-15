@@ -1,8 +1,12 @@
 import logging
+
 import scrapy
+from scrapy import signals
+from scrapy import Spider
 
 from ..items import EbayItem
 from .utils import xpath_get_price
+from .utils import post_message_to_telegram_bot
 
 from products.models import Product
 from items.models import Item
@@ -15,6 +19,13 @@ class EbaySpider(scrapy.Spider):
     custom_settings = {'ITEM_PIPELINES': {'crawler.pipelines.EbayPipeline': 400}}
     allowed_domains = ['ebay.com']
     start_urls = ['http://www.ebay.com']
+
+    @classmethod
+    def from_crawler(cls, crawler, *args, **kwargs):
+        spider = super(EbaySpider, cls).from_crawler(crawler, *args, **kwargs)
+        crawler.signals.connect(spider.engine_started, signal=signals.engine_started)
+        crawler.signals.connect(spider.engine_stopped, signal=signals.engine_stopped)
+        return spider
 
     def parse(self, response):
         product_codes = Item.objects.order_by().values_list('product__product_code', flat=True).distinct()
@@ -49,3 +60,9 @@ class EbaySpider(scrapy.Spider):
             item['price'] = xpath_get_price(response, "//span[@id='mm-saleDscPrc']/text()")
 
         yield item
+
+    def engine_started(self):
+        post_message_to_telegram_bot("Ebay Crawling is started.")
+
+    def engine_stopped(self):
+        post_message_to_telegram_bot("Ebay Crawling is done.")
