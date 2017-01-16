@@ -1,4 +1,7 @@
+from django.urls import reverse_lazy
+
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from braces.views import LoginRequiredMixin
 
@@ -80,3 +83,18 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
             context['have_bookmark'] = existing_bookmarks[0]
 
         return context
+
+
+class ProductCreate(LoginRequiredMixin, CreateView):
+    model = Product
+    template_name = 'products/form.html'
+    fields = ['product_code', 'title', 'official_price', 'pieces']
+
+class ProductUpdate(LoginRequiredMixin, UpdateView):
+    model = Product
+    template_name = 'products/form.html'
+    fields = ['product_code', 'title', 'official_price', 'pieces']
+
+class ProductDelete(LoginRequiredMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy('list')

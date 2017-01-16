@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load price_tags %}
+{% load semanticui %}
+
+{% block content %}
+<h1 class="ui header">Register Missing Brick</h1>
+<!---->
+<form class="ui form" method="post">
+    {% csrf_token %}
+    {{ form|semanticui }}
+    <button type="submit" class="ui blue button">Save Product</button>
+</form>
+{% endblock %}

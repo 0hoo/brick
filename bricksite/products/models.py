@@ -16,7 +16,6 @@ class ProductManager(models.Manager):
     def theme_titles(self):
         return self.values_list('theme_title', flat=True).distinct().order_by('theme_title')
 
-
 class Product(TimeStampedModel):
     product_code = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
