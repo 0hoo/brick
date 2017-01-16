@@ -176,7 +176,9 @@
                     if (elem.is('input:checkbox') || elem.is('input:radio')) {
                         elem.attr('checked', false);
                     } else {
-                        elem.val('');
+                        if (options.clearFieldWhenAdd) {
+                            elem.val('');
+                        }
                     }
                 });
             }
@@ -241,6 +243,7 @@
         added: null,                     // Function called each time a new form is added
         removed: null,                   // Function called each time a form is deleted
         askWhenDelete: false, //zerohoo.kim: Ask when click delete
-        hideDeleteForFirst: false //zerohoo.kim: When true, it doesn't show delete button for the first row
+        hideDeleteForFirst: false, //zerohoo.kim: When true, it doesn't show delete button for the first row
+        clearFieldWhenAdd: true //zerohoo.kim
     };
 })(jQuery);
