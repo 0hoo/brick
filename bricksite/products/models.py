@@ -16,7 +16,6 @@ class ProductManager(models.Manager):
     def theme_titles(self):
         return self.values_list('theme_title', flat=True).distinct().order_by('theme_title')
 
-
 class Product(TimeStampedModel):
     product_code = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
@@ -30,6 +29,7 @@ class Product(TimeStampedModel):
     official_review_count = models.PositiveIntegerField(null=True, blank=True)
     official_rating = models.FloatField(null=True, blank=True)
     bricklink_url = models.URLField(blank=True)
+    is_approved = models.BooleanField(default=False)
 
     objects = ProductManager()
 
