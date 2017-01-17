@@ -29,6 +29,7 @@ class Product(TimeStampedModel):
     official_review_count = models.PositiveIntegerField(null=True, blank=True)
     official_rating = models.FloatField(null=True, blank=True)
     bricklink_url = models.URLField(blank=True)
+    is_approved = models.BooleanField(default=False)
 
     objects = ProductManager()
 
