@@ -10,8 +10,6 @@ from .forms import ItemForm, ThingFormCreateSet, ThingFormUpdateSet
 from .viewmixins import ProductFormKwargsMixin
 from .utils import update_item_record
 
-from products.models import Product
-
 
 class ItemListView(LoginRequiredMixin, ListView):
     model = Item
