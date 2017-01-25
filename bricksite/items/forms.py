@@ -1,9 +1,15 @@
 from django import forms
 from django.forms import ModelForm
-from braces.forms import UserKwargModelFormMixin
 from django.forms.models import inlineformset_factory
+from django.forms.widgets import Input
+
+from braces.forms import UserKwargModelFormMixin
 
 from .models import Item, Thing
+
+
+class Html5TelInput(Input):
+    input_type = 'tel'
 
 
 class ProductKwargModelFormMixin(object):
@@ -13,6 +19,8 @@ class ProductKwargModelFormMixin(object):
 
 
 class ItemForm(UserKwargModelFormMixin, ProductKwargModelFormMixin, ModelForm):
+    target_price = forms.DecimalField(label='Target Price', widget=Html5TelInput(), required=False)
+
     class Meta:
         model = Item
         fields = ['target_price']
@@ -28,6 +36,8 @@ class ItemForm(UserKwargModelFormMixin, ProductKwargModelFormMixin, ModelForm):
 
 
 class ThingForm(ModelForm):
+    buying_price = forms.DecimalField(label='Buying Price', widget=Html5TelInput(), required=False)
+
     class Meta:
         model = Thing
         fields = ['buying_price', 'opened', 'note']
