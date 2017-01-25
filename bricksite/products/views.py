@@ -86,16 +86,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ProductCreate(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'products/form.html'
-
-class ProductUpdate(LoginRequiredMixin, UpdateView):
-    model = Product
-    template_name = 'products/form.html'
-    fields = ['product_code', 'title', 'official_price', 'pieces']
-
-class ProductDelete(LoginRequiredMixin, DeleteView):
-    model = Product
-    success_url = reverse_lazy('list')

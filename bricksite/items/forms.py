@@ -1,15 +1,11 @@
 from django import forms
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
-from django.forms.widgets import Input
 
 from braces.forms import UserKwargModelFormMixin
 
+from common.forms import Html5TelInput
 from .models import Item, Thing
-
-
-class Html5TelInput(Input):
-    input_type = 'tel'
 
 
 class ProductKwargModelFormMixin(object):
