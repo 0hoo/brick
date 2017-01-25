@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load semanticui %}
+{% load widget_tweaks %}
 
 {% block content %}
 <h1 class="ui header">
@@ -29,8 +30,8 @@
                         <div class="five wide field">
                             <label>Package Opened</label>
                             <div class="ui toggle checkbox segment" style="margin-top: 0px; padding: 7px 14px; width: 100%">
-                                <input type="checkbox" name="gift">
-                                <label><strong>Unopened</strong></label>
+                                {% render_field thing_form.opened class+="opened" %}
+                                <label><strong>{% if thing_form.opened.value %}Opened{% else %}Unopened{% endif %}</strong></label>
                             </div>
                         </div>
                         <div class="five wide field">
@@ -51,6 +52,14 @@
 </div>
 <script src="{% static 'js/jquery.formset.js' %}"></script>
 <script type="text/javascript">
+    $('input.opened').change(function() {
+        if ($(this).is(":checked")) {
+            $(this).next('label').children('strong').text('Opened');
+        } else {
+            $(this).next('label').children('strong').text('Unopened');
+        }
+    });
+
     $('.formset_fields').formset({
         addText: 'Add Thing',
         addCssClass: 'add-row ui secondary basic button',
