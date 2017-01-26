@@ -98,6 +98,9 @@
                         forms = $('.' + options.formCssClass).not('.formset-custom-template');
                         totalForms.val(forms.length);
                     }
+
+                    var formCount = forms.length;
+
                     for (var i=0, formCount=forms.length; i<formCount; i++) {
                         // Apply `extraClasses` to form rows so they're nicely alternating:
                         applyExtraClasses(forms.eq(i), i);
@@ -117,6 +120,9 @@
                     if (buttonRow.is(':hidden') && showAddButton()) buttonRow.show();
                     // If a post-delete callback was provided, call it with the deleted form:
                     if (options.removed) options.removed(row);
+                    if (options.afterRemoved) {
+                        options.afterRemoved(formCount);
+                    }
                     return false;
                 });
             };
@@ -222,6 +228,9 @@
                 if (!showAddButton()) buttonRow.hide();
                 // If a post-add callback was supplied, call it with the added form:
                 if (options.added) options.added(row);
+                if (options.afterAdded) {
+                    options.afterAdded(formCount + 1);
+                }
                 return false;
             });
         }
@@ -244,6 +253,8 @@
         removed: null,                   // Function called each time a form is deleted
         askWhenDelete: false, //zerohoo.kim: Ask when click delete
         hideDeleteForFirst: false, //zerohoo.kim: When true, it doesn't show delete button for the first row
-        clearFieldWhenAdd: true //zerohoo.kim
+        clearFieldWhenAdd: true, //zerohoo.kim
+        afterRemoved: function(formCount) {}, //zerohoo.kim
+        afterAdded: function(formCount) {}, //zerohoo.kim
     };
 })(jQuery);

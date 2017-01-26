@@ -68,7 +68,17 @@
         prefix: 'thing_set',
         askWhenDelete: {% if item %}true{% else %}false{% endif %},
         hideDeleteForFirst: {% if item %}false{% else %}true{% endif %},
-        clearFieldWhenAdd: false
+        clearFieldWhenAdd: false,
+        afterRemoved: function(formCount) {
+            if (formCount == 0) {
+                $('button[type=submit]').removeClass('blue').addClass('red').text('Delete Item');
+            }
+        },
+        afterAdded: function(formCount) {
+            if (formCount > 0) {
+                $('button[type=submit]').removeClass('red').addClass('blue').text('Save Item');
+            }
+        }
     });
 </script>
 {% endblock %}

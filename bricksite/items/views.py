@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.shortcuts import redirect, reverse, render_to_response
+from django.shortcuts import redirect, reverse
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib import messages
 
@@ -128,12 +128,14 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
         existing_things = self.object.thing_set.all()
         with transaction.atomic():
             self.object = form.save()
-            if things_form.is_valid():
-                things_form.instance = self.object
-                things_form.save()
-                things = [t.instance for t in things_form]
-                [t.delete() for t in existing_things if not list(filter(lambda thing: thing.id == t.id, things))]
-                messages.success(self.request, 'You brick item is just updated', extra_tags='Items')
-            else:
+            if not things_form.is_valid():
                 return self.form_invalid(form)
+            if len(things_form) == 0:
+                self.object.delete()
+                return redirect(reverse('items:list'))
+            things_form.instance = self.object
+            things_form.save()
+            things = [t.instance for t in things_form]
+            [t.delete() for t in existing_things if not list(filter(lambda thing: thing.id == t.id, things))]
+            messages.success(self.request, 'You brick item is just updated', extra_tags='Items')
         return super(ItemUpdateView, self).form_valid(form)
