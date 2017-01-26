@@ -92,7 +92,36 @@ showLineChartC3('#chart-profit', [
                     </div>
                 </div>
                 <div class="ui divider"></div>
-                <p>You have <strong>{{ item.quantity }}</strong> thing{{ item.quantity|pluralize }} of this brick.</p>
+                {% if item.quantity == 1 %}
+                    <p>
+                        You have <span class="ui circular label">1</span>
+                        <strong>{{ item.thing_set.first.opened_text }}</strong> thing of this brick.
+                    </p>
+                {% else %}
+                    <p>
+                        You have <strong>{{ item.quantity }}</strong> thing{{ item.quantity|pluralize }} of this brick.
+                    </p>
+                    <table class="ui very basic compact table ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Package</th>
+                                <th>Buying</th>
+                                <th class="nine wide">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for thing in item.thing_set.all %}
+                            <tr {% if thing.opened %}class="warning"{% endif %}>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ thing.opened_text|capfirst }}</td>
+                                <td>{{ thing.buying_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td>{{ thing.note }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
 
                 How we estimated price: <strong>3 unopend</strong> things x latest bricklink price for new product <strong>($12.5), 37.5</strong>. Plus <strong>2 opened</strong> things x latest bricklink price for used product <strong>($10.0), 20.0.</strong>
                 <br/>

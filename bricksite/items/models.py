@@ -94,6 +94,10 @@ class Thing(TimeStampedModel):
     opened = models.BooleanField(default=False)
     note = models.TextField(null=True, blank=True)
 
+    @property
+    def opened_text(self):
+        return 'opened' if self.opened else 'unopened'
+
     def __str__(self):
         return '{} - {} {}'.format(self.item.product.title, "Opened" if self.opened else "Unopened", self.buying_price)
 
