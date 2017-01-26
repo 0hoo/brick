@@ -96,12 +96,12 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsM
 
     def form_valid(self, form):
         context = self.get_context_data()
-        things = context['things']
+        things_form = context['things']
         with transaction.atomic():
             self.object = form.save()
-            if things.is_valid():
-                things.instance = self.object
-                things.save()
+            if things_form.is_valid():
+                things_form.instance = self.object
+                things_form.save()
                 messages.success(self.request, 'You successfully added a brick item.', extra_tags='Items')
         return super(ItemCreateView, self).form_valid(form)
 
@@ -124,12 +124,15 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        things = context['things']
+        things_form = context['things']
+        existing_things = self.object.thing_set.all()
         with transaction.atomic():
             self.object = form.save()
-            if things.is_valid():
-                things.instance = self.object
-                things.save()
+            if things_form.is_valid():
+                things_form.instance = self.object
+                things_form.save()
+                things = [t.instance for t in things_form]
+                [t.delete() for t in existing_things if not list(filter(lambda thing: thing.id == t.id, things))]
                 messages.success(self.request, 'You brick item is just updated', extra_tags='Items')
             else:
                 return self.form_invalid(form)
