@@ -47,7 +47,7 @@ showLineChartC3('#chart-profit', [
                             <tbody>
                             <tr>
                                 <td class="six wide">
-                                    <div class="ui blue label">Official</div>
+                                    <div class="ui label">Official</div>
                                 </td>
                                 <td class="ten wide right aligned">{{ item.product.official_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
@@ -71,13 +71,13 @@ showLineChartC3('#chart-profit', [
                             <tbody>
                             <tr>
                                 <td class="six wide">
-                                    <div class="ui black label">Quantity</div>
+                                    <div class="ui label">Quantity</div>
                                 </td>
                                 <td class="ten wide right aligned">{{ item.quantity }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
-                                    <div class="ui green label">Total Est</div>
+                                    <div class="ui label blue">Total Est</div>
                                 </td>
                                 <td class="ten wide right aligned">{{ item.total_estimated|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
@@ -130,7 +130,7 @@ showLineChartC3('#chart-profit', [
             <div class="ui hidden divider"></div>
             <div class="ui basic">
                 <a href="{% url 'products:detail' item.product.id %}" class="ui grey small button">View Product</a>
-                <button class="ui small button gray"><i class="icon payment"></i>Sold Brick</button>
+                <button class="ui small button gray"><i class="icon dollar"></i>Sold Brick</button>
                 <a href="{% url 'items:edit' item.id %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
             </div>
         </div>

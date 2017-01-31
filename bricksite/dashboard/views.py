@@ -10,16 +10,16 @@ class IndexView(LoginRequiredMixin, ListView):
     template_name = 'dashboard/index.html'
     model = Product
     context_object_name = 'products'
-    use_ebay = False
+    show_profit_chart = False
 
     def get_queryset(self):
-        self.use_ebay = self.request.GET.get('price_type', '') == 'ebay'
+        self.show_profit_chart = self.request.GET.get('chart', '') == 'profit'
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         dashboard = snapshot_latest_dashboard(self.request.user)
         context.update({
             'dashboard': dashboard,
-            'use_ebay': self.use_ebay,
+            'show_profit_chart': self.show_profit_chart,
         })
         return context

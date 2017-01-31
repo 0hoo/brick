@@ -1,11 +1,59 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load humanize %}
 {% load price_tags %}
+{% load chart_tags %}
+
+{% block javascript %}
+<link href="{% static 'c3/c3.css' %}" rel="stylesheet" type="text/css">
+<script src="{% static 'd3/d3.js' %}"></script>
+<script src="{% static 'c3/c3.js' %}"></script>
+<script src="{% static 'js/chart.js' %}"></script>
+{% endblock %}
+
+{% block javascript_code %}
+showLineChartC3('#chart-dashboard', [
+    {% autoescape off %}
+    {% if show_profit_chart %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='total_official_price' label='Official' %},
+        {% generate_c3_array user.dashboard_set.all field='total_estimated_price' label='Total Value' %},
+        {% generate_c3_array user.dashboard_set.all field='total_buying_price' label='Total Buying' %},
+        {% generate_c3_array user.dashboard_set.all field='total_profit' label='Profit' %},
+    {% else %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='item_count' label='My Bricks' %},
+        {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Total Quantity' %},
+    {% endif %}
+    {% endautoescape %}
+], 900)
+{% endblock %}
 
 {% block content %}
 <h1 class="ui header">Dashboard
     <div class="sub header">Last updated at 16:40, today</div>
 </h1>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column">
+            <h4 class="ui header">
+                {% if show_profit_chart %}
+                Official | Value | Profit | Buying Chart
+                <div class="sub header">
+                    <a href="{% url 'dashboard:index' %}">Brick | Total Quantity Chart</a>
+                </div>
+                {% else %}
+                My Brick | Total Quantity Chart
+                <div class="sub header">
+                    <a href="{% url 'dashboard:index' %}?chart=profit">Official | Value | Profit | Buying Chart</a>
+                </div>
+                {% endif %}
+            </h4>
+            <div id="chart-dashboard"></div>
+        </div>
+    </div>
+</div>
+<div class="ui hidden divider"></div>
 <div class="ui four stackable cards">
     {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count extra=dashboard.target_at %}
     {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity extra=dashboard.target_at %}
