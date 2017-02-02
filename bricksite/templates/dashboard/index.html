@@ -12,57 +12,191 @@
 {% endblock %}
 
 {% block javascript_code %}
-showLineChartC3('#chart-dashboard', [
+showLineChartC3('#chart-dashboard1', [
     {% autoescape off %}
-    {% if show_profit_chart %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
         {% generate_c3_array user.dashboard_set.all field='total_official_price' label='Official' %},
         {% generate_c3_array user.dashboard_set.all field='total_estimated_price' label='Total Value' %},
         {% generate_c3_array user.dashboard_set.all field='total_buying_price' label='Total Buying' %},
         {% generate_c3_array user.dashboard_set.all field='total_profit' label='Profit' %},
-    {% else %}
+    {% endautoescape %}
+], 900, 'area');
+
+showLineChartC3('#chart-dashboard2', [
+    {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
         {% generate_c3_array user.dashboard_set.all field='item_count' label='My Bricks' %},
         {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Total Quantity' %},
-    {% endif %}
     {% endautoescape %}
-], 900)
+], 900, 'area');
+
+
+showLineChartC3('#chart-item-count', [
+    {% autoescape off %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='item_count' label='Item' %},
+    {% endautoescape %}
+], 900, 'line');
+
+showPieChartC3('#chart-item-count-themes',
+    {% autoescape off %}
+        {% generate_c3_pie_array item_count_by_theme label='product__theme_title' field='count' %}
+    {% endautoescape %}
+);
+
+showLineChartC3('#chart-total-quantity', [
+    {% autoescape off %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Item' %},
+    {% endautoescape %}
+], 900, 'line');
+
+showPieChartC3('#chart-total-quantity-themes',
+    {% autoescape off %}
+        {% generate_c3_pie_array total_quantity_by_theme label='item__product__theme_title' field='count' %}
+    {% endautoescape %}
+);
+
+showLineChartC3('#chart-official', [
+    {% autoescape off %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='total_official_price' label='Official' %},
+    {% endautoescape %}
+], 900, 'line');
+
+showPieChartC3('#chart-official-themes',
+    {% autoescape off %}
+        {% generate_c3_pie_array official_prices_by_theme label='product__theme_title' field='official_price' %}
+    {% endautoescape %}
+);
+
 {% endblock %}
 
 {% block content %}
 <h1 class="ui header">Dashboard
     <div class="sub header">Last updated at {{ dashboard.target_at }}</div>
 </h1>
-<div class="ui grid">
-    <div class="row">
-        <div class="sixteen wide column">
-            <h4 class="ui header">
-                {% if show_profit_chart %}
-                Official | Value | Profit | Buying Chart
-                <div class="sub header">
-                    <a href="{% url 'dashboard:index' %}">Brick | Total Quantity Chart</a>
-                </div>
-                {% else %}
-                My Brick | Total Quantity Chart
-                <div class="sub header">
-                    <a href="{% url 'dashboard:index' %}?chart=profit">Official | Value | Profit | Buying Chart</a>
-                </div>
-                {% endif %}
-            </h4>
-            <div id="chart-dashboard"></div>
-        </div>
-    </div>
-</div>
-<div class="ui hidden divider"></div>
 <div class="ui four stackable cards">
+    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" %}
+    {% include "dashboard/widget.html" with title="Total Value" value_size="tiny" value=dashboard.total_estimated_price icon="dollar" %}
+    {% include "dashboard/widget.html" with title="Total Profit"  value_size="tiny" value=dashboard.total_profit icon="dollar" %}
+    {% include "dashboard/widget.html" with title="Total Buying" value_size="tiny" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" %}
+</div>
+
+<h4 class="ui header">
+    Official | Value | Profit | Buying Chart
+</h4>
+<div id="chart-dashboard1"></div>
+<div class="ui three stackable cards">
     {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count %}
     {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity %}
     {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count %}
-    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" %}
 </div>
-<div class="ui three stackable cards">
-    {% include "dashboard/widget.html" with title="Total Value" value_size="small" value=dashboard.total_estimated_price icon="dollar" %}
-    {% include "dashboard/widget.html" with title="Total Profit"  value_size="small" value=dashboard.total_profit icon="dollar" %}
-    {% include "dashboard/widget.html" with title="Total Buying" value_size="small" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" %}
+<h4 class="ui header">
+    My Brick | Total Quantity Chart
+</h4>
+<div id="chart-dashboard2"></div>
+<div class="ui divider"></div>
+
+<h4 class="ui header">My Bricks
+    <div class="sub header">Latest, ${{ dashboard.item_count }}</div>
+</h4>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column grid">
+            <div id="chart-item-count"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight wide column grid">
+            <div id="chart-item-count-themes"></div>
+        </div>
+        <div class="eight wide column grid">
+            <table class="ui very basic compact table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Item Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item_count_by_theme in user.profile.item_count_by_theme %}
+                    <tr>
+                        <td>{{ item_count_by_theme.product__theme_title }}</td>
+                        <td>{{ item_count_by_theme.count }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<h4 class="ui header">Total Quantity
+    <div class="sub header">Latest, ${{ dashboard.item_quantity }}</div>
+</h4>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column grid">
+            <div id="chart-total-quantity"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight wide column grid">
+            <div id="chart-total-quantity-themes"></div>
+        </div>
+        <div class="eight wide column grid">
+            <table class="ui very basic compact table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for quantity_by_theme in user.profile.total_quantity_by_theme %}
+                    <tr>
+                        <td>{{ quantity_by_theme.item__product__theme_title }}</td>
+                        <td>{{ quantity_by_theme.count }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<h4 class="ui header">Official
+    <div class="sub header">Latest, ${{ dashboard.total_official_price }}</div>
+</h4>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column grid">
+            <div id="chart-official"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight wide column grid">
+            <div id="chart-official-themes"></div>
+        </div>
+        <div class="eight wide column grid">
+            <table class="ui very basic compact table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Official Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for official_by_theme in user.profile.official_prices_by_theme %}
+                    <tr>
+                        <td>{{ official_by_theme.product__theme_title }}</td>
+                        <td>{{ official_by_theme.official_price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

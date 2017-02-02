@@ -21,5 +21,8 @@ class IndexView(LoginRequiredMixin, ListView):
         context.update({
             'dashboard': dashboard,
             'show_profit_chart': self.show_profit_chart,
+            'official_prices_by_theme': self.request.user.profile.official_prices_by_theme,
+            'item_count_by_theme': self.request.user.profile.item_count_by_theme,
+            'total_quantity_by_theme': self.request.user.profile.total_quantity_by_theme,
         })
         return context

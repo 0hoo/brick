@@ -1,9 +1,10 @@
 from django.db import models
+from django.db.models import Sum, Count
 from django.conf import settings
 
 from registration.signals import user_registered
 
-from items.models import Item
+from items.models import Item, Thing
 
 
 class UserProfile(models.Model):
@@ -12,6 +13,18 @@ class UserProfile(models.Model):
 
     def theme_titles(self):
         return Item.objects.filter(user=self.user).values_list('product__theme_title', flat=True).distinct().order_by('product__theme_title')
+
+    def item_count_by_theme(self):
+        return Item.objects.filter(user=self.user).values('product__theme_title').annotate(count=Count('id'))
+
+    def total_quantity_by_theme(self):
+        return Thing.objects.filter(item__user=self.user).values('item__product__theme_title').annotate(count=Count('id'))
+
+    def official_prices_by_theme(self):
+        return Item.objects.filter(user=self.user).values('product__theme_title').annotate(official_price=Sum('product__official_price'))
+
+    def total_estimated_by_theme(self):
+        return Item.objects.filter(user=self.user).values('product__theme_title').annotate(official_price=Sum('total_estimated'))
 
     def __str__(self):
         return '{}'.format(self.user.username)

@@ -31,3 +31,12 @@ def generate_c3_array(entries, field, label, is_date=False):
         result += '%s, ' % value
     result += ']'
     return result
+
+
+@register.simple_tag
+def generate_c3_pie_array(entries, label, field):
+    result = '['
+    for entry in entries:
+        result += "['%s', %s], " % (entry[label], entry[field])
+    result += ']'
+    return result

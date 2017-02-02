@@ -1,9 +1,12 @@
-function showLineChartC3(bindto, columns, width) {
+function showLineChartC3(bindto, columns, width, chart_type) {
+    chart_type = chart_type || 'line';
+
     c3.generate({
         bindto: bindto,
         data: {
             x: 'date',
-            columns: columns
+            columns: columns,
+            type: chart_type
         },
         size: {
             width: width
@@ -26,6 +29,16 @@ function showLineChartC3(bindto, columns, width) {
                     format: '%Y-%m-%d'
                 }
             }
+        }
+    });
+}
+
+function showPieChartC3(bindto, columns, width) {
+    c3.generate({
+        bindto: bindto,
+        data: {
+            columns: columns,
+            type : 'pie',
         }
     });
 }
