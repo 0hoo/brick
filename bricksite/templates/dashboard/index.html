@@ -31,7 +31,7 @@ showLineChartC3('#chart-dashboard', [
 
 {% block content %}
 <h1 class="ui header">Dashboard
-    <div class="sub header">Last updated at 16:40, today</div>
+    <div class="sub header">Last updated at {{ dashboard.target_at }}</div>
 </h1>
 <div class="ui grid">
     <div class="row">
@@ -55,14 +55,14 @@ showLineChartC3('#chart-dashboard', [
 </div>
 <div class="ui hidden divider"></div>
 <div class="ui four stackable cards">
-    {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" extra=dashboard.target_at %}
+    {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count %}
+    {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity %}
+    {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count %}
+    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" %}
 </div>
 <div class="ui three stackable cards">
-    {% include "dashboard/widget.html" with title="Total Value" value_size="small" value=dashboard.total_estimated_price icon="dollar" extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Total Profit"  value_size="small" value=dashboard.total_profit icon="dollar" extra=dashboard.target_at %}
-    {% include "dashboard/widget.html" with title="Total Buying" value_size="small" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" extra=dashboard.target_at %}
+    {% include "dashboard/widget.html" with title="Total Value" value_size="small" value=dashboard.total_estimated_price icon="dollar" %}
+    {% include "dashboard/widget.html" with title="Total Profit"  value_size="small" value=dashboard.total_profit icon="dollar" %}
+    {% include "dashboard/widget.html" with title="Total Buying" value_size="small" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" %}
 </div>
 {% endblock %}
