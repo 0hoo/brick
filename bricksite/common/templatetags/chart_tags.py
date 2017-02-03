@@ -40,3 +40,12 @@ def generate_c3_pie_array(entries, label, field):
         result += "['%s', %s], " % (entry[label], entry[field])
     result += ']'
     return result
+
+
+@register.simple_tag
+def generate_c3_pie_array_dict(dict_items):
+    result = '['
+    for k, v in dict_items:
+        result += "['%s', %s], " % (k, v)
+    result += ']'
+    return result

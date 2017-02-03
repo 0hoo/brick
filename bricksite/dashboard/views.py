@@ -24,5 +24,8 @@ class IndexView(LoginRequiredMixin, ListView):
             'official_prices_by_theme': self.request.user.profile.official_prices_by_theme,
             'item_count_by_theme': self.request.user.profile.item_count_by_theme,
             'total_quantity_by_theme': self.request.user.profile.total_quantity_by_theme,
+            'total_estimated_by_theme': self.request.user.profile.total_estimated_by_theme,
+            'total_profit_by_theme': self.request.user.profile.total_profit_by_theme,
+            'total_buying_price_by_theme': self.request.user.profile.total_buying_price_by_theme,
         })
         return context

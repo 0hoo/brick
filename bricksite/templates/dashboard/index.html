@@ -70,6 +70,45 @@ showPieChartC3('#chart-official-themes',
     {% endautoescape %}
 );
 
+showLineChartC3('#chart-estimated', [
+    {% autoescape off %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='total_estimated_price' label='Estimated Price' %},
+    {% endautoescape %}
+], 900, 'line');
+
+showPieChartC3('#chart-estimated-themes',
+    {% autoescape off %}
+        {% generate_c3_pie_array_dict total_estimated_by_theme %},
+    {% endautoescape %}
+);
+
+showLineChartC3('#chart-profit', [
+    {% autoescape off %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='total_profit' label='Estimated Price' %},
+    {% endautoescape %}
+], 900, 'line');
+
+showPieChartC3('#chart-profit-themes',
+    {% autoescape off %}
+        {% generate_c3_pie_array_dict total_profit_by_theme %},
+    {% endautoescape %}
+);
+
+showLineChartC3('#chart-buying', [
+    {% autoescape off %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='total_buying_price' label='Estimated Price' %},
+    {% endautoescape %}
+], 900, 'line');
+
+showPieChartC3('#chart-buying-themes',
+    {% autoescape off %}
+        {% generate_c3_pie_array_dict total_buying_price_by_theme %},
+    {% endautoescape %}
+);
+
 {% endblock %}
 
 {% block content %}
@@ -99,7 +138,7 @@ showPieChartC3('#chart-official-themes',
 <div class="ui divider"></div>
 
 <h4 class="ui header">My Bricks
-    <div class="sub header">Latest, ${{ dashboard.item_count }}</div>
+    <div class="sub header">Latest, {{ dashboard.item_count }}</div>
 </h4>
 <div class="ui grid">
     <div class="row">
@@ -133,7 +172,7 @@ showPieChartC3('#chart-official-themes',
 </div>
 
 <h4 class="ui header">Total Quantity
-    <div class="sub header">Latest, ${{ dashboard.item_quantity }}</div>
+    <div class="sub header">Latest, {{ dashboard.item_quantity }}</div>
 </h4>
 <div class="ui grid">
     <div class="row">
@@ -192,6 +231,108 @@ showPieChartC3('#chart-official-themes',
                     <tr>
                         <td>{{ official_by_theme.product__theme_title }}</td>
                         <td>{{ official_by_theme.official_price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<h4 class="ui header">Total Value
+    <div class="sub header">Latest, ${{ dashboard.total_estimated_price }}</div>
+</h4>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column grid">
+            <div id="chart-estimated"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight wide column grid">
+            <div id="chart-estimated-themes"></div>
+        </div>
+        <div class="eight wide column grid">
+            <table class="ui very basic compact table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for theme_title, price in user.profile.total_estimated_by_theme %}
+                    <tr>
+                        <td>{{ theme_title }}</td>
+                        <td>{{ price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<h4 class="ui header">Total Profit
+    <div class="sub header">Latest, ${{ dashboard.total_profit }}</div>
+</h4>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column grid">
+            <div id="chart-profit"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight wide column grid">
+            <div id="chart-profit-themes"></div>
+        </div>
+        <div class="eight wide column grid">
+            <table class="ui very basic compact table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for theme_title, price in user.profile.total_profit_by_theme %}
+                    <tr>
+                        <td>{{ theme_title }}</td>
+                        <td>{{ price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<h4 class="ui header">Total Buying
+    <div class="sub header">Latest, ${{ dashboard.total_buying }}</div>
+</h4>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column grid">
+            <div id="chart-buying"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight wide column grid">
+            <div id="chart-buying-themes"></div>
+        </div>
+        <div class="eight wide column grid">
+            <table class="ui very basic compact table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Buying Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for theme_title, price in user.profile.total_buying_price_by_theme %}
+                    <tr>
+                        <td>{{ theme_title }}</td>
+                        <td>{{ price }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

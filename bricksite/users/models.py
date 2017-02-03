@@ -1,3 +1,5 @@
+from collections import Counter
+
 from django.db import models
 from django.db.models import Sum, Count
 from django.conf import settings
@@ -24,7 +26,22 @@ class UserProfile(models.Model):
         return Item.objects.filter(user=self.user).values('product__theme_title').annotate(official_price=Sum('product__official_price'))
 
     def total_estimated_by_theme(self):
-        return Item.objects.filter(user=self.user).values('product__theme_title').annotate(official_price=Sum('total_estimated'))
+        c = Counter()
+        for item in Item.objects.filter(user=self.user):
+            c[item.product.theme_title] += item.total_estimated
+        return c.items()
+
+    def total_profit_by_theme(self):
+        c = Counter()
+        for item in Item.objects.filter(user=self.user):
+            c[item.product.theme_title] += item.estimated_profit
+        return c.items()
+
+    def total_buying_price_by_theme(self):
+        c = Counter()
+        for item in Item.objects.filter(user=self.user):
+            c[item.product.theme_title] += item.total_buying_price
+        return c.items()
 
     def __str__(self):
         return '{}'.format(self.user.username)
