@@ -53,7 +53,7 @@ showLineChartC3('#chart-total-quantity', [
 
 showPieChartC3('#chart-total-quantity-themes',
     {% autoescape off %}
-        {% generate_c3_pie_array total_quantity_by_theme label='item__product__theme_title' field='count' %}
+        {% generate_c3_pie_array item_quantity_by_theme label='item__product__theme_title' field='count' %}
     {% endautoescape %}
 );
 
@@ -66,7 +66,7 @@ showLineChartC3('#chart-official', [
 
 showPieChartC3('#chart-official-themes',
     {% autoescape off %}
-        {% generate_c3_pie_array official_prices_by_theme label='product__theme_title' field='official_price' %}
+        {% generate_c3_pie_array official_price_by_theme label='product__theme_title' field='official_price' %}
     {% endautoescape %}
 );
 
@@ -158,7 +158,7 @@ showPieChartC3('#chart-buying-themes',
                     </tr>
                 </thead>
                 <tbody>
-                {% for item_count_by_theme in user.profile.item_count_by_theme %}
+                {% for item_count_by_theme in item_count_by_theme %}
                     <tr>
                         <td>{{ item_count_by_theme.product__theme_title }}</td>
                         <td>{{ item_count_by_theme.count }}</td>
@@ -194,7 +194,7 @@ showPieChartC3('#chart-buying-themes',
                     </tr>
                 </thead>
                 <tbody>
-                {% for quantity_by_theme in user.profile.total_quantity_by_theme %}
+                {% for quantity_by_theme in item_quantity_by_theme %}
                     <tr>
                         <td>{{ quantity_by_theme.item__product__theme_title }}</td>
                         <td>{{ quantity_by_theme.count }}</td>
@@ -230,7 +230,7 @@ showPieChartC3('#chart-buying-themes',
                     </tr>
                 </thead>
                 <tbody>
-                {% for official_by_theme in user.profile.official_prices_by_theme %}
+                {% for official_by_theme in official_price_by_theme %}
                     <tr>
                         <td>{{ official_by_theme.product__theme_title }}</td>
                         <td>{{ official_by_theme.official_price|floatformat:2|intcomma|price_no_data }}</td>
@@ -266,7 +266,7 @@ showPieChartC3('#chart-buying-themes',
                     </tr>
                 </thead>
                 <tbody>
-                {% for theme_title, price in user.profile.total_estimated_by_theme %}
+                {% for theme_title, price in total_estimated_by_theme %}
                     <tr>
                         <td>{{ theme_title }}</td>
                         <td>{{ price|floatformat:2|intcomma|price_no_data }}</td>
@@ -302,7 +302,7 @@ showPieChartC3('#chart-buying-themes',
                     </tr>
                 </thead>
                 <tbody>
-                {% for theme_title, price in user.profile.total_profit_by_theme %}
+                {% for theme_title, price in total_profit_by_theme %}
                     <tr>
                         <td>{{ theme_title }}</td>
                         <td>{{ price|floatformat:2|intcomma|price_no_data }}</td>
@@ -338,7 +338,7 @@ showPieChartC3('#chart-buying-themes',
                     </tr>
                 </thead>
                 <tbody>
-                {% for theme_title, price in user.profile.total_buying_price_by_theme %}
+                {% for theme_title, price in total_buying_price_by_theme %}
                     <tr>
                         <td>{{ theme_title }}</td>
                         <td>{{ price|floatformat:2|intcomma|price_no_data }}</td>

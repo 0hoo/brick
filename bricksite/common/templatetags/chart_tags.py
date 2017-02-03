@@ -12,18 +12,6 @@ def date_time_milliseconds(date_or_datetime):
 
 
 @register.simple_tag
-def generate_chart_array(entries, date_field, value_field, javascript_var_name):
-    result = 'var %s = [' % javascript_var_name
-    result += '\n'
-    for entry in entries:
-        value = defaultfilters.default_if_none(getattr(entry, value_field), 0)
-        result += '{x: %s, y: %s}, ' % (date_time_milliseconds(getattr(entry, date_field)), value)
-        result += '\n'
-    result += '];'
-    return result
-
-
-@register.simple_tag
 def generate_c3_array(entries, field, label, is_date=False):
     result = "['%s', " % label
     for entry in entries:
