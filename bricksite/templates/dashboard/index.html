@@ -116,30 +116,29 @@ showPieChartC3('#chart-buying-themes',
     <div class="sub header">Last updated at {{ dashboard.target_at }}</div>
 </h1>
 <div class="ui four stackable cards">
-    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" %}
-    {% include "dashboard/widget.html" with title="Total Value" value_size="tiny" value=dashboard.total_estimated_price icon="dollar" %}
-    {% include "dashboard/widget.html" with title="Total Profit"  value_size="tiny" value=dashboard.total_profit icon="dollar" %}
-    {% include "dashboard/widget.html" with title="Total Buying" value_size="tiny" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" %}
+    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" history_link='#divider-official' theme_link='#divider-official' %}
+    {% include "dashboard/widget.html" with title="Total Value" value_size="tiny" value=dashboard.total_estimated_price icon="dollar" history_link='#divider-value' theme_link='#divider-value'  %}
+    {% include "dashboard/widget.html" with title="Total Profit"  value_size="tiny" value=dashboard.total_profit icon="dollar" history_link='#divider-profit' theme_link='#divider-profit' %}
+    {% include "dashboard/widget.html" with title="Total Buying" value_size="tiny" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" history_link='#divider-buying' theme_link='#divider-buying' %}
 </div>
-
-<h4 class="ui header">
-    Official | Value | Profit | Buying Chart
-</h4>
+<div class="ui divider hidden"></div>
 <div id="chart-dashboard1"></div>
-<div class="ui three stackable cards">
-    {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count %}
-    {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity %}
-    {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count %}
-</div>
-<h4 class="ui header">
-    My Brick | Total Quantity Chart
-</h4>
-<div id="chart-dashboard2"></div>
+
 <div class="ui divider"></div>
 
-<h4 class="ui header">My Bricks
-    <div class="sub header">Latest, {{ dashboard.item_count }}</div>
-</h4>
+<div class="ui three stackable cards">
+    {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count history_link='#divider-item-count' theme_link='#divider-item-count' %}
+    {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity history_link='#divider-total-quantity' theme_link='#divider-total-quantity' %}
+    {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count hide_extra=True %}
+</div>
+<div class="ui divider hidden"></div>
+<div id="chart-dashboard2"></div>
+
+<div class="ui divider" id="divider-item-count"></div>
+
+<h3 class="ui header">My Bricks
+    <div class="sub header">Latest: {{ dashboard.item_count }}</div>
+</h3>
 <div class="ui grid">
     <div class="row">
         <div class="sixteen wide column grid">
@@ -171,9 +170,11 @@ showPieChartC3('#chart-buying-themes',
     </div>
 </div>
 
-<h4 class="ui header">Total Quantity
-    <div class="sub header">Latest, {{ dashboard.item_quantity }}</div>
-</h4>
+<div class="ui divider" id="divider-total-quantity"></div>
+
+<h3 class="ui header">Total Quantity
+    <div class="sub header">Latest: {{ dashboard.item_quantity }}</div>
+</h3>
 <div class="ui grid">
     <div class="row">
         <div class="sixteen wide column grid">
@@ -205,9 +206,11 @@ showPieChartC3('#chart-buying-themes',
     </div>
 </div>
 
-<h4 class="ui header">Official
-    <div class="sub header">Latest, ${{ dashboard.total_official_price }}</div>
-</h4>
+<div class="ui divider" id="divider-official"></div>
+
+<h3 class="ui header" id="header-official">Official
+    <div class="sub header">Latest: {{ dashboard.total_official_price|floatformat:2|intcomma|price_no_data }}</div>
+</h3>
 <div class="ui grid">
     <div class="row">
         <div class="sixteen wide column grid">
@@ -230,7 +233,7 @@ showPieChartC3('#chart-buying-themes',
                 {% for official_by_theme in user.profile.official_prices_by_theme %}
                     <tr>
                         <td>{{ official_by_theme.product__theme_title }}</td>
-                        <td>{{ official_by_theme.official_price }}</td>
+                        <td>{{ official_by_theme.official_price|floatformat:2|intcomma|price_no_data }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -239,9 +242,11 @@ showPieChartC3('#chart-buying-themes',
     </div>
 </div>
 
-<h4 class="ui header">Total Value
-    <div class="sub header">Latest, ${{ dashboard.total_estimated_price }}</div>
-</h4>
+<div class="ui divider" id="divider-value"></div>
+
+<h3 class="ui header">Total Value
+    <div class="sub header">Latest: {{ dashboard.total_estimated_price|floatformat:2|intcomma|price_no_data }}</div>
+</h3>
 <div class="ui grid">
     <div class="row">
         <div class="sixteen wide column grid">
@@ -264,7 +269,7 @@ showPieChartC3('#chart-buying-themes',
                 {% for theme_title, price in user.profile.total_estimated_by_theme %}
                     <tr>
                         <td>{{ theme_title }}</td>
-                        <td>{{ price }}</td>
+                        <td>{{ price|floatformat:2|intcomma|price_no_data }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -273,9 +278,11 @@ showPieChartC3('#chart-buying-themes',
     </div>
 </div>
 
-<h4 class="ui header">Total Profit
-    <div class="sub header">Latest, ${{ dashboard.total_profit }}</div>
-</h4>
+<div class="ui divider" id="divider-profit"></div>
+
+<h3 class="ui header">Total Profit
+    <div class="sub header">Latest: {{ dashboard.total_profit|floatformat:2|intcomma|price_no_data }}</div>
+</h3>
 <div class="ui grid">
     <div class="row">
         <div class="sixteen wide column grid">
@@ -298,7 +305,7 @@ showPieChartC3('#chart-buying-themes',
                 {% for theme_title, price in user.profile.total_profit_by_theme %}
                     <tr>
                         <td>{{ theme_title }}</td>
-                        <td>{{ price }}</td>
+                        <td>{{ price|floatformat:2|intcomma|price_no_data }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -307,9 +314,11 @@ showPieChartC3('#chart-buying-themes',
     </div>
 </div>
 
-<h4 class="ui header">Total Buying
-    <div class="sub header">Latest, ${{ dashboard.total_buying }}</div>
-</h4>
+<div class="ui divider" id="divider-buying"></div>
+
+<h3 class="ui header">Total Buying
+    <div class="sub header">Latest: {{ dashboard.total_buying_price|floatformat:2|intcomma|price_no_data }}</div>
+</h3>
 <div class="ui grid">
     <div class="row">
         <div class="sixteen wide column grid">
@@ -332,7 +341,7 @@ showPieChartC3('#chart-buying-themes',
                 {% for theme_title, price in user.profile.total_buying_price_by_theme %}
                     <tr>
                         <td>{{ theme_title }}</td>
-                        <td>{{ price }}</td>
+                        <td>{{ price|floatformat:2|intcomma|price_no_data }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

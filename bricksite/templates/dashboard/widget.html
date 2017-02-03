@@ -13,12 +13,14 @@
             </div>
         </div>
     </div>
-    <div class="extra content">
-        <div class="left floated">
-            <a class="ui button mini" href="#"><i class="line chart icon grey"></i>History</a>
+        {% if not hide_extra %}
+        <div class="extra content">
+            <div class="left floated">
+                <a class="ui button mini" href="{{ history_link }}"><i class="line chart icon grey"></i>History</a>
+            </div>
+            <div class="right floated">
+                <a class="ui button mini" href="{{ theme_link }}"><i class="pie chart icon grey"></i>Theme</a>
+            </div>
         </div>
-        <div class="right floated">
-            <a class="ui button mini" href="{% url 'bookmarks:list' %}"><i class="pie chart icon grey"></i>Theme</a>
-        </div>
-    </div>
+        {% endif %}
 </div>
