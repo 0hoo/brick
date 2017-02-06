@@ -93,6 +93,9 @@ class Thing(TimeStampedModel):
     buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     opened = models.BooleanField(default=False)
     note = models.TextField(null=True, blank=True)
+    sold = models.BooleanField(default=False)
+    sold_at = models.DateField(null=True, blank=True)
+    sold_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
     @property
     def opened_text(self):

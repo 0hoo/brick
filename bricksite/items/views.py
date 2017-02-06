@@ -1,12 +1,12 @@
 from django.db import transaction
 from django.shortcuts import redirect, reverse
-from django.views.generic import ListView, DetailView, UpdateView, CreateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, FormView
 from django.contrib import messages
 
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
 from .models import Item
-from .forms import ItemForm, ThingFormCreateSet, ThingFormUpdateSet
+from .forms import ItemForm, ThingFormCreateSet, ThingFormUpdateSet, ThingSoldFormSet
 from .viewmixins import ProductFormKwargsMixin
 from .utils import update_item_record
 
@@ -139,3 +139,28 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
             [t.delete() for t in existing_things if not list(filter(lambda thing: thing.id == t.id, things))]
             messages.success(self.request, 'You brick item is just updated', extra_tags='Items')
         return super(ItemUpdateView, self).form_valid(form)
+
+
+class ItemSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
+    model = Item
+    form_class = ItemForm
+    template_name = 'items/item_sold_form.html'
+    context_object_name = 'item'
+
+    def get_context_data(self, **kwargs):
+        context = super(ItemSoldView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['things'] = ThingSoldFormSet(self.request.POST, queryset=self.object.thing_set.all())
+        else:
+            context['things'] = ThingSoldFormSet(queryset=self.object.thing_set.all())
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        things_form = context['things']
+        with transaction.atomic():
+            if not things_form.is_valid():
+                return self.form_invalid(form)
+            things_form.save()
+            messages.success(self.request, 'You brick item is just updated', extra_tags='Items')
+        return super(ItemSoldView, self).form_valid(form)
