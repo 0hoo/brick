@@ -20,7 +20,8 @@ class IndexView(LoginRequiredMixin, ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         dashboard = snapshot_latest_dashboard(self.request.user)
 
-        total_estimated_by_theme, total_profit_by_theme, total_buying_price_by_theme = total_prices_by_theme(self.request.user)
+        total_estimated_by_theme, total_profit_by_theme, total_buying_price_by_theme, \
+        sold_quantity_by_theme, total_sold_price_by_theme = total_prices_by_theme(self.request.user)
 
         context.update({
             'dashboard': dashboard,
@@ -31,5 +32,7 @@ class IndexView(LoginRequiredMixin, ListView):
             'total_estimated_by_theme': total_estimated_by_theme,
             'total_profit_by_theme': total_profit_by_theme,
             'total_buying_price_by_theme': total_buying_price_by_theme,
+            'sold_quantity_by_theme': sold_quantity_by_theme,
+            'total_sold_price_by_theme': total_sold_price_by_theme
         })
         return context

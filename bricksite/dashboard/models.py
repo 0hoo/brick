@@ -14,6 +14,7 @@ class Dashboard(TimeStampedModel):
 
     item_count = models.PositiveIntegerField()
     item_quantity = models.PositiveIntegerField()
+    sold_quantity = models.PositiveIntegerField()
     bookmarked_item_count = models.PositiveIntegerField()
 
     total_buying_price = models.DecimalField(max_digits=8, decimal_places=2)
@@ -21,6 +22,7 @@ class Dashboard(TimeStampedModel):
     total_profit = models.DecimalField(max_digits=8, decimal_places=2)
     total_official_price = models.DecimalField(max_digits=8, decimal_places=2)
     total_target_price = models.DecimalField(max_digits=8, decimal_places=2)
+    total_sold_price = models.DecimalField(max_digits=8, decimal_places=2)
 
     target_at = models.DateField()
 
@@ -53,8 +55,12 @@ def total_prices_by_theme(user):
     estimated_counter = Counter()
     profit_counter = Counter()
     buying_price_counter = Counter()
+    sold_quantity_counter = Counter()
+    sold_price_counter = Counter()
     for item in Item.objects.filter(user=user):
         estimated_counter[item.product.theme_title] += item.total_estimated
         profit_counter[item.product.theme_title] += item.estimated_profit
         buying_price_counter[item.product.theme_title] += item.total_buying_price
-    return estimated_counter.items(), profit_counter.items(), buying_price_counter.items()
+        sold_quantity_counter[item.product.theme_title] += item.sold_quantity or 0
+        sold_price_counter[item.product.theme_title] += item.total_sold_price or 0
+    return estimated_counter.items(), profit_counter.items(), buying_price_counter.items(), sold_quantity_counter.items(), sold_price_counter.items()

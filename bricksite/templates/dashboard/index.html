@@ -27,6 +27,7 @@ showLineChartC3('#chart-dashboard2', [
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
         {% generate_c3_array user.dashboard_set.all field='item_count' label='My Bricks' %},
         {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Total Quantity' %},
+        {% generate_c3_array user.dashboard_set.all field='sold_quantity' label='Sold Quantity' %},
     {% endautoescape %}
 ], 900, 'area');
 
@@ -109,6 +110,32 @@ showPieChartC3('#chart-buying-themes',
     {% endautoescape %}
 );
 
+showLineChartC3('#chart-sold-quantity', [
+    {% autoescape off %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='sold_quantity' label='Sold Quantity' %},
+    {% endautoescape %}
+], 900, 'line');
+
+showPieChartC3('#chart-sold-quantity-themes',
+    {% autoescape off %}
+        {% generate_c3_pie_array_dict sold_quantity_by_theme %},
+    {% endautoescape %}
+);
+
+showLineChartC3('#chart-sold-price', [
+    {% autoescape off %}
+        {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
+        {% generate_c3_array user.dashboard_set.all field='total_sold_price' label='Sold Price' %},
+    {% endautoescape %}
+], 900, 'line');
+
+showPieChartC3('#chart-sold-price-themes',
+    {% autoescape off %}
+        {% generate_c3_pie_array_dict total_sold_price_by_theme %},
+    {% endautoescape %}
+);
+
 {% endblock %}
 
 {% block content %}
@@ -126,7 +153,9 @@ showPieChartC3('#chart-buying-themes',
 
 <div class="ui divider"></div>
 
-<div class="ui three stackable cards">
+<div class="ui five stackable cards">
+    {% include "dashboard/widget.html" with title="Sold Quantity" value_size="small" icon="archive" value=dashboard.sold_quantity history_link='#divider-sold-quantity' theme_link='#divider-sold-quantity' %}
+    {% include "dashboard/widget.html" with title="Total Sold" value_size="tiny" value=dashboard.total_sold_price|floatformat:2|intcomma icon="dollar" history_link='#divider-sold' theme_link='#divider-sold' %}
     {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count history_link='#divider-item-count' theme_link='#divider-item-count' %}
     {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity history_link='#divider-total-quantity' theme_link='#divider-total-quantity' %}
     {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count hide_extra=True %}
@@ -349,4 +378,75 @@ showPieChartC3('#chart-buying-themes',
         </div>
     </div>
 </div>
+
+<div class="ui divider" id="divider-sold-quantity"></div>
+<h3 class="ui header">Sold Quantity
+    <div class="sub header">Latest: {{ dashboard.sold_quantity }}</div>
+</h3>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column grid">
+            <div id="chart-sold-quantity"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight wide column grid">
+            <div id="chart-sold-quantity-themes"></div>
+        </div>
+        <div class="eight wide column grid">
+            <table class="ui very basic compact table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Sold Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for theme_title, quantity in sold_quantity_by_theme %}
+                    <tr>
+                        <td>{{ theme_title }}</td>
+                        <td>{{ quantity }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="ui divider" id="divider-sold"></div>
+<h3 class="ui header">Sold Price
+    <div class="sub header">Latest: {{ dashboard.sold_price }}</div>
+</h3>
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column grid">
+            <div id="chart-sold-price"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight wide column grid">
+            <div id="chart-sold-price-themes"></div>
+        </div>
+        <div class="eight wide column grid">
+            <table class="ui very basic compact table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Sold Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for theme_title, price in total_sold_price_by_theme %}
+                    <tr>
+                        <td>{{ theme_title }}</td>
+                        <td>{{ price|floatformat:2|intcomma|price_no_data }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
