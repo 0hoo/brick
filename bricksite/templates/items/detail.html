@@ -63,6 +63,14 @@ showLineChartC3('#chart-profit', [
                                 </td>
                                 <td class="ten wide right aligned">{{ item.target_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
+                            {% if item.sold_quantity %}
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Sold Quantity</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ item.sold_quantity }}</td>
+                            </tr>
+                            {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -73,7 +81,9 @@ showLineChartC3('#chart-profit', [
                                 <td class="six wide">
                                     <div class="ui label">Quantity</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.quantity }}</td>
+                                <td class="ten wide right aligned">
+                                    {{ item.quantity }}
+                                </td>
                             </tr>
                             <tr>
                                 <td class="six wide">
@@ -87,6 +97,20 @@ showLineChartC3('#chart-profit', [
                                 </td>
                                 <td class="ten wide right aligned">{{ item.estimated_profit|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
+                            {% if item.sold_quantity %}
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Average Sold</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ item.average_sold_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            <tr>
+                                <td class="six wide">
+                                    <div class="ui label">Total Sold</div>
+                                </td>
+                                <td class="ten wide right aligned">{{ item.total_sold_price|floatformat:2|intcomma|price_no_data }}</td>
+                            </tr>
+                            {% endif %}
                             </tbody>
                         </table>
                     </div>

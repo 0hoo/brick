@@ -16,7 +16,19 @@ class Item(TimeStampedModel):
 
     @property
     def quantity(self):
-        return self.thing_set.count()
+        return self.thing_set.filter(sold=False).count()
+
+    @property
+    def sold_quantity(self):
+        return self.thing_set.filter(sold=True).count()
+
+    @property
+    def average_sold_price(self):
+        return self.thing_set.exclude(sold_price__isnull=True).aggregate(Avg('sold_price'))['sold_price__avg']
+
+    @property
+    def total_sold_price(self):
+        return self.thing_set.exclude(sold_price__isnull=True).aggregate(Sum('sold_price'))['sold_price__sum']
 
     @property
     def average_buying_price(self):
