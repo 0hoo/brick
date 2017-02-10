@@ -40,7 +40,7 @@ class Item(TimeStampedModel):
 
     @property
     def estimated_total_buying_price(self):
-        return sum((thing.buying_price or self.product.official_price for thing in self.thing_set.all()))
+        return sum((thing.buying_price or self.product.official_price for thing in self.thing_set.unsold()))
 
     @property
     def estimated_profit(self):
@@ -52,7 +52,7 @@ class Item(TimeStampedModel):
 
     @property
     def total_estimated(self):
-        things, last_bricklink_record, last_ebay_record = (self.thing_set.all(),
+        things, last_bricklink_record, last_ebay_record = (self.thing_set.unsold(),
                                                            self.product.last_bricklink_record(),
                                                            self.product.last_ebay_record())
         things_count = things.count()
@@ -100,6 +100,14 @@ class ItemRecord(TimeStampedModel):
         verbose_name = 'Item Record'
 
 
+class ThingManager(models.Manager):
+    def unsold(self):
+        return self.filter(sold=False)
+
+    def sold(self):
+        return self.filter(sold=True)
+
+
 class Thing(TimeStampedModel):
     item = models.ForeignKey(Item, related_name='thing_set')
     buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
@@ -108,6 +116,8 @@ class Thing(TimeStampedModel):
     sold = models.BooleanField(default=False)
     sold_at = models.DateField(null=True, blank=True)
     sold_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+
+    objects = ThingManager()
 
     @property
     def opened_text(self):

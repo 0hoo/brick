@@ -135,7 +135,7 @@ showLineChartC3('#chart-profit', [
                             </tr>
                         </thead>
                         <tbody>
-                        {% for thing in item.thing_set.all %}
+                        {% for thing in item.thing_set.unsold %}
                             <tr {% if thing.opened %}class="warning"{% endif %}>
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ thing.opened_text|capfirst }}</td>

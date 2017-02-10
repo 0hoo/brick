@@ -117,15 +117,15 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
         context['product'] = self.object.product
 
         if self.request.POST:
-            context['things'] = ThingFormUpdateSet(self.request.POST, instance=self.object)
+            context['things'] = ThingFormUpdateSet(self.request.POST, instance=self.object, queryset=self.object.thing_set.unsold())
         else:
-            context['things'] = ThingFormUpdateSet(instance=self.object)
+            context['things'] = ThingFormUpdateSet(instance=self.object, queryset=self.object.thing_set.unsold())
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         things_form = context['things']
-        existing_things = self.object.thing_set.all()
+        existing_things = self.object.thing_set.unsold()
         with transaction.atomic():
             self.object = form.save()
             if not things_form.is_valid():
@@ -150,9 +150,9 @@ class ItemSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ItemSoldView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['things'] = ThingSoldFormSet(self.request.POST, queryset=self.object.thing_set.all())
+            context['things'] = ThingSoldFormSet(self.request.POST, queryset=self.object.thing_set.unsold())
         else:
-            context['things'] = ThingSoldFormSet(queryset=self.object.thing_set.all())
+            context['things'] = ThingSoldFormSet(queryset=self.object.thing_set.unsold())
         return context
 
     def form_valid(self, form):
