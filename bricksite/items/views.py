@@ -150,9 +150,9 @@ class ItemSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ItemSoldView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['things'] = ThingSoldFormSet(self.request.POST, queryset=self.object.thing_set.unsold())
+            context['things'] = ThingSoldFormSet(self.request.POST, queryset=self.object.thing_set.all().order_by('sold'))
         else:
-            context['things'] = ThingSoldFormSet(queryset=self.object.thing_set.unsold())
+            context['things'] = ThingSoldFormSet(queryset=self.object.thing_set.all().order_by('sold'))
         return context
 
     def form_valid(self, form):

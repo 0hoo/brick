@@ -18,10 +18,17 @@
         </div>
         <div class="eleven wide column grid">
             <form method="post" class="ui form segment">
+                <h3 class="ui header">My Things</h3>
                 {% csrf_token %}
                 {{ things.management_form }}
                 {% for thing_form in things.forms %}
                     {{ thing_form.non_field_errors }}
+                    {% ifchanged thing_form.instance.sold %}
+                        {% if not forloop.first %}
+                            <div class="ui divider"></div>
+                            <h3 class="ui header">Sold Things</h3>
+                        {% endif %}
+                    {% endifchanged %}
                     <div class="fields formset_fields">
                         <div class="two wide field">
                             <label>Sold</label>
