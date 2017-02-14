@@ -52,12 +52,11 @@
                             <label>&nbsp</label>
                             <div style="margin-top: 9px">
                                 {% if thing_form.instance.buying_price %}
+                                <span class="ui basic label"><i class="toggle {% if thing_form.instance.opened %}on{% else %}off{% endif %} icon"></i>{{ thing_form.instance.opened_text|capfirst }}</span>
                                 <span class="ui basic label">
-                                {{ thing_form.instance.buying_price|floatformat:2|intcomma|price_no_data }}
+                                Buying {{ thing_form.instance.buying_price|floatformat:2|intcomma|price_no_data }}
                                 </span>
                                 {% endif %}
-
-                                <span class="ui basic label {% if thing_form.instance.opened %}grey{% endif %}">{{ thing_form.instance.opened_text|capfirst }}</span>
                                 {% if thing_form.instance.note %}
                                 <span class="ui basic label">{{ thing_form.instance.note }}</span>
                                 {% endif %}

@@ -24,19 +24,19 @@ class Item(TimeStampedModel):
 
     @property
     def average_sold_price(self):
-        return self.thing_set.exclude(sold_price__isnull=True).aggregate(Avg('sold_price'))['sold_price__avg']
+        return self.thing_set.exclude(sold_price__isnull=True).exclude(sold=False).aggregate(Avg('sold_price'))['sold_price__avg']
 
     @property
     def total_sold_price(self):
-        return self.thing_set.exclude(sold_price__isnull=True).aggregate(Sum('sold_price'))['sold_price__sum']
+        return self.thing_set.exclude(sold_price__isnull=True).exclude(sold=False).aggregate(Sum('sold_price'))['sold_price__sum']
 
     @property
     def average_buying_price(self):
-        return self.thing_set.exclude(buying_price__isnull=True).aggregate(Avg('buying_price'))['buying_price__avg']
+        return self.thing_set.exclude(buying_price__isnull=True).exclude(sold=True).aggregate(Avg('buying_price'))['buying_price__avg']
 
     @property
     def total_buying_price(self):
-        return self.thing_set.exclude(buying_price__isnull=True).aggregate(Sum('buying_price'))['buying_price__sum']
+        return self.thing_set.exclude(buying_price__isnull=True).exclude(sold=True).aggregate(Sum('buying_price'))['buying_price__sum']
 
     @property
     def estimated_total_buying_price(self):
@@ -101,6 +101,10 @@ class ItemRecord(TimeStampedModel):
 
 
 class ThingManager(models.Manager):
+    def get_queryset(self):
+        print("hihihihihihi")
+        return super(ThingManager, self).get_queryset().order_by('sold')
+
     def unsold(self):
         return self.filter(sold=False)
 

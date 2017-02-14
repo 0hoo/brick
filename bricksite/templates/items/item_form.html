@@ -28,7 +28,7 @@
                             {{ thing_form.buying_price }}
                         </div>
                         <div class="five wide field">
-                            <label>Package Opened</label>
+                            <label>Opened</label>
                             <div class="ui toggle checkbox segment" style="margin-top: 0px; padding: 7px 14px; width: 100%">
                                 {% render_field thing_form.opened class+="opened" %}
                                 <label><strong>{% if thing_form.opened.value %}Opened{% else %}Unopened{% endif %}</strong></label>

@@ -100,15 +100,11 @@ showLineChartC3('#chart-profit', [
                             {% if item.sold_quantity %}
                             <tr>
                                 <td class="six wide">
-                                    <div class="ui label">Average Sold</div>
+                                    <div class="ui label">Sold Price</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.average_sold_price|floatformat:2|intcomma|price_no_data }}</td>
-                            </tr>
-                            <tr>
-                                <td class="six wide">
-                                    <div class="ui label">Total Sold</div>
+                                <td class="ten wide right aligned">
+                                    {{ item.total_sold_price|floatformat:2|intcomma|price_no_data }}
                                 </td>
-                                <td class="ten wide right aligned">{{ item.total_sold_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             {% endif %}
                             </tbody>
@@ -124,27 +120,23 @@ showLineChartC3('#chart-profit', [
                 {% else %}
                     <p>
                         You have <strong>{{ item.quantity }}</strong> thing{{ item.quantity|pluralize }} of this brick.
+                        {% if item.sold_quantity %}
+                        You sold <strong>{{ item.sold_quantity }}</strong> thing{{ item.sold_quantity|pluralize }} of this brick.
+                        {% endif %}
                     </p>
-                    <table class="ui very basic compact table ">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Package</th>
-                                <th>Buying</th>
-                                <th class="nine wide">Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for thing in item.thing_set.unsold %}
-                            <tr {% if thing.opened %}class="warning"{% endif %}>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ thing.opened_text|capfirst }}</td>
-                                <td>{{ thing.buying_price|floatformat:2|intcomma|price_no_data }}</td>
-                                <td>{{ thing.note }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="ui list">
+                    {% for thing in item.thing_set.all %}
+                        <div class="item">
+                            <span class="ui basic label"><i class="cube icon"></i>{{ forloop.counter }}</span>
+                            {% if thing.sold %}
+                            <span class="ui basic label"><i class="money icon"></i>Sold</span>
+                            {% endif %}
+                            <span class="ui basic label"><i class="toggle {% if thing.opened %}on{% else %}off{% endif %} icon"></i>{{ thing.opened_text|capfirst }}</span>
+                            <span class="ui basic label">Buying {{ thing.buying_price|floatformat:2|intcomma|price_no_data }}</span>
+                            {% if thing.note %}<span class="ui basic label">{{ thing.note }}</span>{% endif %}
+                        </div>
+                    {% endfor %}
+                    </div>
                 {% endif %}
 
                 How we estimated price: <strong>3 unopend</strong> things x latest bricklink price for new product <strong>($12.5), 37.5</strong>. Plus <strong>2 opened</strong> things x latest bricklink price for used product <strong>($10.0), 20.0.</strong>
