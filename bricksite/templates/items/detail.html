@@ -23,13 +23,13 @@ showLineChartC3('#chart-profit', [
 {% block content %}
 
 <div class="ui breadcrumb">
-  <a href="{% url 'items:list' %}" class="section">Items</a>
-  <div class="divider"> / </div>
+    <a href="{% url 'items:list' %}" class="section">Items</a>
+    <div class="divider"> / </div>
     {% if item.product.theme_title %}
         <a href="{% url 'items:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-  <div class="active section">{{ item.product.product_code }}</div>
+    <div class="active section">{{ item.product.product_code }}</div>
 </div>
 <h1 class="ui header">{{ item.product.title }}
     <div class="sub header">{{ item.product.product_code }}</div>

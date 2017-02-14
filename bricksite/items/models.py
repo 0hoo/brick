@@ -9,10 +9,20 @@ from django_extensions.db.models import TimeStampedModel
 from products.models import Product
 
 
+class ItemManager(models.Manager):
+    def user_has_item(self, user, product):
+        existing_items = self.filter(product=product).filter(user=user)
+        if existing_items.count() > 0:
+            return existing_items[0]
+        return None
+
+
 class Item(TimeStampedModel):
     product = models.ForeignKey(Product)
     user = models.ForeignKey(User)
     target_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+
+    objects = ItemManager()
 
     @property
     def quantity(self):
@@ -102,7 +112,6 @@ class ItemRecord(TimeStampedModel):
 
 class ThingManager(models.Manager):
     def get_queryset(self):
-        print("hihihihihihi")
         return super(ThingManager, self).get_queryset().order_by('sold')
 
     def unsold(self):

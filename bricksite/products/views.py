@@ -75,10 +75,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         product = self.get_object()
-        existing_items = Item.objects.filter(product=product).filter(user=self.request.user)
-        if existing_items.count() > 0:
-            context['have_item'] = existing_items[0]
-
+        context['have_item'] = Item.objects.user_has_item(self.request.user, product)
         existing_bookmarks = Bookmark.objects.filter(product=product).filter(user=self.request.user)
         if existing_bookmarks.count() > 0:
             context['have_bookmark'] = existing_bookmarks[0]

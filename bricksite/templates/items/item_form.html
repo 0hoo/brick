@@ -4,6 +4,27 @@
 {% load widget_tweaks %}
 
 {% block content %}
+{% if item %}
+<div class="ui breadcrumb">
+    <a href="{% url 'items:list' %}" class="section">Items</a>
+    <div class="divider"> / </div>
+    {% if item.product.theme_title %}
+        <a href="{% url 'items:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
+        <div class="divider"> / </div>
+    {% endif %}
+    <div class="active section">{{ item.product.product_code }}</div>
+</div>
+{% else %}
+<div class="ui breadcrumb">
+    <a href="{% url 'products:list' %}" class="section">Products</a>
+    <div class="divider"> / </div>
+    {% if product.theme_title %}
+        <a href="{% url 'products:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
+        <div class="divider"> / </div>
+    {% endif %}
+    <div class="active section">{{ product.product_code }}</div>
+</div>
+{% endif %}
 <h1 class="ui header">
     Add My Brick
     <div class="sub header">{{ product.title }}, {{ product.product_code }}</div>
@@ -46,7 +67,7 @@
                     {{ form.target_price }}
                 </div>
                 <button type="submit" class="ui blue button">Save Item</button>
-                <a href="{{ request.META.HTTP_REFERER }}" class="ui button">Cancel</a>
+                <a href="{% if item %}{% url 'items:detail' item.id %}{% else %}{% url 'products:detail' product.id %}{% endif %}" class="ui button">Cancel</a>
              </form>
         </div>
     </div>

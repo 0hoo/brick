@@ -7,7 +7,7 @@
 <h1 class="ui header">{{ theme_title }}</h1>
 <p><strong>{{ paginator.count }}</strong> bricks</p>
 {% else %}
-<h1 class="ui header">All Registered Bricks in TrackMyBrick</h1>
+<h1 class="ui header">Registered Bricks in TrackMyBrick</h1>
 <p>There are <strong>{{ paginator.count }}</strong> bricks registered in TrackMyBrick.</p>
 {% endif %}
 <a class="ui green small button" href="{% url 'products:search' %}">Add My Brick</a>
@@ -22,7 +22,7 @@
                 <th>#</th>
                 <th>Name </th>
                 <th>Theme</th>
-                <th>Price ($)</th>
+                <th>Price</th>
                 <th>Ages </th>
                 <th>Rating </th>
             </tr>

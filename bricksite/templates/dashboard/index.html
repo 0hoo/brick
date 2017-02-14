@@ -20,7 +20,7 @@ showLineChartC3('#chart-dashboard1', [
         {% generate_c3_array user.dashboard_set.all field='total_buying_price' label='Total Buying' %},
         {% generate_c3_array user.dashboard_set.all field='total_profit' label='Profit' %},
     {% endautoescape %}
-], 900, 'area');
+], 900, 'line');
 
 showLineChartC3('#chart-dashboard2', [
     {% autoescape off %}
@@ -29,7 +29,7 @@ showLineChartC3('#chart-dashboard2', [
         {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Total Quantity' %},
         {% generate_c3_array user.dashboard_set.all field='sold_quantity' label='Sold Quantity' %},
     {% endautoescape %}
-], 900, 'area');
+], 900, 'line');
 
 
 showLineChartC3('#chart-item-count', [
