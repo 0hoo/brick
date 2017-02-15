@@ -3,7 +3,6 @@ import logging
 
 import scrapy
 from scrapy import signals
-from scrapy import Spider
 from scrapy.spiders.init import InitSpider
 from scrapy.http import FormRequest
 

@@ -21,6 +21,7 @@ PyDispatcher==2.0.5
 pyOpenSSL==16.2.0
 pytz==2016.10
 queuelib==1.4.2
+requests==2.13.0
 Scrapy==1.2.2
 scrapy-djangoitem==1.1.1
 scrapy-splash==0.7

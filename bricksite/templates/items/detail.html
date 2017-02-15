@@ -162,25 +162,6 @@ showLineChartC3('#chart-profit', [
         </div>
     </div>
     <div class="ui divider"></div>
-     {% if item.product.ebay_item_set %}
-    <div class="row">
-        <div class="sixteen wide column">
-            <table class="ui compact red table">
-                <thead><tr><th>Items in Ebay</th><th>Price</th><th>Package</th></tr></thead>
-                <tbody>
-                    {% for ebay_item in item.product.ebay_item_set.all %}
-                    <tr>
-                    <td><a href="{{ ebay_item.link }}">{{ ebay_item.title }}</a></td>
-                    <td>{{ ebay_item.price }}</td>
-                    <td>{% if ebay_item.used %}<strong>Used</strong>{% else %}<strong>New</strong>{% endif %}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="ui divider"></div>
-    {% endif %}
     <div class="row">
          <div class="four wide column">
             <h3 class="ui header">
@@ -242,7 +223,7 @@ showLineChartC3('#chart-profit', [
         </div>
          <div class="four wide column">
             <h3 class="ui header">
-                <div class="ui black label">New</div> Ebay
+                <div class="ui black label">New</div> eBay
                 <div class="sub header"></div>
             </h3>
 
@@ -271,7 +252,7 @@ showLineChartC3('#chart-profit', [
         </div>
         <div class="four wide column">
             <h3 class="ui header">
-            <div class="ui olive label">Used</div> Ebay
+            <div class="ui olive label">Used</div> eBay
             <div class="sub header"></div>
             </h3>
 
@@ -299,5 +280,9 @@ showLineChartC3('#chart-profit', [
             </table>
         </div>
     </div>
+    {% if item.product.ebay_item_set %}
+        <div class="ui divider"></div>
+        {% include "snippets/ebay_items.html" with product=item.product %}
+    {% endif %}
 </div>
 {% endblock %}

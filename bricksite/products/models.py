@@ -96,12 +96,32 @@ class EbayRecord(ProductRecordModel):
         verbose_name = 'Ebay Record'
 
 
+class EbayItemManager(models.Manager):
+    def get_queryset(self):
+        return super(EbayItemManager, self).get_queryset().order_by('-price')
+
+
 class EbayItem(TimeStampedModel):
     product = models.ForeignKey(Product, related_name='ebay_item_set')
     title = models.CharField(max_length=255, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     used = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    available = models.CharField(max_length=255, null=True, blank=True)
+
+    objects = EbayItemManager()
+
+    @property
+    def available_text(self):
+        if self.available == 'More than 10 available':
+            return '10+'
+        comp = self.available.split(' ')
+        if len(comp) > 1:
+            try:
+                return int(comp[0])
+            except ValueError:
+                return self.available
+        return self.available
 
     def __str__(self):
         return '[Used:{}] {}: {} {}'.format(self.used, self.product.product_code, self.price, self.title)

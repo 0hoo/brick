@@ -5,7 +5,7 @@ from scrapy import signals
 from scrapy import Spider
 
 from ..items import EbayItem
-from .utils import xpath_get_price
+from .utils import xpath_get_price, xpath_get
 from .utils import post_message_to_telegram_bot
 
 from products.models import Product
@@ -48,6 +48,7 @@ class EbaySpider(scrapy.Spider):
         item['link'] = response.url
         item['title'] = response.xpath("//h1[@class='it-ttl']/text()").extract()[0]
         item['used'] = response.xpath("//div[@itemprop='itemCondition']/text()").extract()[0].upper() != 'NEW'
+        item['available'] = xpath_get(response, "//*[@id='qtySubTxt']/span/text()")
 
         currency = response.xpath("//span[@itemprop='priceCurrency']/@content").extract()
         if len(currency) > 0:
