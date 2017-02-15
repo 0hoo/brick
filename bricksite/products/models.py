@@ -113,6 +113,8 @@ class EbayItem(TimeStampedModel):
 
     @property
     def available_text(self):
+        if not self.available:
+            return ''
         if self.available.lower().startswith('more than 10 '):
             return '10+'
         elif self.available.lower().startswith('limited '):
