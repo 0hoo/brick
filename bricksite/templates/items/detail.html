@@ -280,7 +280,7 @@ showLineChartC3('#chart-profit', [
             </table>
         </div>
     </div>
-    {% if item.product.ebay_item_set %}
+    {% if item.product.ebay_item_set.count > 0 %}
         <div class="ui divider"></div>
         {% include "snippets/ebay_items.html" with product=item.product %}
     {% endif %}
