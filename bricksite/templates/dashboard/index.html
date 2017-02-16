@@ -16,9 +16,9 @@ showLineChartC3('#chart-dashboard1', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
         {% generate_c3_array user.dashboard_set.all field='total_official_price' label='Official' %},
-        {% generate_c3_array user.dashboard_set.all field='total_estimated_price' label='Total Value' %},
-        {% generate_c3_array user.dashboard_set.all field='total_buying_price' label='Total Buying' %},
-        {% generate_c3_array user.dashboard_set.all field='total_profit' label='Profit' %},
+        {% generate_c3_array user.dashboard_set.all field='total_estimated_price' label='Total Current Estimated' %},
+        {% generate_c3_array user.dashboard_set.all field='total_profit' label='Tota Gain & Lose' %},
+        {% generate_c3_array user.dashboard_set.all field='total_buying_price' label='Total Spent' %},
     {% endautoescape %}
 ], 900, 'line');
 
@@ -35,7 +35,7 @@ showLineChartC3('#chart-dashboard2', [
 showLineChartC3('#chart-item-count', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
-        {% generate_c3_array user.dashboard_set.all field='item_count' label='Item' %},
+        {% generate_c3_array user.dashboard_set.all field='item_count' label='My Bricks' %},
     {% endautoescape %}
 ], 900, 'line');
 
@@ -48,7 +48,7 @@ showPieChartC3('#chart-item-count-themes',
 showLineChartC3('#chart-total-quantity', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
-        {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Item' %},
+        {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Quantity' %},
     {% endautoescape %}
 ], 900, 'line');
 
@@ -61,7 +61,7 @@ showPieChartC3('#chart-total-quantity-themes',
 showLineChartC3('#chart-official', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
-        {% generate_c3_array user.dashboard_set.all field='total_official_price' label='Official' %},
+        {% generate_c3_array user.dashboard_set.all field='total_official_price' label='Official Prices' %},
     {% endautoescape %}
 ], 900, 'line');
 
@@ -87,7 +87,7 @@ showPieChartC3('#chart-estimated-themes',
 showLineChartC3('#chart-profit', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
-        {% generate_c3_array user.dashboard_set.all field='total_profit' label='Estimated Price' %},
+        {% generate_c3_array user.dashboard_set.all field='total_profit' label='Gain & Lose' %},
     {% endautoescape %}
 ], 900, 'line');
 
@@ -100,7 +100,7 @@ showPieChartC3('#chart-profit-themes',
 showLineChartC3('#chart-buying', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
-        {% generate_c3_array user.dashboard_set.all field='total_buying_price' label='Estimated Price' %},
+        {% generate_c3_array user.dashboard_set.all field='total_buying_price' label='Spent' %},
     {% endautoescape %}
 ], 900, 'line');
 
@@ -126,7 +126,7 @@ showPieChartC3('#chart-sold-quantity-themes',
 showLineChartC3('#chart-sold-price', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
-        {% generate_c3_array user.dashboard_set.all field='total_sold_price' label='Sold Price' %},
+        {% generate_c3_array user.dashboard_set.all field='total_sold_price' label='Earnings' %},
     {% endautoescape %}
 ], 900, 'line');
 
@@ -140,13 +140,13 @@ showPieChartC3('#chart-sold-price-themes',
 
 {% block content %}
 <h1 class="ui header">Dashboard
-    <div class="sub header">Last updated at {{ dashboard.target_at }}</div>
+    <div class="sub header">Last updated on {{ dashboard.target_at }}</div>
 </h1>
 <div class="ui four stackable cards">
-    {% include "dashboard/widget.html" with title="Total Official" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" history_link='#divider-official' theme_link='#divider-official' %}
-    {% include "dashboard/widget.html" with title="Total Value" value_size="tiny" value=dashboard.total_estimated_price icon="dollar" history_link='#divider-value' theme_link='#divider-value'  %}
-    {% include "dashboard/widget.html" with title="Total Profit"  value_size="tiny" value=dashboard.total_profit icon="dollar" history_link='#divider-profit' theme_link='#divider-profit' %}
-    {% include "dashboard/widget.html" with title="Total Buying" value_size="tiny" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" history_link='#divider-buying' theme_link='#divider-buying' %}
+    {% include "dashboard/widget.html" with title="Total Official Prices" value_size="tiny" value=dashboard.total_official_price|floatformat:2|intcomma icon="dollar" history_link='#divider-official' theme_link='#divider-official' %}
+    {% include "dashboard/widget.html" with title="Total Current Estimated Price" value_size="tiny" value=dashboard.total_estimated_price icon="dollar" history_link='#divider-value' theme_link='#divider-value'  %}
+    {% include "dashboard/widget.html" with title="Total Gain & Lose"  value_size="tiny" value=dashboard.total_profit icon="dollar" history_link='#divider-profit' theme_link='#divider-profit' %}
+    {% include "dashboard/widget.html" with title="Total Spent" value_size="tiny" value=dashboard.total_buying_price|floatformat:2|intcomma icon="dollar" history_link='#divider-buying' theme_link='#divider-buying' %}
 </div>
 <div class="ui divider hidden"></div>
 <div id="chart-dashboard1"></div>
@@ -154,10 +154,10 @@ showPieChartC3('#chart-sold-price-themes',
 <div class="ui divider"></div>
 
 <div class="ui five stackable cards">
-    {% include "dashboard/widget.html" with title="Sold Quantity" value_size="small" icon="archive" value=dashboard.sold_quantity history_link='#divider-sold-quantity' theme_link='#divider-sold-quantity' %}
-    {% include "dashboard/widget.html" with title="Total Sold" value_size="tiny" value=dashboard.total_sold_price|floatformat:2|intcomma icon="dollar" history_link='#divider-sold' theme_link='#divider-sold' %}
     {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.item_count history_link='#divider-item-count' theme_link='#divider-item-count' %}
     {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity history_link='#divider-total-quantity' theme_link='#divider-total-quantity' %}
+    {% include "dashboard/widget.html" with title="Sold Quantity" value_size="small" icon="archive" value=dashboard.sold_quantity history_link='#divider-sold-quantity' theme_link='#divider-sold-quantity' %}
+    {% include "dashboard/widget.html" with title="Total Earnings" value_size="tiny" value=dashboard.total_sold_price|floatformat:2|intcomma icon="dollar" history_link='#divider-sold' theme_link='#divider-sold' %}
     {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count hide_extra=True %}
 </div>
 <div class="ui divider hidden"></div>
@@ -183,7 +183,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <thead>
                     <tr>
                         <th>Theme</th>
-                        <th>Item Count</th>
+                        <th>My Bricks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -237,7 +237,7 @@ showPieChartC3('#chart-sold-price-themes',
 
 <div class="ui divider" id="divider-official"></div>
 
-<h3 class="ui header" id="header-official">Official
+<h3 class="ui header" id="header-official">Total Official Prices
     <div class="sub header">Latest: {{ dashboard.total_official_price|floatformat:2|intcomma|price_no_data }}</div>
 </h3>
 <div class="ui grid">
@@ -255,7 +255,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <thead>
                     <tr>
                         <th>Theme</th>
-                        <th>Official Price</th>
+                        <th>Official Prices</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -273,7 +273,7 @@ showPieChartC3('#chart-sold-price-themes',
 
 <div class="ui divider" id="divider-value"></div>
 
-<h3 class="ui header">Total Value
+<h3 class="ui header">Total Current Estimated Prices
     <div class="sub header">Latest: {{ dashboard.total_estimated_price|floatformat:2|intcomma|price_no_data }}</div>
 </h3>
 <div class="ui grid">
@@ -291,7 +291,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <thead>
                     <tr>
                         <th>Theme</th>
-                        <th>Value</th>
+                        <th>Current Estimated Prices</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -309,7 +309,7 @@ showPieChartC3('#chart-sold-price-themes',
 
 <div class="ui divider" id="divider-profit"></div>
 
-<h3 class="ui header">Total Profit
+<h3 class="ui header">Total Gain & Lose
     <div class="sub header">Latest: {{ dashboard.total_profit|floatformat:2|intcomma|price_no_data }}</div>
 </h3>
 <div class="ui grid">
@@ -327,7 +327,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <thead>
                     <tr>
                         <th>Theme</th>
-                        <th>Profit</th>
+                        <th>Gain & Lose</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -345,7 +345,7 @@ showPieChartC3('#chart-sold-price-themes',
 
 <div class="ui divider" id="divider-buying"></div>
 
-<h3 class="ui header">Total Buying
+<h3 class="ui header">Total Spent
     <div class="sub header">Latest: {{ dashboard.total_buying_price|floatformat:2|intcomma|price_no_data }}</div>
 </h3>
 <div class="ui grid">
@@ -363,7 +363,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <thead>
                     <tr>
                         <th>Theme</th>
-                        <th>Buying Price</th>
+                        <th>Spent</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -415,7 +415,7 @@ showPieChartC3('#chart-sold-price-themes',
 </div>
 
 <div class="ui divider" id="divider-sold"></div>
-<h3 class="ui header">Sold Price
+<h3 class="ui header">Totla Earnings
     <div class="sub header">Latest: {{ dashboard.sold_price }}</div>
 </h3>
 <div class="ui grid">
@@ -433,7 +433,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <thead>
                     <tr>
                         <th>Theme</th>
-                        <th>Sold Price</th>
+                        <th>Earnings</th>
                     </tr>
                 </thead>
                 <tbody>

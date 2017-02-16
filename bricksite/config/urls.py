@@ -6,8 +6,8 @@ from config import settings
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url=reverse_lazy('products:list'))),
-    url(r'^products/', include('products.urls')),
-    url(r'^items/', include('items.urls')),
+    url(r'^sets/', include('products.urls')),
+    url(r'^bricks/', include('items.urls')),
     url(r'^users/', include('users.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^bookmarks/', include('bookmarks.urls')),

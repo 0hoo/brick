@@ -6,7 +6,7 @@
 {% block content %}
 {% if item %}
 <div class="ui breadcrumb">
-    <a href="{% url 'items:list' %}" class="section">Items</a>
+    <a href="{% url 'items:list' %}" class="section">My Bricks</a>
     <div class="divider"> / </div>
     {% if item.product.theme_title %}
         <a href="{% url 'items:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
@@ -16,7 +16,7 @@
 </div>
 {% else %}
 <div class="ui breadcrumb">
-    <a href="{% url 'products:list' %}" class="section">Products</a>
+    <a href="{% url 'products:list' %}" class="section">Sets</a>
     <div class="divider"> / </div>
     {% if product.theme_title %}
         <a href="{% url 'products:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
@@ -26,7 +26,11 @@
 </div>
 {% endif %}
 <h1 class="ui header">
-    Add My Brick
+    {% if item %}
+        Edit My Brick
+    {% else %}
+        Add My Brick
+    {% endif %}
     <div class="sub header">{{ product.title }}, {{ product.product_code }}</div>
 </h1>
 <div class="ui grid">
@@ -42,7 +46,7 @@
                     {{ thing_form.non_field_errors }}
                     <div class="fields formset_fields">
                         <div class="six wide field {% if thing_form.buying_price.errors %}error{% endif %}">
-                            {{ thing_form.buying_price.label_tag }}
+                            <label>Spent</label>
                             {% for hidden in thing_form.hidden_fields %}
                                 {{ hidden }}
                             {% endfor %}
@@ -66,7 +70,7 @@
                     {{ form.target_price.label_tag }}
                     {{ form.target_price }}
                 </div>
-                <button type="submit" class="ui blue button">Save Item</button>
+                <button type="submit" class="ui blue button">Save My Brick</button>
                 <a href="{% if item %}{% url 'items:detail' item.id %}{% else %}{% url 'products:detail' product.id %}{% endif %}" class="ui button">Cancel</a>
              </form>
         </div>

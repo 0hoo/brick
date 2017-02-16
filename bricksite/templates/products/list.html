@@ -5,14 +5,14 @@
 {% block content %}
 {% if theme_title %}
 <h1 class="ui header">{{ theme_title }}</h1>
-<p><strong>{{ paginator.count }}</strong> bricks</p>
+<p><strong>{{ paginator.count }}</strong> sets</p>
 {% else %}
-<h1 class="ui header">Registered Bricks in TrackMyBrick</h1>
-<p>There are <strong>{{ paginator.count }}</strong> bricks registered in TrackMyBrick.</p>
+<h1 class="ui header">Registered Sets in TrackMyBrick</h1>
+<p>There are <strong>{{ paginator.count }}</strong> sets registered on TrackMyBrick.</p>
 {% endif %}
 <a class="ui green small button" href="{% url 'products:search' %}">Add My Brick</a>
-<a class="ui yellow small button" href="{% url 'products:search' %}">Search Brick</a>
-<a class="ui gray small button" href="{% url 'products:add' %}">Register Missing Bricks in TrackMyBrick</a>
+<a class="ui yellow small button" href="{% url 'products:search' %}">Search Sets</a>
+<a class="ui gray small button" href="{% url 'products:add' %}">Register Missing Sets in TrackMyBrick</a>
 <div class="ui divider hidden"></div>
 <div class="ui grid">
     <div class="twelve wide column">
@@ -20,7 +20,7 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Name </th>
+                <th>Title </th>
                 <th>Theme</th>
                 <th>Price</th>
                 <th>Ages </th>

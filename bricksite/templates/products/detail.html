@@ -48,7 +48,7 @@ showLineChartC3('#chart-ebay-used', [
 
 {% block content %}
 <div class="ui breadcrumb">
-    <a href="{% url 'products:list' %}" class="section">Products</a>
+    <a href="{% url 'products:list' %}" class="section">Sets</a>
     <div class="divider"> / </div>
     {% if product.theme_title %}
         <a href="{% url 'products:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
@@ -180,7 +180,7 @@ showLineChartC3('#chart-ebay-used', [
             {% endif %}
 
             {% if product.official_review_count %}
-            This brick has <strong>{{ product.official_review_count }} review{{ product.official_review_count|pluralize }}</strong></strong> in official web site. <a href="{{ product.official_url }}/#product-reviews">Go check it</a>
+            This brick has <strong>{{ product.official_review_count }} review{{ product.official_review_count|pluralize }}</strong></strong> in official web site. <a href="{{ product.official_url }}/#product-reviews">{% if product.official_review_count > 1 %} Check these out{% else %}Check this out{% endif %}.</a>
             <div class="ui hidden divider"></div>
             {% endif %}
 
@@ -226,7 +226,7 @@ showLineChartC3('#chart-ebay-used', [
             <div id="chart-ebay-new"></div>
         </div>
     </div>
-    <div>
+    <div class="row">
         <div class="sixteen wide column">
             <h4 class="ui header">
                 <div class="ui olive label">Used</div> eBay

@@ -3,16 +3,16 @@
 {% load price_tags %}
 
 {% block content %}
-<h1 class="ui header">Search Bricks</h1>
+<h1 class="ui header">Search Sets</h1>
 <!---->
 <form class="ui form">
     <div class="fields">
         <div class="eight wide field">
-            <input id="search-field" type="text" name="search" placeholder="Type product number or title">
+            <input id="search-field" type="text" name="search" placeholder="Please type the set number or the title (ex: 60110 or Fire Station).">
         </div>
         <div class="eight wide field">
             <button class="ui button" type="submit">Search</button>
-            <button class="ui gray button">Register Missing Bricks in TrackMyBrick</button>
+            <button class="ui gray button">Register Missing Sets on TrackMyBrick</button>
         </div>
     </div>
 
@@ -21,8 +21,9 @@
     <thead>
     <tr>
         <th>#</th>
-        <th>Name </th>
-        <th>Price ($)</th>
+        <th>Title</th>
+        <th>Theme</th>
+        <th>Price</th>
         <th>Ages </th>
     </tr>
     </thead>
@@ -31,6 +32,7 @@
         <tr>
             <td >{{ product.product_code }}</td>
             <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
+            <td>{{ product.theme_title }}</td>
             <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
             <td>{{ product.ages }}</td>
         </tr>

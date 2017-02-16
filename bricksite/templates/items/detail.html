@@ -15,7 +15,7 @@
 showLineChartC3('#chart-profit', [
     {% autoescape off %}
     {% generate_c3_array item.record_set.all field='created' label='date' is_date=True %},
-    {% generate_c3_array item.record_set.all field='estimated_profit' label='Estimated Profit' %},
+    {% generate_c3_array item.record_set.all field='estimated_profit' label='Gain & Lose' %},
     {% endautoescape %}
 ], 920)
 {% endblock %}
@@ -23,7 +23,7 @@ showLineChartC3('#chart-profit', [
 {% block content %}
 
 <div class="ui breadcrumb">
-    <a href="{% url 'items:list' %}" class="section">Items</a>
+    <a href="{% url 'items:list' %}" class="section">My Bricks</a>
     <div class="divider"> / </div>
     {% if item.product.theme_title %}
         <a href="{% url 'items:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
@@ -53,7 +53,7 @@ showLineChartC3('#chart-profit', [
                             </tr>
                             <tr>
                                 <td class="six wide">
-                                    <div class="ui label">Buying</div>
+                                    <div class="ui label">Spent</div>
                                 </td>
                                 <td class="ten wide right aligned">{{ item.total_buying_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
@@ -87,20 +87,20 @@ showLineChartC3('#chart-profit', [
                             </tr>
                             <tr>
                                 <td class="six wide">
-                                    <div class="ui label blue">Total Est</div>
+                                    <div class="ui label blue">Estimated</div>
                                 </td>
                                 <td class="ten wide right aligned">{{ item.total_estimated|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
-                                    <div class="ui green label">Profit</div>
+                                    <div class="ui green label">Gain & Lose</div>
                                 </td>
                                 <td class="ten wide right aligned">{{ item.estimated_profit|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             {% if item.sold_quantity %}
                             <tr>
                                 <td class="six wide">
-                                    <div class="ui label">Sold Price</div>
+                                    <div class="ui label">Earnings</div>
                                 </td>
                                 <td class="ten wide right aligned">
                                     {{ item.total_sold_price|floatformat:2|intcomma|price_no_data }}
@@ -132,7 +132,7 @@ showLineChartC3('#chart-profit', [
                             <span class="ui basic label"><i class="money icon"></i>Sold</span>
                             {% endif %}
                             <span class="ui basic label"><i class="toggle {% if thing.opened %}on{% else %}off{% endif %} icon"></i>{{ thing.opened_text|capfirst }}</span>
-                            <span class="ui basic label">Buying {{ thing.buying_price|floatformat:2|intcomma|price_no_data }}</span>
+                            <span class="ui basic label">Spent {{ thing.buying_price|floatformat:2|intcomma|price_no_data }}</span>
                             {% if thing.note %}<span class="ui basic label">{{ thing.note }}</span>{% endif %}
                         </div>
                     {% endfor %}
@@ -155,7 +155,7 @@ showLineChartC3('#chart-profit', [
     <div class="row">
         <div class="sixteen wide column">
             <h4 class="ui header">
-                Profit
+                Gain & Lose
                 <div class="sub header"></div>
             </h4>
             <div id="chart-profit"></div>
