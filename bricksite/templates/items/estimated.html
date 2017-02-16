@@ -1,0 +1,24 @@
+{% load humanize %}
+{% load price_tags %}
+
+How we estimated the price:
+
+{% if estimation.unopened_count > 0 %}
+<strong>{{ estimation.unopened_count }} unopend</strong> thing{{ estimation.unopened_count|pluralize }}
+<strong>&#215;</strong> {% if estimation.new_price_source == 'Official' %}official price{% else %}latest <span class="ui class label">{{ estimation.new_price_source }}</span> price for new set{% endif %}
+<strong>({{ estimation.new_price|floatformat:2|intcomma|price_no_data }}){% if estimation.unopened_count > 1 %}, {{ estimation.total_new_price|floatformat:2|intcomma|price_no_data }}{% endif %}</strong>.
+    {% if estimation.opened_count > 0 %}
+    Plus
+    {% endif %}
+{% endif %}
+
+{% if estimation.opened_count > 0 %}
+<strong>{{ estimation.opened_count }} opened</strong> thing{{ estimation.opened_count|pluralize }}
+<strong>&#215;</strong> {% if estimation.used_price_source == 'Official' %}official price{% else %}latest <span class="ui class label">{{ estimation.used_price_source }}</span> price for used set{% endif %}
+<strong>({{ estimation.used_price|floatformat:2|intcomma|price_no_data }}){% if estimation.opened_count > 1 %}, {{ estimation.total_used_price|floatformat:2|intcomma|price_no_data }}{% endif %}</strong>.
+{% endif %}
+
+<strong>Estimated Price:</strong>
+    {% if estimation.unopened_count > 0 and estimation.opened_count > 0 %}
+        {{ estimation.total_new_price|floatformat:2|intcomma|price_no_data }} + {{ estimation.total_used_price|floatformat:2|intcomma|price_no_data }} =
+    {% endif %}<span class="ui label blue">{{ estimation.price|floatformat:2|intcomma|price_no_data }}</span>

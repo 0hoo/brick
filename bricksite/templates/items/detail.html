@@ -89,7 +89,7 @@ showLineChartC3('#chart-profit', [
                                 <td class="six wide">
                                     <div class="ui label blue">Estimated</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.total_estimated|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ estimation.price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
@@ -138,10 +138,7 @@ showLineChartC3('#chart-profit', [
                     {% endfor %}
                     </div>
                 {% endif %}
-
-                How we estimated price: <strong>3 unopend</strong> things x latest bricklink price for new product <strong>($12.5), 37.5</strong>. Plus <strong>2 opened</strong> things x latest bricklink price for used product <strong>($10.0), 20.0.</strong>
-                <br/>
-                Total estimated price: $37.5 + $20.0 = $57.50
+                {% include "items/estimated.html" with estimation=estimation %}
             </div>
             <div class="ui hidden divider"></div>
             <div class="ui basic">

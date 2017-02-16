@@ -1,4 +1,6 @@
 import time
+from collections import namedtuple
+
 from django.db import models
 from django.db.models import Avg, Sum
 from django.urls import reverse
@@ -15,6 +17,9 @@ class ItemManager(models.Manager):
         if existing_items.count() > 0:
             return existing_items[0]
         return None
+
+
+Estimation = namedtuple('Estimation', ['price', 'unopened_count', 'opened_count', 'new_price', 'new_price_source', 'total_new_price', 'used_price', 'used_price_source', 'total_used_price'])
 
 
 class Item(TimeStampedModel):
@@ -62,23 +67,43 @@ class Item(TimeStampedModel):
 
     @property
     def total_estimated(self):
-        things, last_bricklink_record, last_ebay_record = (self.thing_set.unsold(),
-                                                           self.product.last_bricklink_record(),
-                                                           self.product.last_ebay_record())
-        things_count = things.count()
-        new_price = last_bricklink_record.new_average_price if last_bricklink_record and last_bricklink_record.new_average_price else \
-            (last_ebay_record.new_average_price if last_ebay_record and last_ebay_record.new_average_price else
-             self.product.official_price)
+        return self.estimation.price
+        prices = self.estimated_new_old_price
+        new_price, used_price = prices[0][0], prices[1][0]
+        return self.thing_set.unopened().count() * new_price + self.thing_set.opened().count() * used_price
 
-        if things_count > 0:
-            opened_count = sum(t.opened for t in things)
-            unopned_count = things_count - opened_count
-            used_price = last_bricklink_record.used_average_price if last_bricklink_record and last_bricklink_record.used_average_price else \
-                (last_ebay_record.used_average_price if last_ebay_record and last_ebay_record.used_average_price else
-                 self.product.official_price)
-            return unopned_count * new_price + opened_count * used_price
+    @property
+    def estimation(self) -> Estimation:
+        last_bricklink_record, last_ebay_record = (self.product.last_bricklink_record(), self.product.last_ebay_record())
+        if last_bricklink_record and last_bricklink_record.new_average_price:
+            new_price = last_bricklink_record.new_average_price
+            new_price_source = 'Bricklink'
+        elif last_ebay_record and last_ebay_record.new_average_price:
+            new_price = last_ebay_record.new_average_price
+            new_price_source = 'eBay'
         else:
-            return new_price * self.quantity
+            new_price = self.product.official_price
+            new_price_source = 'Official'
+
+        if last_bricklink_record and last_bricklink_record.used_average_price:
+            used_price = last_bricklink_record.used_average_price
+            used_price_source = 'Bricklink'
+        elif last_ebay_record and last_ebay_record.used_average_price:
+            used_price = last_ebay_record.used_average_price
+            used_price_source = 'eBay'
+        else:
+            used_price = self.product.official_price
+            used_price_source = 'Official'
+
+        unopened_count = self.thing_set.unopened().count()
+        opened_count = self.thing_set.opened().count()
+        total_new_price = unopened_count * new_price
+        total_used_price = opened_count * used_price
+        price = total_new_price + total_used_price
+        return Estimation(price=price, unopened_count=unopened_count, opened_count=opened_count,
+                          new_price=new_price, new_price_source=new_price_source, total_new_price=total_new_price,
+                          used_price=used_price, used_price_source=used_price_source, total_used_price=total_used_price)
+
 
     def get_absolute_url(self):
         return reverse('items:detail', args=[str(self.id)])
@@ -113,6 +138,12 @@ class ItemRecord(TimeStampedModel):
 class ThingManager(models.Manager):
     def get_queryset(self):
         return super(ThingManager, self).get_queryset().order_by('sold')
+
+    def unopened(self):
+        return self.filter(sold=False, opened=False)
+
+    def opened(self):
+        return self.filter(sold=False, opened=True)
 
     def unsold(self):
         return self.filter(sold=False)
