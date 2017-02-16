@@ -4,11 +4,10 @@
 {% load semanticui %}
 
 {% block content %}
-<h1 class="ui header">Register Missing Brick</h1>
-<!---->
+<h1 class="ui header">Register Missing Set</h1>
 <form class="ui form" method="post">
     {% csrf_token %}
     {{ form|semanticui }}
-    <button type="submit" class="ui blue button">Save Product</button>
+    <button type="submit" class="ui blue button">Save Set</button>
 </form>
 {% endblock %}
