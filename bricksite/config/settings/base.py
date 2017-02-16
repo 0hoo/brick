@@ -153,7 +153,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-LOGIN_REDIRECT_URL = '/products'
+LOGIN_REDIRECT_URL = '/'
 
 # .local.py overrides all the common settings.
 try:

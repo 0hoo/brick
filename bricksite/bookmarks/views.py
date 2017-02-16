@@ -25,5 +25,5 @@ class BookmarkUpdateView(LoginRequiredMixin, View):
             user=request.user
         )
         link_text = '<a href="' + reverse('bookmarks:list') + '">Check my bookmarks</a>.'
-        messages.info(request, mark_safe('This product is bookmarked. ' + link_text), extra_tags='Bookmarks')
+        messages.info(request, mark_safe('This set is bookmarked. ' + link_text), extra_tags='Bookmarks')
         return redirect(product)
