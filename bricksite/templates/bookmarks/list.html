@@ -21,9 +21,9 @@
             <td >{{ bookmark.product.product_code }}</td>
             <td><a href="{% url 'products:detail' bookmark.product.id %}">{{ bookmark.product.title }}</a></td>
             <td>{{ bookmark.product.theme_title }} </td>
-            <td>{{ bookmark.product.official_price|floatformat:2|intcomma|price_no_data }}</td>
+            <td>{{ bookmark.product.official_price|floatformat:2|intcomma|price_no_data:"" }}</td>
             <td>{{ bookmark.product.ages }}</td>
-            <td>{{ bookmark.product.official_rating }}</td>
+            <td>{% if bookmark.product.official_rating %}{{ bookmark.product.official_rating }}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>

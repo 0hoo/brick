@@ -33,9 +33,9 @@
                     <td >{{ product.product_code }}</td>
                     <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
                     <td>{{ product.theme_title }} </td>
-                    <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td>{{ product.official_price|floatformat:2|intcomma|price_no_data:"" }}</td>
                     <td>{{ product.ages }}</td>
-                    <td>{{ product.official_rating }}</td>
+                    <td>{% if product.official_rating %}{{ product.official_rating }}{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
