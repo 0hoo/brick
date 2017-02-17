@@ -40,15 +40,15 @@ def theme_titles(user):
 
 
 def item_count_by_theme(user):
-    return Item.objects.filter(user=user).values('product__theme_title').annotate(count=Count('id'))
+    return Item.objects.filter(user=user).values('product__theme_title').annotate(count=Count('id')).order_by('-count')
 
 
 def item_quantity_by_theme(user):
-    return Thing.objects.filter(item__user=user).values('item__product__theme_title').annotate(count=Count('id'))
+    return Thing.objects.filter(item__user=user).values('item__product__theme_title').annotate(count=Count('id')).order_by('-count')
 
 
 def official_price_by_theme(user):
-    return Item.objects.filter(user=user).values('product__theme_title').annotate(official_price=Sum('product__official_price'))
+    return Item.objects.filter(user=user).values('product__theme_title').annotate(official_price=Sum('product__official_price')).order_by('-official_price')
 
 
 def total_prices_by_theme(user):
@@ -61,6 +61,8 @@ def total_prices_by_theme(user):
         estimated_counter[item.product.theme_title] += item.total_estimated
         profit_counter[item.product.theme_title] += item.estimated_profit
         buying_price_counter[item.product.theme_title] += item.total_buying_price
-        sold_quantity_counter[item.product.theme_title] += item.sold_quantity or 0
-        sold_price_counter[item.product.theme_title] += item.total_sold_price or 0
-    return estimated_counter.items(), profit_counter.items(), buying_price_counter.items(), sold_quantity_counter.items(), sold_price_counter.items()
+        if item.sold_quantity:
+            sold_quantity_counter[item.product.theme_title] += item.sold_quantity
+        if item.total_sold_price:
+            sold_price_counter[item.product.theme_title] += item.total_sold_price
+    return estimated_counter.most_common(), profit_counter.most_common(), buying_price_counter.most_common(), sold_quantity_counter.most_common(), sold_price_counter.most_common()
