@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from django_extensions.db.models import TimeStampedModel
 
-from products.models import Product
+from sets.models import Product
 
 
 class Bookmark(TimeStampedModel):

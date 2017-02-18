@@ -7,7 +7,7 @@ from .utils import snapshot_latest_dashboard
 
 from .models import Dashboard
 
-from products.models import Product, BricklinkRecord, EbayRecord
+from sets.models import Product, BricklinkRecord, EbayRecord
 from items.models import Item, Thing
 
 

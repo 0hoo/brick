@@ -4,7 +4,7 @@ from braces.views import LoginRequiredMixin
 from .utils import snapshot_latest_dashboard
 
 from .models import item_count_by_theme, item_quantity_by_theme, official_price_by_theme, total_prices_by_theme
-from products.models import Product
+from sets.models import Product
 
 
 class IndexView(LoginRequiredMixin, ListView):

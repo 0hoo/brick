@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('products', '0002_bricklinkrecord_ebayitem_ebayrecord'),
+        ('sets', '0002_bricklinkrecord_ebayitem_ebayrecord'),
     ]
 
     operations = [

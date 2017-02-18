@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0002_bricklinkrecord_ebayitem_ebayrecord'),
+        ('sets', '0002_bricklinkrecord_ebayitem_ebayrecord'),
     ]
 
     operations = [

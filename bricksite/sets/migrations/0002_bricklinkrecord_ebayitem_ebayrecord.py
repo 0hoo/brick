@@ -10,7 +10,7 @@ import django_extensions.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0001_initial'),
+        ('sets', '0001_initial'),
     ]
 
     operations = [

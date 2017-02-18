@@ -14,7 +14,7 @@ from bookmarks.models import Bookmark
 class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     model = Product
     context_object_name = 'products'
-    template_name = 'products/list.html'
+    template_name = 'sets/list.html'
     paginate_by = 40
     order_by = 'official_price'
     ordering = 'desc'
@@ -52,7 +52,7 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
 class ProductSearchForAddView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     model = Product
     context_object_name = 'products'
-    template_name = 'products/search.html'
+    template_name = 'sets/search.html'
     paginate_by = 50
     order_by = 'official_price'
     ordering = 'desc'
@@ -68,7 +68,7 @@ class ProductSearchForAddView(LoginRequiredMixin, NullOrderableListMixin, ListVi
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     context_object_name = 'product'
-    template_name = 'products/detail.html'
+    template_name = 'sets/detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
@@ -84,4 +84,4 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'products/form.html'
+    template_name = 'sets/form.html'

@@ -10,7 +10,7 @@ from ..items import BricklinkRecordItem
 from .utils import xpath_get_price
 from .utils import post_message_to_telegram_bot
 
-from products.models import Product
+from sets.models import Product
 
 logger = logging.getLogger()
 

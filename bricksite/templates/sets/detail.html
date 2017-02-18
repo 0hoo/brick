@@ -48,10 +48,10 @@ showLineChartC3('#chart-ebay-used', [
 
 {% block content %}
 <div class="ui breadcrumb">
-    <a href="{% url 'products:list' %}" class="section">Sets</a>
+    <a href="{% url 'sets:list' %}" class="section">Sets</a>
     <div class="divider"> / </div>
     {% if product.theme_title %}
-        <a href="{% url 'products:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
+        <a href="{% url 'sets:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
     <div class="active section">{{ product.product_code }}</div>

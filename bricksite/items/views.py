@@ -84,7 +84,7 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsM
         return handler
 
     def get_no_product_url(self):
-        return reverse('products:product_search_for_add')
+        return reverse('sets:product_search_for_add')
 
     def get_context_data(self, **kwargs):
         context = super(ItemCreateView, self).get_context_data(**kwargs)

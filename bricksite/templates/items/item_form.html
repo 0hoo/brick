@@ -16,10 +16,10 @@
 </div>
 {% else %}
 <div class="ui breadcrumb">
-    <a href="{% url 'products:list' %}" class="section">Sets</a>
+    <a href="{% url 'sets:list' %}" class="section">Sets</a>
     <div class="divider"> / </div>
     {% if product.theme_title %}
-        <a href="{% url 'products:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
+        <a href="{% url 'sets:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
     <div class="active section">{{ product.product_code }}</div>
@@ -71,7 +71,7 @@
                     {{ form.target_price }}
                 </div>
                 <button type="submit" class="ui blue button">Save My Brick</button>
-                <a href="{% if item %}{% url 'items:detail' item.id %}{% else %}{% url 'products:detail' product.id %}{% endif %}" class="ui button">Cancel</a>
+                <a href="{% if item %}{% url 'items:detail' item.id %}{% else %}{% url 'sets:detail' product.id %}{% endif %}" class="ui button">Cancel</a>
              </form>
         </div>
     </div>

@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import redirect
 
-from products.models import Product
+from sets.models import Product
 
 
 class ProductDispatchMixin(object):

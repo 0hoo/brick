@@ -10,9 +10,9 @@
 <h1 class="ui header">Registered Sets in TrackMyBrick</h1>
 <p>There are <strong>{{ paginator.count }}</strong> sets registered on TrackMyBrick.</p>
 {% endif %}
-<a class="ui green small button" href="{% url 'products:search' %}">Add My Brick</a>
-<a class="ui yellow small button" href="{% url 'products:search' %}">Search Sets</a>
-<a class="ui gray small button" href="{% url 'products:add' %}">Register Missing Sets in TrackMyBrick</a>
+<a class="ui green small button" href="{% url 'sets:search' %}">Add My Brick</a>
+<a class="ui yellow small button" href="{% url 'sets:search' %}">Search Sets</a>
+<a class="ui gray small button" href="{% url 'sets:add' %}">Register Missing Sets in TrackMyBrick</a>
 <div class="ui divider hidden"></div>
 <div class="ui grid">
     <div class="twelve wide column">
@@ -31,7 +31,7 @@
                 {% for product in products %}
                 <tr>
                     <td >{{ product.product_code }}</td>
-                    <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
+                    <td><a href="{% url 'sets:detail' product.id %}">{{ product.title }}</a></td>
                     <td>{{ product.theme_title }} </td>
                     <td>{{ product.official_price|floatformat:2|intcomma|price_no_data:"" }}</td>
                     <td>{{ product.ages }}</td>
@@ -55,7 +55,7 @@
                     <div class="content">
                         <div class="header">
                             {% if not theme_title %}<div class="ui green label"></div>{% endif %}
-                            <a href="{% url 'products:list' %}">All Bricks</a>
+                            <a href="{% url 'sets:list' %}">All Bricks</a>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <div class="item">
                         <div class="content">
                             {% if theme == theme_title %}<div class="ui green label"></div>{% endif %}
-                            <a href="{% url 'products:list_by_theme' theme %}">{{ theme }}</a>
+                            <a href="{% url 'sets:list_by_theme' theme %}">{{ theme }}</a>
                         </div>
                     </div>
                 {% endif %}

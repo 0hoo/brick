@@ -4,7 +4,7 @@ from datetime import datetime
 from django.db import IntegrityError
 
 from .items import ProductItem, EbayItem, BricklinkRecordItem
-from products.models import Product, BricklinkRecord
+from sets.models import Product, BricklinkRecord
 
 logger = logging.getLogger()
 

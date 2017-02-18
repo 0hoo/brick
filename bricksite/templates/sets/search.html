@@ -12,7 +12,7 @@
         </div>
         <div class="eight wide field">
             <button class="ui button" type="submit">Search</button>
-            <a href="{% url 'products:add' %}" class="ui gray button">Register Missing Sets on TrackMyBrick</a>
+            <a href="{% url 'sets:add' %}" class="ui gray button">Register Missing Sets on TrackMyBrick</a>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
         {% for product in products %}
         <tr>
             <td >{{ product.product_code }}</td>
-            <td><a href="{% url 'products:detail' product.id %}">{{ product.title }}</a></td>
+            <td><a href="{% url 'sets:detail' product.id %}">{{ product.title }}</a></td>
             <td>{{ product.theme_title }}</td>
             <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
             <td>{{ product.ages }}</td>

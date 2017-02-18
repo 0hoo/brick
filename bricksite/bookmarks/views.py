@@ -8,7 +8,7 @@ from braces.views import LoginRequiredMixin
 
 from .models import Bookmark
 
-from products.models import Product
+from sets.models import Product
 
 class BookmarkListView(LoginRequiredMixin, ListView):
     model = Bookmark

@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 PROJECT_APPS = [
-    'products',
+    'sets',
     'items',
     'dashboard',
     'users',

@@ -35,7 +35,7 @@ class Product(TimeStampedModel):
     objects = ProductManager()
 
     def get_absolute_url(self):
-        return reverse('products:detail', args=[str(self.id)])
+        return reverse('sets:detail', args=[str(self.id)])
 
     def last_bricklink_record(self):
         try:
@@ -50,7 +50,7 @@ class Product(TimeStampedModel):
             return None
 
     def get_absolute_url(self):
-        return reverse('products:detail', args=[str(self.id)])
+        return reverse('sets:detail', args=[str(self.id)])
 
     def __str__(self):
         return '{} : {}'.format(self.title, self.product_code)

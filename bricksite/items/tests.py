@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from .models import Item, Thing, ItemRecord
 from .utils import update_item_record
 
-from products.models import Product, BricklinkRecord, EbayRecord
+from sets.models import Product, BricklinkRecord, EbayRecord
 
 
 class ItemTests(TestCase):
