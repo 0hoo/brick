@@ -8,7 +8,7 @@ from braces.views import LoginRequiredMixin
 
 from .models import Bookmark
 
-from sets.models import Product
+from sets.models import BrickSet
 
 class BookmarkListView(LoginRequiredMixin, ListView):
     model = Bookmark
@@ -19,7 +19,7 @@ class BookmarkListView(LoginRequiredMixin, ListView):
 class BookmarkUpdateView(LoginRequiredMixin, View):
     def get(self, request):
         product_id = request.GET.get('product_id', None)
-        product = get_object_or_404(Product, pk=product_id)
+        product = get_object_or_404(BrickSet, pk=product_id)
         Bookmark.objects.get_or_create(
             product=product,
             user=request.user

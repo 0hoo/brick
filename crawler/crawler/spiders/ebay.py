@@ -8,7 +8,7 @@ from ..items import EbayItem
 from .utils import xpath_get_price, xpath_get
 from .utils import post_message_to_telegram_bot
 
-from sets.models import Product
+from sets.models import BrickSet
 from items.models import Item
 
 logger = logging.getLogger()
@@ -30,7 +30,7 @@ class EbaySpider(scrapy.Spider):
     def parse(self, response):
         product_codes = Item.objects.order_by().values_list('product__product_code', flat=True).distinct()
         for product_code in product_codes:
-            product = Product.objects.get(product_code=product_code)
+            product = BrickSet.objects.get(product_code=product_code)
             product.ebay_item_set.all().delete()
             logger.info(product_code)
             url = 'http://www.ebay.com/sch/i.html?_from=R40&_nkw=lego+' + product_code + '&_sacat=0'

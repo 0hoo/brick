@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('owned', models.BooleanField(default=True)),
                 ('wish', models.BooleanField(default=False)),
                 ('quantity', models.PositiveIntegerField(default=1)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.Product')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='sets.Product')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

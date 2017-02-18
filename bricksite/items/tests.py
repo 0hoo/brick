@@ -7,15 +7,15 @@ from django.contrib.auth.models import User
 from .models import Item, Thing, ItemRecord
 from .utils import update_item_record
 
-from sets.models import Product, BricklinkRecord, EbayRecord
+from sets.models import BrickSet, BricklinkRecord, EbayRecord
 
 
 class ItemTests(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
-        Product.objects.create(product_code=1, title='Test Product', official_price=10.0)
-        self.product = Product.objects.get(product_code=1)
+        BrickSet.objects.create(product_code=1, title='Test Product', official_price=10.0)
+        self.product = BrickSet.objects.get(product_code=1)
 
     def test_buying_price_with_no_things(self):
         Item.objects.create(product=self.product, user=self.user)
@@ -105,8 +105,8 @@ class ItemTests(TestCase):
 class ItemRecordTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
-        Product.objects.create(product_code=1, title='Test Product', official_price=10.0)
-        self.product = Product.objects.get(product_code=1)
+        BrickSet.objects.create(product_code=1, title='Test Product', official_price=10.0)
+        self.product = BrickSet.objects.get(product_code=1)
 
     def test_update_item_record_make_no_record(self):
         self.assertEqual(ItemRecord.objects.count(), 0)

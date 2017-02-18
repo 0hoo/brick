@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('used_min_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
                 ('used_max_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
                 ('used_average_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bricklink_record_set', to='products.Product')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bricklink_record_set', to='sets.Product')),
             ],
             options={
                 'verbose_name': 'Bricklink Record',
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('link', models.URLField(blank=True, null=True)),
                 ('used', models.BooleanField(default=False)),
                 ('price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ebay_item_set', to='products.Product')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ebay_item_set', to='sets.Product')),
             ],
             options={
                 'verbose_name': 'Ebay Item',
@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
                 ('used_min_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
                 ('used_max_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
                 ('used_average_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ebay_record_set', to='products.Product')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ebay_record_set', to='sets.Product')),
             ],
             options={
                 'verbose_name': 'Ebay Record',

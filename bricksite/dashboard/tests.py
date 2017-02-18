@@ -7,7 +7,7 @@ from .utils import snapshot_latest_dashboard
 
 from .models import Dashboard
 
-from sets.models import Product, BricklinkRecord, EbayRecord
+from sets.models import BrickSet, BricklinkRecord, EbayRecord
 from items.models import Item, Thing
 
 
@@ -15,8 +15,8 @@ class DashboardTests(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
-        Product.objects.create(product_code=1, title='Test Product', official_price=10.0)
-        self.product = Product.objects.get(product_code=1)
+        BrickSet.objects.create(product_code=1, title='Test Product', official_price=10.0)
+        self.product = BrickSet.objects.get(product_code=1)
 
     def test_snapshot_last_dashboard_with_no_items(self):
         dashboard = snapshot_latest_dashboard(self.user)

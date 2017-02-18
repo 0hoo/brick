@@ -4,7 +4,7 @@ from datetime import datetime
 from django.db import IntegrityError
 
 from .items import ProductItem, EbayItem, BricklinkRecordItem
-from sets.models import Product, BricklinkRecord
+from sets.models import BrickSet, BricklinkRecord
 
 logger = logging.getLogger()
 
@@ -50,7 +50,7 @@ class ProductPipeline(object):
             return item.save()
         except IntegrityError as e:
             logger.info('Catch IntegrityError')
-            product = Product.objects.get(product_code=item['product_code'])
+            product = BrickSet.objects.get(product_code=item['product_code'])
             product.title = item['title']
             product.official_price = item.get('official_price', None)
             product.official_image_url = item.get('official_image_url', '')

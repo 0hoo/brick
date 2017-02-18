@@ -17,7 +17,7 @@ class ProductManager(models.Manager):
         return self.values_list('theme_title', flat=True).distinct().order_by('theme_title')
 
 
-class Product(TimeStampedModel):
+class BrickSet(TimeStampedModel):
     product_code = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
     official_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
@@ -73,7 +73,7 @@ class ProductRecordModel(TimeStampedModel):
 
 
 class BricklinkRecord(ProductRecordModel):
-    product = models.ForeignKey(Product, related_name='bricklink_record_set')
+    product = models.ForeignKey(BrickSet, related_name='bricklink_record_set')
 
     def __str__(self):
         return 'Bricklink: {} : {}'.format(self.product.title, self.created)
@@ -85,7 +85,7 @@ class BricklinkRecord(ProductRecordModel):
 
 
 class EbayRecord(ProductRecordModel):
-    product = models.ForeignKey(Product, related_name='ebay_record_set')
+    product = models.ForeignKey(BrickSet, related_name='ebay_record_set')
 
     def __str__(self):
         return 'Ebay: {} : {}'.format(self.product.title, self.created)
@@ -102,7 +102,7 @@ class EbayItemManager(models.Manager):
 
 
 class EbayItem(TimeStampedModel):
-    product = models.ForeignKey(Product, related_name='ebay_item_set')
+    product = models.ForeignKey(BrickSet, related_name='ebay_item_set')
     title = models.CharField(max_length=255, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     used = models.BooleanField(default=False)

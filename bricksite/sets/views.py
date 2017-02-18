@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView
 from braces.views import LoginRequiredMixin
 
 from .viewmixins import NullOrderableListMixin
-from .models import Product
+from .models import BrickSet
 from .forms import ProductForm
 
 from items.models import Item
@@ -12,7 +12,7 @@ from bookmarks.models import Bookmark
 
 
 class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
-    model = Product
+    model = BrickSet
     context_object_name = 'products'
     template_name = 'sets/list.html'
     paginate_by = 40
@@ -27,7 +27,7 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
         theme_title = self.kwargs.get('theme_title', None)
-        theme_titles = Product.objects.theme_titles()
+        theme_titles = BrickSet.objects.theme_titles()
 
         adjacent_pages = 3
         page_number = context['page_obj'].number
@@ -50,7 +50,7 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
 
 
 class ProductSearchForAddView(LoginRequiredMixin, NullOrderableListMixin, ListView):
-    model = Product
+    model = BrickSet
     context_object_name = 'products'
     template_name = 'sets/search.html'
     paginate_by = 50
@@ -62,11 +62,11 @@ class ProductSearchForAddView(LoginRequiredMixin, NullOrderableListMixin, ListVi
         if search:
             return self.model.objects.search(search)
         else:
-            return Product.objects.none()
+            return BrickSet.objects.none()
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
-    model = Product
+    model = BrickSet
     context_object_name = 'product'
     template_name = 'sets/detail.html'
 
@@ -82,6 +82,6 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
-    model = Product
+    model = BrickSet
     form_class = ProductForm
     template_name = 'sets/form.html'

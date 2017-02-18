@@ -1,13 +1,13 @@
 from decimal import Decimal
 from datetime import datetime
 
-from .models import Product, EbayRecord
+from .models import BrickSet, EbayRecord
 
 
 def update_record_from_ebay():
     today = datetime.utcnow().date()
 
-    for product in Product.objects.all():
+    for product in BrickSet.objects.all():
         ebay_items = product.ebay_item_set.filter(created__date=today)
         if ebay_items.count() == 0:
             continue

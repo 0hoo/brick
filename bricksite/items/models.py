@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 from django_extensions.db.models import TimeStampedModel
 
-from sets.models import Product
+from sets.models import BrickSet
 
 
 class ItemManager(models.Manager):
@@ -23,7 +23,7 @@ Estimation = namedtuple('Estimation', ['price', 'unopened_count', 'opened_count'
 
 
 class Item(TimeStampedModel):
-    product = models.ForeignKey(Product)
+    product = models.ForeignKey(BrickSet)
     user = models.ForeignKey(User)
     target_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 

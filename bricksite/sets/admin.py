@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from common.admin import ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, SearchByProductAdminMixin
-from .models import Product, BricklinkRecord, EbayRecord, EbayItem
+from .models import BrickSet, BricklinkRecord, EbayRecord, EbayItem
 
 
 class ProductAdmin(ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
@@ -20,7 +20,7 @@ class EbayItemAdmin(SearchByProductAdminMixin, ReadonlyDatesAdminMixin, admin.Mo
     list_filter = ['used']
 
 
-admin.site.register(Product, ProductAdmin)
+admin.site.register(BrickSet, ProductAdmin)
 admin.site.register(BricklinkRecord, BricklinkRecordAdmin)
 admin.site.register(EbayRecord, EbayRecordAdmin)
 admin.site.register(EbayItem, EbayItemAdmin)

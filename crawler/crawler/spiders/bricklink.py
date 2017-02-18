@@ -10,7 +10,7 @@ from ..items import BricklinkRecordItem
 from .utils import xpath_get_price
 from .utils import post_message_to_telegram_bot
 
-from sets.models import Product
+from sets.models import BrickSet
 
 logger = logging.getLogger()
 
@@ -37,7 +37,7 @@ class BricklinkSpider(InitSpider):
         return self.initialized()
 
     def parse(self, response):
-        for product in Product.objects.all():
+        for product in BrickSet.objects.all():
             logger.info(product.product_code)
             url = 'http://www.bricklink.com/catalogPG.asp?S=' + product.product_code + '-1'
             yield scrapy.Request(url, callback=self.parse_price, dont_filter=True, meta={'product': product})

@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import redirect
 
-from sets.models import Product
+from sets.models import BrickSet
 
 
 class ProductDispatchMixin(object):
@@ -15,8 +15,8 @@ class ProductDispatchMixin(object):
         if not product_code:
             return redirect(self.get_no_product_url())
         try:
-            self.product = Product.objects.get(product_code=product_code)
-        except Product.DoesNotExist:
+            self.product = BrickSet.objects.get(product_code=product_code)
+        except BrickSet.DoesNotExist:
             raise Http404('Product does not exist')
         return super(ProductDispatchMixin, self).dispatch(request, *args, **kwargs)
 

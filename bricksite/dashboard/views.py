@@ -4,12 +4,12 @@ from braces.views import LoginRequiredMixin
 from .utils import snapshot_latest_dashboard
 
 from .models import item_count_by_theme, item_quantity_by_theme, official_price_by_theme, total_prices_by_theme
-from sets.models import Product
+from sets.models import BrickSet
 
 
 class IndexView(LoginRequiredMixin, ListView):
     template_name = 'dashboard/index.html'
-    model = Product
+    model = BrickSet
     context_object_name = 'products'
     show_profit_chart = False
 

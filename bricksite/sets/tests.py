@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from .models import Product, BricklinkRecord, EbayRecord, EbayItem
+from .models import BrickSet, BricklinkRecord, EbayRecord, EbayItem
 from .utils import update_record_from_ebay
 
 
@@ -11,8 +11,8 @@ class ProductTests(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
-        Product.objects.create(product_code=1, title='Test Product', official_price=10.0)
-        self.product = Product.objects.get(product_code=1)
+        BrickSet.objects.create(product_code=1, title='Test Product', official_price=10.0)
+        self.product = BrickSet.objects.get(product_code=1)
 
     def test_last_history(self):
         self.assertIsNone(self.product.last_bricklink_record())
@@ -28,8 +28,8 @@ class ProductTests(TestCase):
 class EbayRecordTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
-        Product.objects.create(product_code=1, title='Test Product', official_price=10.0)
-        self.product = Product.objects.get(product_code=1)
+        BrickSet.objects.create(product_code=1, title='Test Product', official_price=10.0)
+        self.product = BrickSet.objects.get(product_code=1)
 
     def test_update_history_from_ebay_make_no_history(self):
         self.assertEqual(EbayRecord.objects.count(), 0)
