@@ -23,7 +23,7 @@ Estimation = namedtuple('Estimation', ['price', 'unopened_count', 'opened_count'
 
 
 class MyBrick(TimeStampedModel):
-    product = models.ForeignKey(BrickSet)
+    brickset = models.ForeignKey(BrickSet)
     user = models.ForeignKey(User)
     target_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
@@ -111,7 +111,7 @@ class MyBrick(TimeStampedModel):
         return '{} {} {}'.format(self.user.username, self.product.brick_code, self.product.title)
 
     class Meta:
-        unique_together = ['product', 'user']
+        unique_together = ['brickset', 'user']
 
 
 class MyBrickRecord(TimeStampedModel):

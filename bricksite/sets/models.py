@@ -73,7 +73,7 @@ class BrickSetRecordModel(TimeStampedModel):
 
 
 class BricklinkRecord(BrickSetRecordModel):
-    product = models.ForeignKey(BrickSet, related_name='bricklink_record_set')
+    brickset = models.ForeignKey(BrickSet, related_name='bricklink_record_set')
 
     def __str__(self):
         return 'Bricklink: {} : {}'.format(self.product.title, self.created)
@@ -85,7 +85,7 @@ class BricklinkRecord(BrickSetRecordModel):
 
 
 class EbayRecord(BrickSetRecordModel):
-    product = models.ForeignKey(BrickSet, related_name='ebay_record_set')
+    brickset = models.ForeignKey(BrickSet, related_name='ebay_record_set')
 
     def __str__(self):
         return 'Ebay: {} : {}'.format(self.product.title, self.created)
@@ -102,7 +102,7 @@ class EbayItemManager(models.Manager):
 
 
 class EbayItem(TimeStampedModel):
-    product = models.ForeignKey(BrickSet, related_name='ebay_item_set')
+    brickset = models.ForeignKey(BrickSet, related_name='ebay_item_set')
     title = models.CharField(max_length=255, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     used = models.BooleanField(default=False)

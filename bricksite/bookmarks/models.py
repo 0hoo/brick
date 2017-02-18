@@ -7,7 +7,7 @@ from sets.models import BrickSet
 
 
 class Bookmark(TimeStampedModel):
-    product = models.ForeignKey(BrickSet)
+    brickset = models.ForeignKey(BrickSet)
     user = models.ForeignKey(User, related_name='bookmark_set')
 
     class Meta:
