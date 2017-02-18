@@ -114,7 +114,7 @@ class MyBrick(TimeStampedModel):
         unique_together = ['product', 'user']
 
 
-class ItemRecord(TimeStampedModel):
+class MyBrickRecord(TimeStampedModel):
     item = models.ForeignKey(MyBrick, related_name='record_set')
     quantity = models.PositiveIntegerField(default=1)
     opened_quantity = models.PositiveIntegerField(default=0)

@@ -4,7 +4,7 @@ from datetime import datetime
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from .models import MyBrick, Thing, ItemRecord
+from .models import MyBrick, Thing, MyBrickRecord
 from .utils import update_item_record
 
 from sets.models import BrickSet, BricklinkRecord, EbayRecord
@@ -109,19 +109,19 @@ class ItemRecordTests(TestCase):
         self.product = BrickSet.objects.get(brick_code=1)
 
     def test_update_item_record_make_no_record(self):
-        self.assertEqual(ItemRecord.objects.count(), 0)
+        self.assertEqual(MyBrickRecord.objects.count(), 0)
         update_item_record(self.user)
-        self.assertEqual(ItemRecord.objects.count(), 0)
+        self.assertEqual(MyBrickRecord.objects.count(), 0)
 
     def test_update_item_record_make_update_record(self):
-        self.assertEqual(ItemRecord.objects.count(), 0)
+        self.assertEqual(MyBrickRecord.objects.count(), 0)
         MyBrick.objects.create(product=self.product, user=self.user)
         item = MyBrick.objects.get(product=self.product)
         Thing.objects.create(item=item, opened=False)
         Thing.objects.create(item=item, opened=False)
         update_item_record(self.user)
-        self.assertEqual(ItemRecord.objects.count(), 1)
-        record = ItemRecord.objects.latest()
+        self.assertEqual(MyBrickRecord.objects.count(), 1)
+        record = MyBrickRecord.objects.latest()
         self.assertEqual(record.created.date(), datetime.utcnow().date())
         self.assertEqual(record.quantity, 2)
         self.assertEqual(record.estimated_price, item.total_estimated)
@@ -129,8 +129,8 @@ class ItemRecordTests(TestCase):
 
         BricklinkRecord.objects.create(product=self.product, new_average_price=16.0)
         update_item_record(self.user)
-        self.assertEqual(ItemRecord.objects.count(), 1)
-        record = ItemRecord.objects.latest()
+        self.assertEqual(MyBrickRecord.objects.count(), 1)
+        record = MyBrickRecord.objects.latest()
         self.assertEqual(record.created.date(), datetime.utcnow().date())
         self.assertEqual(record.estimated_price, 16 * 2.0)
 
@@ -143,6 +143,6 @@ class ItemRecordTests(TestCase):
 
         update_item_record(self.user)
 
-        history = ItemRecord.objects.latest()
+        history = MyBrickRecord.objects.latest()
         self.assertEqual(history.quantity, 3)
         self.assertEqual(history.opened_quantity, 2)

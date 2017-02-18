@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('buying_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
                 ('opened', models.BooleanField(default=False)),
                 ('note', models.TextField(blank=True, null=True)),
-                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='thing_set', to='MYBRICKS.Item')),
+                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='thing_set', to='mybricks.Item')),
             ],
             options={
                 'verbose_name': 'Thing',
