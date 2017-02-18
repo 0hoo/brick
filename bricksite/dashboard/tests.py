@@ -8,7 +8,7 @@ from .utils import snapshot_latest_dashboard
 from .models import Dashboard
 
 from sets.models import BrickSet, BricklinkRecord, EbayRecord
-from mybricks.models import Item, Thing
+from mybricks.models import MyBrick, Thing
 
 
 class DashboardTests(TestCase):

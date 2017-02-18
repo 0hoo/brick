@@ -9,7 +9,7 @@ from .utils import xpath_get_price, xpath_get
 from .utils import post_message_to_telegram_bot
 
 from sets.models import BrickSet
-from mybricks.models import Item
+from mybricks.models import MyBrick
 
 logger = logging.getLogger()
 
@@ -28,7 +28,7 @@ class EbaySpider(scrapy.Spider):
         return spider
 
     def parse(self, response):
-        brick_codes = Item.objects.order_by().values_list('product__brick_code', flat=True).distinct()
+        brick_codes = MyBrick.objects.order_by().values_list('product__brick_code', flat=True).distinct()
         for brick_code in brick_codes:
             product = BrickSet.objects.get(brick_code=brick_code)
             product.ebay_item_set.all().delete()

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from common.admin import ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, SearchByProductAdminMixin
-from .models import Item, ItemRecord, Thing
+from .models import MyBrick, ItemRecord, Thing
 
 
 class ItemAdmin(ListFilterCreatedAdminMixin, SearchByProductAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
@@ -16,6 +16,6 @@ class ThingAdmin(ReadonlyDatesAdminMixin, admin.ModelAdmin):
     pass
 
 
-admin.site.register(Item, ItemAdmin)
+admin.site.register(MyBrick, ItemAdmin)
 admin.site.register(ItemRecord, ItemRecordAdmin)
 admin.site.register(Thing, ThingAdmin)

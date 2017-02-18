@@ -5,7 +5,7 @@ from django.forms.models import inlineformset_factory
 from braces.forms import UserKwargModelFormMixin
 
 from common.forms import Html5TelInput
-from .models import Item, Thing
+from .models import MyBrick, Thing
 
 
 class ProductKwargModelFormMixin(object):
@@ -18,7 +18,7 @@ class ItemForm(UserKwargModelFormMixin, ProductKwargModelFormMixin, ModelForm):
     target_price = forms.DecimalField(label='Target Price', widget=Html5TelInput(), required=False)
 
     class Meta:
-        model = Item
+        model = MyBrick
         fields = ['target_price']
 
     def save(self, force_insert=False, force_update=False, commit=True):
@@ -41,8 +41,8 @@ class ThingForm(ModelForm):
             'note': forms.Textarea(attrs={'rows': 1, 'style': 'padding: 9px 14px'}),
         }
 
-ThingFormCreateSet = inlineformset_factory(Item, Thing, form=ThingForm, extra=1)
-ThingFormUpdateSet = inlineformset_factory(Item, Thing, form=ThingForm, extra=0)
+ThingFormCreateSet = inlineformset_factory(MyBrick, Thing, form=ThingForm, extra=1)
+ThingFormUpdateSet = inlineformset_factory(MyBrick, Thing, form=ThingForm, extra=0)
 
 
 class ThingSoldForm(ModelForm):

@@ -7,7 +7,7 @@ from .viewmixins import NullOrderableListMixin
 from .models import BrickSet
 from .forms import BrickSetForm
 
-from mybricks.models import Item
+from mybricks.models import MyBrick
 from bookmarks.models import Bookmark
 
 
@@ -73,7 +73,7 @@ class BrickSetDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(BrickSetDetailView, self).get_context_data(**kwargs)
         brickset = self.get_object()
-        context['have_item'] = Item.objects.user_has_item(self.request.user, brickset)
+        context['have_item'] = MyBrick.objects.user_has_item(self.request.user, brickset)
         existing_bookmarks = Bookmark.objects.filter(product=brickset).filter(user=self.request.user)
         if existing_bookmarks.count() > 0:
             context['have_bookmark'] = existing_bookmarks[0]

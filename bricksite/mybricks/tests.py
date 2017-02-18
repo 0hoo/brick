@@ -4,7 +4,7 @@ from datetime import datetime
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from .models import Item, Thing, ItemRecord
+from .models import MyBrick, Thing, ItemRecord
 from .utils import update_item_record
 
 from sets.models import BrickSet, BricklinkRecord, EbayRecord
@@ -18,16 +18,16 @@ class ItemTests(TestCase):
         self.product = BrickSet.objects.get(brick_code=1)
 
     def test_buying_price_with_no_things(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         self.assertEqual(item.quantity, 0)
         self.assertEqual(item.total_buying_price, None)
         self.assertEqual(item.average_buying_price, None)
         self.assertEqual(item.estimated_total_buying_price, 0)
 
     def test_buying_price_with_things(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         Thing.objects.create(item=item, buying_price=15.0)
         Thing.objects.create(item=item, buying_price=18.0)
         Thing.objects.create(item=item, buying_price=14.0)
@@ -44,30 +44,30 @@ class ItemTests(TestCase):
         self.assertEqual(item.estimated_total_buying_price, item.total_buying_price + self.product.official_price)
 
     def test_total_estimated_with_bricklink_history_no_things(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         BricklinkRecord.objects.create(product=self.product, new_average_price=99.0)
         self.assertEqual(item.total_estimated, 0, "Estimated value of item which have no things is zero")
 
     def test_total_estimated_with_opened_things(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         Thing.objects.create(item=item, opened=False)
         Thing.objects.create(item=item, opened=True)
         BricklinkRecord.objects.create(product=self.product, new_average_price=22.0, used_average_price=16.0)
         self.assertEqual(item.total_estimated, 22.0 + 16.0)
 
     def test_total_estimated_with_ebay_history(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         Thing.objects.create(item=item, opened=False)
         Thing.objects.create(item=item, opened=True)
         EbayRecord.objects.create(product=self.product, new_average_price=20.0, used_average_price=15.5)
         self.assertEqual(item.total_estimated, 20.0 + 15.5)
 
     def test_total_estimated_with_bricklink_new_ebay_used(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         Thing.objects.create(item=item, opened=False)
         Thing.objects.create(item=item, opened=True)
         BricklinkRecord.objects.create(product=self.product, new_average_price=22.0)
@@ -75,8 +75,8 @@ class ItemTests(TestCase):
         self.assertEqual(item.total_estimated, 22.0 + 15.5)
 
     def test_total_estimated_with_official_price_if_history_missing(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         self.assertEqual(item.total_estimated, self.product.official_price * item.quantity)
 
         record = EbayRecord.objects.create(product=self.product, used_average_price=Decimal(15.5))
@@ -88,8 +88,8 @@ class ItemTests(TestCase):
         self.assertEqual(item.total_estimated, self.product.official_price + self.product.official_price)
 
     def test_estimated_profit(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         Thing.objects.create(item=item, buying_price=15.0, opened=False)
         Thing.objects.create(item=item, opened=True)
 
@@ -115,8 +115,8 @@ class ItemRecordTests(TestCase):
 
     def test_update_item_record_make_update_record(self):
         self.assertEqual(ItemRecord.objects.count(), 0)
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         Thing.objects.create(item=item, opened=False)
         Thing.objects.create(item=item, opened=False)
         update_item_record(self.user)
@@ -135,8 +135,8 @@ class ItemRecordTests(TestCase):
         self.assertEqual(record.estimated_price, 16 * 2.0)
 
     def test_update_item_record_opened_quantity(self):
-        Item.objects.create(product=self.product, user=self.user)
-        item = Item.objects.get(product=self.product)
+        MyBrick.objects.create(product=self.product, user=self.user)
+        item = MyBrick.objects.get(product=self.product)
         Thing.objects.create(item=item, opened=False)
         Thing.objects.create(item=item, opened=True)
         Thing.objects.create(item=item, opened=True)

@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from mybricks.models import Item
+from mybricks.models import MyBrick
 from .models import Dashboard
 
 logger = logging.getLogger()
@@ -10,7 +10,7 @@ logger.addHandler(logging.StreamHandler())
 
 
 def snapshot_latest_dashboard(user):
-    items = Item.objects.filter(user=user)
+    items = MyBrick.objects.filter(user=user)
 
     item_quantity = 0
     sold_quantity = 0

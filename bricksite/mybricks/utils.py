@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from .models import Item, ItemRecord
+from .models import MyBrick, ItemRecord
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -10,7 +10,7 @@ logger.addHandler(logging.StreamHandler())
 
 def update_item_record(user):
     today = datetime.utcnow().date()
-    items = Item.objects.filter(user=user)
+    items = MyBrick.objects.filter(user=user)
 
     for item in items:
         record, created = ItemRecord.objects.get_or_create(item=item, created__date=today)

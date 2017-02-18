@@ -22,7 +22,7 @@ class ItemManager(models.Manager):
 Estimation = namedtuple('Estimation', ['price', 'unopened_count', 'opened_count', 'new_price', 'new_price_source', 'total_new_price', 'used_price', 'used_price_source', 'total_used_price'])
 
 
-class Item(TimeStampedModel):
+class MyBrick(TimeStampedModel):
     product = models.ForeignKey(BrickSet)
     user = models.ForeignKey(User)
     target_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
@@ -104,7 +104,6 @@ class Item(TimeStampedModel):
                           new_price=new_price, new_price_source=new_price_source, total_new_price=total_new_price,
                           used_price=used_price, used_price_source=used_price_source, total_used_price=total_used_price)
 
-
     def get_absolute_url(self):
         return reverse('mybricks:detail', args=[str(self.id)])
 
@@ -116,7 +115,7 @@ class Item(TimeStampedModel):
 
 
 class ItemRecord(TimeStampedModel):
-    item = models.ForeignKey(Item, related_name='record_set')
+    item = models.ForeignKey(MyBrick, related_name='record_set')
     quantity = models.PositiveIntegerField(default=1)
     opened_quantity = models.PositiveIntegerField(default=0)
     estimated_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
@@ -153,7 +152,7 @@ class ThingManager(models.Manager):
 
 
 class Thing(TimeStampedModel):
-    item = models.ForeignKey(Item, related_name='thing_set')
+    item = models.ForeignKey(MyBrick, related_name='thing_set')
     buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     opened = models.BooleanField(default=False)
     note = models.TextField(null=True, blank=True)

@@ -5,14 +5,14 @@ from django.contrib import messages
 
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
-from .models import Item
+from .models import MyBrick
 from .forms import ItemForm, ThingFormCreateSet, ThingFormUpdateSet, ThingSoldFormSet
 from .viewmixins import ProductFormKwargsMixin
 from .utils import update_item_record
 
 
 class ItemListView(LoginRequiredMixin, ListView):
-    model = Item
+    model = MyBrick
     context_object_name = 'items'
     template_name = 'mybricks/list.html'
 
@@ -44,7 +44,7 @@ class ItemListView(LoginRequiredMixin, ListView):
 
 
 class ItemDetailView(LoginRequiredMixin, DetailView):
-    model = Item
+    model = MyBrick
     context_object_name = 'item'
     template_name = 'mybricks/detail.html'
 
@@ -60,7 +60,7 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
 
 class EditItemView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     form_class = ItemForm
-    model = Item
+    model = MyBrick
     template_name = 'mybricks/item_form.html'
 
     def get_context_data(self, **kwargs):
@@ -78,7 +78,7 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsM
 
     def dispatch(self, request, *args, **kwargs):
         handler = super(ItemCreateView, self).dispatch(request, *args, **kwargs)
-        existing_items = Item.objects.filter(product=self.product).filter(user=request.user)
+        existing_items = MyBrick.objects.filter(product=self.product).filter(user=request.user)
         if existing_items.count() > 0:
             return redirect(reverse('mybricks:detail', args=[str(existing_items[0].id)]))
         return handler
@@ -112,7 +112,7 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsM
 
 
 class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
-    model = Item
+    model = MyBrick
     form_class = ItemForm
     template_name = 'mybricks/item_form.html'
     context_object_name = 'item'
@@ -147,7 +147,7 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
 
 
 class ItemSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
-    model = Item
+    model = MyBrick
     form_class = ItemForm
     template_name = 'mybricks/item_sold_form.html'
     context_object_name = 'item'

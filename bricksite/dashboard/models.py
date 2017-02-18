@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from django_extensions.db.models import TimeStampedModel
 
-from mybricks.models import Item, Thing
+from mybricks.models import MyBrick, Thing
 
 
 class Dashboard(TimeStampedModel):
@@ -36,11 +36,11 @@ class Dashboard(TimeStampedModel):
 
 
 def theme_titles(user):
-    return Item.objects.filter(user=user).values_list('product__theme_title', flat=True).distinct().order_by('product__theme_title')
+    return MyBrick.objects.filter(user=user).values_list('product__theme_title', flat=True).distinct().order_by('product__theme_title')
 
 
 def item_count_by_theme(user):
-    return Item.objects.filter(user=user).values('product__theme_title').annotate(count=Count('id')).order_by('-count')
+    return MyBrick.objects.filter(user=user).values('product__theme_title').annotate(count=Count('id')).order_by('-count')
 
 
 def item_quantity_by_theme(user):
@@ -48,7 +48,7 @@ def item_quantity_by_theme(user):
 
 
 def official_price_by_theme(user):
-    return Item.objects.filter(user=user).values('product__theme_title').annotate(official_price=Sum('product__official_price')).order_by('-official_price')
+    return MyBrick.objects.filter(user=user).values('product__theme_title').annotate(official_price=Sum('product__official_price')).order_by('-official_price')
 
 
 def total_prices_by_theme(user):
@@ -57,7 +57,7 @@ def total_prices_by_theme(user):
     buying_price_counter = Counter()
     sold_quantity_counter = Counter()
     sold_price_counter = Counter()
-    for item in Item.objects.filter(user=user):
+    for item in MyBrick.objects.filter(user=user):
         estimated_counter[item.product.theme_title] += item.total_estimated
         profit_counter[item.product.theme_title] += item.estimated_profit
         buying_price_counter[item.product.theme_title] += item.total_buying_price

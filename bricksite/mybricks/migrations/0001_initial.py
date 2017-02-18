@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
                 ('opened_quantity', models.PositiveIntegerField(default=0)),
                 ('estimated_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
                 ('estimated_profit', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
-                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='record_set', to='items.Item')),
+                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='record_set', to='mybricks.Item')),
             ],
             options={
                 'verbose_name': 'Item Record',
