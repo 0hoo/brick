@@ -49,7 +49,7 @@ class LegoSpider(scrapy.Spider):
     def parse_lego(self, response: scrapy.http.Response):
         product = ProductItem()
         product['title'] = xpath_get(response, "//*[@itemprop='name']/text()")
-        product['product_code'] = xpath_get(response, "//*[@class='product-details__product-code']/text()")
+        product['brick_code'] = xpath_get(response, "//*[@class='product-details__product-code']/text()")
         price_text = xpath_get(response, "//*[@class='product-price__list-price']/text()")
         if price_text:
             product['official_price'] = float(price_text[1:])

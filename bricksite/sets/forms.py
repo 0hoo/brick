@@ -9,9 +9,9 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = BrickSet
-        fields = ['product_code', 'title', 'official_price', 'pieces']
+        fields = ['brick_code', 'title', 'official_price', 'pieces']
         error_messages = {
-            'product_code': {
+            'brick_code': {
                 'unique': 'Registering this product is under the review. Please wait a more! Thanks!'
             },
         }

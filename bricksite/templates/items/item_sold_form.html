@@ -14,11 +14,11 @@
         <a href="{% url 'items:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ item.product.product_code }}</div>
+    <div class="active section">{{ item.product.brick_code }}</div>
 </div>
 <h1 class="ui header">
     Sold My Brick
-    <div class="sub header">{{ item.product.title }}, {{ item.product.product_code }}</div>
+    <div class="sub header">{{ item.product.title }}, {{ item.product.brick_code }}</div>
 </h1>
 <div class="ui grid">
     <div class="row">

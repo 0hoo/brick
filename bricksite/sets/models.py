@@ -8,9 +8,9 @@ from django_extensions.db.models import TimeStampedModel
 
 
 class ProductManager(models.Manager):
-    def search(self, title_or_product_code):
+    def search(self, title_or_brick_code):
         return self.filter(
-            Q(title__icontains=title_or_product_code) | Q(product_code__icontains=title_or_product_code)
+            Q(title__icontains=title_or_brick_code) | Q(brick_code__icontains=title_or_brick_code)
         ).order_by('title')[:10]
 
     def theme_titles(self):
@@ -18,7 +18,7 @@ class ProductManager(models.Manager):
 
 
 class BrickSet(TimeStampedModel):
-    product_code = models.CharField(max_length=255, unique=True)
+    brick_code = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
     official_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     official_image_url = models.URLField(blank=True)
@@ -53,7 +53,7 @@ class BrickSet(TimeStampedModel):
         return reverse('sets:detail', args=[str(self.id)])
 
     def __str__(self):
-        return '{} : {}'.format(self.title, self.product_code)
+        return '{} : {}'.format(self.title, self.brick_code)
 
 
 class ProductRecordModel(TimeStampedModel):
@@ -128,7 +128,7 @@ class EbayItem(TimeStampedModel):
         return self.available
 
     def __str__(self):
-        return '[Used:{}] {}: {} {}'.format(self.used, self.product.product_code, self.price, self.title)
+        return '[Used:{}] {}: {} {}'.format(self.used, self.product.brick_code, self.price, self.title)
 
     class Meta:
         verbose_name = 'Ebay Item'

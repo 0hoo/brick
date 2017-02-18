@@ -12,7 +12,7 @@
         <a href="{% url 'items:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ item.product.product_code }}</div>
+    <div class="active section">{{ item.product.brick_code }}</div>
 </div>
 {% else %}
 <div class="ui breadcrumb">
@@ -22,7 +22,7 @@
         <a href="{% url 'sets:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ product.product_code }}</div>
+    <div class="active section">{{ product.brick_code }}</div>
 </div>
 {% endif %}
 <h1 class="ui header">
@@ -31,7 +31,7 @@
     {% else %}
         Add My Brick
     {% endif %}
-    <div class="sub header">{{ product.title }}, {{ product.product_code }}</div>
+    <div class="sub header">{{ product.title }}, {{ product.brick_code }}</div>
 </h1>
 <div class="ui grid">
     <div class="row">
