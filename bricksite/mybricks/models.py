@@ -134,9 +134,9 @@ class MyBrickRecord(TimeStampedModel):
         verbose_name = 'Item Record'
 
 
-class ThingManager(models.Manager):
+class MyBrickItemManager(models.Manager):
     def get_queryset(self):
-        return super(ThingManager, self).get_queryset().order_by('sold')
+        return super(MyBrickItemManager, self).get_queryset().order_by('sold')
 
     def unopened(self):
         return self.filter(sold=False, opened=False)
@@ -151,7 +151,7 @@ class ThingManager(models.Manager):
         return self.filter(sold=True)
 
 
-class Thing(TimeStampedModel):
+class MyBrickItem(TimeStampedModel):
     item = models.ForeignKey(MyBrick, related_name='thing_set')
     buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     opened = models.BooleanField(default=False)
@@ -160,7 +160,7 @@ class Thing(TimeStampedModel):
     sold_at = models.DateField(null=True, blank=True)
     sold_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
-    objects = ThingManager()
+    objects = MyBrickItemManager()
 
     @property
     def opened_text(self):

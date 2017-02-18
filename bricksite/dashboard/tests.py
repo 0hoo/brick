@@ -8,7 +8,7 @@ from .utils import snapshot_latest_dashboard
 from .models import Dashboard
 
 from sets.models import BrickSet, BricklinkRecord, EbayRecord
-from mybricks.models import MyBrick, Thing
+from mybricks.models import MyBrick, MyBrickItem
 
 
 class DashboardTests(TestCase):
@@ -44,8 +44,8 @@ class DashboardTests(TestCase):
     def test_snapshot_last_dashboard_values(self):
         Item.objects.create(product=self.product, user=self.user)
         item = Item.objects.get(product=self.product)
-        Thing.objects.create(item=item, buying_price=8.0)
-        Thing.objects.create(item=item, buying_price=9.0)
+        MyBrickItem.objects.create(item=item, buying_price=8.0)
+        MyBrickItem.objects.create(item=item, buying_price=9.0)
 
         dashboard = snapshot_latest_dashboard(self.user)
         self.assertEqual(Dashboard.objects.count(), 1)
@@ -58,7 +58,7 @@ class DashboardTests(TestCase):
 
         BricklinkRecord.objects.create(product=self.product, new_average_price=15.0)
         EbayRecord.objects.create(product=self.product, used_average_price=12.5)
-        Thing.objects.create(item=item, buying_price=7.0, opened=True)
+        MyBrickItem.objects.create(item=item, buying_price=7.0, opened=True)
 
         dashboard = snapshot_latest_dashboard(self.user)
         self.assertEqual(Dashboard.objects.count(), 1)

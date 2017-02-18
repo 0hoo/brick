@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from django_extensions.db.models import TimeStampedModel
 
-from mybricks.models import MyBrick, Thing
+from mybricks.models import MyBrick, MyBrickItem
 
 
 class Dashboard(TimeStampedModel):
@@ -44,7 +44,7 @@ def item_count_by_theme(user):
 
 
 def item_quantity_by_theme(user):
-    return Thing.objects.filter(item__user=user).values('item__product__theme_title').annotate(count=Count('id')).order_by('-count')
+    return MyBrickItem.objects.filter(item__user=user).values('item__product__theme_title').annotate(count=Count('id')).order_by('-count')
 
 
 def official_price_by_theme(user):
