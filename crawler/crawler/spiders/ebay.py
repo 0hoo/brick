@@ -9,7 +9,7 @@ from .utils import xpath_get_price, xpath_get
 from .utils import post_message_to_telegram_bot
 
 from sets.models import BrickSet
-from items.models import Item
+from mybricks.models import Item
 
 logger = logging.getLogger()
 

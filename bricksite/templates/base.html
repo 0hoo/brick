@@ -52,7 +52,7 @@
             <a href="{% url 'sets:list' %}" class="item">Sets</a>
             <a href="{% url 'sets:search' %}" class="item">Search</a>
             <a href="{% url 'dashboard:index' %}" class="item">Dashboard</a>
-            <a href="{% url 'items:list' %}" class="item">My Bricks</a>
+            <a href="{% url 'mybricks:list' %}" class="item">My Bricks</a>
             <a href="{% url 'bookmarks:list' %}" class="item">Bookmarks</a>
             <div class="right menu">
                 {% if user.is_authenticated %}

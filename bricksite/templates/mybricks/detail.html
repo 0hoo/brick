@@ -23,10 +23,10 @@ showLineChartC3('#chart-profit', [
 {% block content %}
 
 <div class="ui breadcrumb">
-    <a href="{% url 'items:list' %}" class="section">My Bricks</a>
+    <a href="{% url 'mybricks:list' %}" class="section">My Bricks</a>
     <div class="divider"> / </div>
     {% if item.product.theme_title %}
-        <a href="{% url 'items:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
+        <a href="{% url 'mybricks:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
     <div class="active section">{{ item.product.brick_code }}</div>
@@ -143,8 +143,8 @@ showLineChartC3('#chart-profit', [
             <div class="ui hidden divider"></div>
             <div class="ui basic">
                 <a href="{% url 'sets:detail' item.product.id %}" class="ui grey small button">View Set</a>
-                <a href="{% url 'items:sold' item.id %}" class="ui small button gray"><i class="icon dollar"></i>Sold Brick</a>
-                <a href="{% url 'items:edit' item.id %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
+                <a href="{% url 'mybricks:sold' item.id %}" class="ui small button gray"><i class="icon dollar"></i>Sold Brick</a>
+                <a href="{% url 'mybricks:edit' item.id %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
             </div>
         </div>
     </div>

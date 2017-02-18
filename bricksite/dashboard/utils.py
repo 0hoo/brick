@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from items.models import Item
+from mybricks.models import Item
 from .models import Dashboard
 
 logger = logging.getLogger()

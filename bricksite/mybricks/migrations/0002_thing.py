@@ -10,7 +10,7 @@ import django_extensions.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('items', '0001_initial'),
+        ('mybricks', '0001_initial'),
     ]
 
     operations = [

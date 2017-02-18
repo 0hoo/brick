@@ -39,8 +39,8 @@
                 <tbody>
                     {% for item in items %}
                     <tr>
-                        <td >{{ item.product.product_code }}</td>
-                        <td><a href="{% url 'items:detail' item.id %}">{{ item.product.title }}</a></td>
+                        <td >{{ item.product.brick_code }}</td>
+                        <td><a href="{% url 'mybricks:detail' item.id %}">{{ item.product.title }}</a></td>
                         <td>{{ item.product.theme_title }}</td>
                         <td>{{ item.quantity }}</td>
                         <td>{{ item.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
@@ -57,7 +57,7 @@
                         <div class="content">
                             <div class="header">
                                 {% if not theme_title %}<div class="ui green label"></div>{% endif %}
-                                <a href="{% url 'items:list' %}">All My Bricks</a>
+                                <a href="{% url 'mybricks:list' %}">All My Bricks</a>
                             </div>
                             <div class="content">
                             </div>
@@ -68,7 +68,7 @@
                             <div class="item">
                                 <div class="content">
                                     {% if theme == theme_title %}<div class="ui green label"></div>{% endif %}
-                                    <a href="{% url 'items:list_by_theme' theme %}">{{ theme }}</a>
+                                    <a href="{% url 'mybricks:list_by_theme' theme %}">{{ theme }}</a>
                                 </div>
                             </div>
                         {% endif %}

@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from . import views
 
-app_name = 'items'
+app_name = 'mybricks'
 
 urlpatterns = [
     url(r'^$', views.ItemListView.as_view(), name='list'),

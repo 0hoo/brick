@@ -11,11 +11,11 @@ class ProductDispatchMixin(object):
         return ''
 
     def dispatch(self, request, *args, **kwargs):
-        product_code = request.GET.get('product', '')
-        if not product_code:
+        brick_code = request.GET.get('product', '')
+        if not brick_code:
             return redirect(self.get_no_product_url())
         try:
-            self.product = BrickSet.objects.get(product_code=product_code)
+            self.product = BrickSet.objects.get(brick_code=brick_code)
         except BrickSet.DoesNotExist:
             raise Http404('Product does not exist')
         return super(ProductDispatchMixin, self).dispatch(request, *args, **kwargs)

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
 PROJECT_APPS = [
     'sets',
-    'items',
+    'mybricks',
     'dashboard',
     'users',
     'bookmarks',

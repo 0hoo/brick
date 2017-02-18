@@ -9,7 +9,7 @@ from config import settings
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url=reverse_lazy('sets:list'))),
     url(r'^sets/', include('sets.urls')),
-    url(r'^bricks/', include('items.urls')),
+    url(r'^bricks/', include('mybricks.urls')),
     url(r'^users/', include('users.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^bookmarks/', include('bookmarks.urls')),

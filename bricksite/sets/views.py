@@ -7,7 +7,7 @@ from .viewmixins import NullOrderableListMixin
 from .models import BrickSet
 from .forms import BrickSetForm
 
-from items.models import Item
+from mybricks.models import Item
 from bookmarks.models import Bookmark
 
 

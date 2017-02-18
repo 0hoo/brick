@@ -13,7 +13,7 @@ def setup():
 
 def update_all_users():
     from dashboard.utils import snapshot_latest_dashboard
-    from items.utils import update_item_record
+    from mybricks.utils import update_item_record
     from django.contrib.auth.models import User
     print('START: update_all_dashboard')
     for user in User.objects.all():

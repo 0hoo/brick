@@ -106,10 +106,10 @@ class Item(TimeStampedModel):
 
 
     def get_absolute_url(self):
-        return reverse('items:detail', args=[str(self.id)])
+        return reverse('mybricks:detail', args=[str(self.id)])
 
     def __str__(self):
-        return '{} {} {}'.format(self.user.username, self.product.product_code, self.product.title)
+        return '{} {} {}'.format(self.user.username, self.product.brick_code, self.product.title)
 
     class Meta:
         unique_together = ['product', 'user']

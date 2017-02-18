@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from django_extensions.db.models import TimeStampedModel
 
-from items.models import Item, Thing
+from mybricks.models import Item, Thing
 
 
 class Dashboard(TimeStampedModel):

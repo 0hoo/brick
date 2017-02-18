@@ -14,7 +14,7 @@ from .utils import update_item_record
 class ItemListView(LoginRequiredMixin, ListView):
     model = Item
     context_object_name = 'items'
-    template_name = 'items/list.html'
+    template_name = 'mybricks/list.html'
 
     def get_queryset(self):
         queryset = super(ItemListView, self).get_queryset()
@@ -46,7 +46,7 @@ class ItemListView(LoginRequiredMixin, ListView):
 class ItemDetailView(LoginRequiredMixin, DetailView):
     model = Item
     context_object_name = 'item'
-    template_name = 'items/detail.html'
+    template_name = 'mybricks/detail.html'
 
     def get_queryset(self):
         update_item_record(self.request.user)
@@ -61,7 +61,7 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
 class EditItemView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     form_class = ItemForm
     model = Item
-    template_name = 'items/item_form.html'
+    template_name = 'mybricks/item_form.html'
 
     def get_context_data(self, **kwargs):
         context = super(EditItemView, self).get_context_data(**kwargs)
@@ -71,16 +71,16 @@ class EditItemView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
 
 class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsMixin, CreateView):
     form_class = ItemForm
-    template_name = 'items/item_form.html'
+    template_name = 'mybricks/item_form.html'
 
     def get_success_url(self):
-        return redirect(reverse('items:detail', args=[self.object.id]))
+        return redirect(reverse('mybricks:detail', args=[self.object.id]))
 
     def dispatch(self, request, *args, **kwargs):
         handler = super(ItemCreateView, self).dispatch(request, *args, **kwargs)
         existing_items = Item.objects.filter(product=self.product).filter(user=request.user)
         if existing_items.count() > 0:
-            return redirect(reverse('items:detail', args=[str(existing_items[0].id)]))
+            return redirect(reverse('mybricks:detail', args=[str(existing_items[0].id)]))
         return handler
 
     def get_no_product_url(self):
@@ -114,7 +114,7 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsM
 class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     model = Item
     form_class = ItemForm
-    template_name = 'items/item_form.html'
+    template_name = 'mybricks/item_form.html'
     context_object_name = 'item'
 
     def get_context_data(self, **kwargs):
@@ -137,7 +137,7 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
                 return self.form_invalid(form)
             if len(things_form) == 0:
                 self.object.delete()
-                return redirect(reverse('items:list'))
+                return redirect(reverse('mybricks:list'))
             things_form.instance = self.object
             things_form.save()
             things = [t.instance for t in things_form]
@@ -149,7 +149,7 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
 class ItemSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     model = Item
     form_class = ItemForm
-    template_name = 'items/item_sold_form.html'
+    template_name = 'mybricks/item_sold_form.html'
     context_object_name = 'item'
 
     def get_context_data(self, **kwargs):
