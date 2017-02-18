@@ -7,7 +7,7 @@ from django.urls import reverse
 from django_extensions.db.models import TimeStampedModel
 
 
-class ProductManager(models.Manager):
+class BrickSetManager(models.Manager):
     def search(self, title_or_brick_code):
         return self.filter(
             Q(title__icontains=title_or_brick_code) | Q(brick_code__icontains=title_or_brick_code)
@@ -32,7 +32,7 @@ class BrickSet(TimeStampedModel):
     bricklink_url = models.URLField(blank=True)
     is_approved = models.BooleanField(default=False)
 
-    objects = ProductManager()
+    objects = BrickSetManager()
 
     def get_absolute_url(self):
         return reverse('sets:detail', args=[str(self.id)])
@@ -56,7 +56,7 @@ class BrickSet(TimeStampedModel):
         return '{} : {}'.format(self.title, self.brick_code)
 
 
-class ProductRecordModel(TimeStampedModel):
+class BrickSetRecordModel(TimeStampedModel):
     new_min_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     new_max_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     new_average_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
@@ -72,7 +72,7 @@ class ProductRecordModel(TimeStampedModel):
         abstract = True
 
 
-class BricklinkRecord(ProductRecordModel):
+class BricklinkRecord(BrickSetRecordModel):
     product = models.ForeignKey(BrickSet, related_name='bricklink_record_set')
 
     def __str__(self):
@@ -84,7 +84,7 @@ class BricklinkRecord(ProductRecordModel):
         verbose_name = 'Bricklink Record'
 
 
-class EbayRecord(ProductRecordModel):
+class EbayRecord(BrickSetRecordModel):
     product = models.ForeignKey(BrickSet, related_name='ebay_record_set')
 
     def __str__(self):

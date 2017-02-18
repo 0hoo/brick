@@ -14,34 +14,34 @@
 {% block javascript_code %}
 showLineChartC3('#chart-new', [
     {% autoescape off %}
-    {% generate_c3_array product.bricklink_record_set.all field='created' label='date' is_date=True %},
-    {% generate_c3_array product.bricklink_record_set.all field='new_average_price' label='New Average' %},
-    {% generate_c3_array product.bricklink_record_set.all field='new_max_price' label='New Maximum' %},
-    {% generate_c3_array product.bricklink_record_set.all field='new_min_price' label='New Minimum' %},
+    {% generate_c3_array brickset.bricklink_record_set.all field='created' label='date' is_date=True %},
+    {% generate_c3_array brickset.bricklink_record_set.all field='new_average_price' label='New Average' %},
+    {% generate_c3_array brickset.bricklink_record_set.all field='new_max_price' label='New Maximum' %},
+    {% generate_c3_array brickset.bricklink_record_set.all field='new_min_price' label='New Minimum' %},
     {% endautoescape %}
 ], 920);
 showLineChartC3('#chart-used', [
     {% autoescape off %}
-    {% generate_c3_array product.bricklink_record_set.all field='created' label='date' is_date=True %},
-    {% generate_c3_array product.bricklink_record_set.all field='used_average_price' label='Used Average' %},
-    {% generate_c3_array product.bricklink_record_set.all field='used_max_price' label='Used Maximum' %},
-    {% generate_c3_array product.bricklink_record_set.all field='used_min_price' label='Used Minimum' %},
+    {% generate_c3_array brickset.bricklink_record_set.all field='created' label='date' is_date=True %},
+    {% generate_c3_array brickset.bricklink_record_set.all field='used_average_price' label='Used Average' %},
+    {% generate_c3_array brickset.bricklink_record_set.all field='used_max_price' label='Used Maximum' %},
+    {% generate_c3_array brickset.bricklink_record_set.all field='used_min_price' label='Used Minimum' %},
     {% endautoescape %}
 ], 920);
 showLineChartC3('#chart-ebay-new', [
     {% autoescape off %}
-    {% generate_c3_array product.ebay_record_set.all field='created' label='date' is_date=True %},
-    {% generate_c3_array product.ebay_record_set.all field='new_average_price' label='New Average' %},
-    {% generate_c3_array product.ebay_record_set.all field='new_max_price' label='New Maximum' %},
-    {% generate_c3_array product.ebay_record_set.all field='new_min_price' label='New Minimum' %},
+    {% generate_c3_array brickset.ebay_record_set.all field='created' label='date' is_date=True %},
+    {% generate_c3_array brickset.ebay_record_set.all field='new_average_price' label='New Average' %},
+    {% generate_c3_array brickset.ebay_record_set.all field='new_max_price' label='New Maximum' %},
+    {% generate_c3_array brickset.ebay_record_set.all field='new_min_price' label='New Minimum' %},
     {% endautoescape %}
 ], 920);
 showLineChartC3('#chart-ebay-used', [
     {% autoescape off %}
-    {% generate_c3_array product.ebay_record_set.all field='created' label='date' is_date=True %},
-    {% generate_c3_array product.ebay_record_set.all field='used_average_price' label='Used Average' %},
-    {% generate_c3_array product.ebay_record_set.all field='used_max_price' label='Used Maximum' %},
-    {% generate_c3_array product.ebay_record_set.all field='used_min_price' label='Used Minimum' %},
+    {% generate_c3_array brickset.ebay_record_set.all field='created' label='date' is_date=True %},
+    {% generate_c3_array brickset.ebay_record_set.all field='used_average_price' label='Used Average' %},
+    {% generate_c3_array brickset.ebay_record_set.all field='used_max_price' label='Used Maximum' %},
+    {% generate_c3_array brickset.ebay_record_set.all field='used_min_price' label='Used Minimum' %},
     {% endautoescape %}
 ], 920);
 {% endblock %}
@@ -50,19 +50,19 @@ showLineChartC3('#chart-ebay-used', [
 <div class="ui breadcrumb">
     <a href="{% url 'sets:list' %}" class="section">Sets</a>
     <div class="divider"> / </div>
-    {% if product.theme_title %}
-        <a href="{% url 'sets:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
+    {% if brickset.theme_title %}
+        <a href="{% url 'sets:list_by_theme' brickset.theme_title %}" class="section">{{ brickset.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ product.brick_code }}</div>
+    <div class="active section">{{ brickset.brick_code }}</div>
 </div>
-<h1 class="ui header">{{ product.title }}
-    <div class="sub header">{{ product.brick_code }}</div>
+<h1 class="ui header">{{ brickset.title }}
+    <div class="sub header">{{ brickset.brick_code }}</div>
 </h1>
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            {% include "snippets/product_card.html" with product=product %}
+            {% include "snippets/product_card.html" with product=brickset %}
         </div>
         <div class="eleven wide column grid">
             <div class="column">
@@ -75,19 +75,19 @@ showLineChartC3('#chart-ebay-used', [
                                 <td class="six wide">
                                     <div class="ui label">Avg</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_bricklink_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_bricklink_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Max</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_bricklink_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_bricklink_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Min</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_bricklink_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_bricklink_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -100,19 +100,19 @@ showLineChartC3('#chart-ebay-used', [
                                 <td class="six wide">
                                     <div class="ui label">Avg</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_bricklink_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_bricklink_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Max</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_bricklink_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_bricklink_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Min</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_bricklink_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_bricklink_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -125,19 +125,19 @@ showLineChartC3('#chart-ebay-used', [
                                 <td class="six wide">
                                     <div class="ui label">Avg</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_ebay_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_ebay_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Max</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_ebay_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_ebay_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Min</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_ebay_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_ebay_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -150,19 +150,19 @@ showLineChartC3('#chart-ebay-used', [
                                 <td class="six wide">
                                     <div class="ui label">Avg</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_ebay_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_ebay_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Max</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_ebay_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_ebay_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Min</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ product.last_ebay_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ brickset.last_ebay_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -172,30 +172,30 @@ showLineChartC3('#chart-ebay-used', [
 
             <div class="ui divider"></div>
 
-            {% if product.marketing_text %}
+            {% if brickset.marketing_text %}
             <div class="description">
-                {{ product.marketing_text }}
+                {{ brickset.marketing_text }}
             </div>
             <div class="ui hidden divider"></div>
             {% endif %}
 
-            {% if product.official_review_count %}
-            This brick has <strong>{{ product.official_review_count }} review{{ product.official_review_count|pluralize }}</strong></strong> in official web site. <a href="{{ product.official_url }}/#product-reviews">{% if product.official_review_count > 1 %} Check these out{% else %}Check this out{% endif %}.</a>
+            {% if brickset.official_review_count %}
+            This brick has <strong>{{ brickset.official_review_count }} review{{ brickset.official_review_count|pluralize }}</strong></strong> in official web site. <a href="{{ brickset.official_url }}/#product-reviews">{% if brickset.official_review_count > 1 %} Check these out{% else %}Check this out{% endif %}.</a>
             <div class="ui hidden divider"></div>
             {% endif %}
 
             {% if have_item %}
                 <a class="ui grey small button" href="{% url 'items:detail' have_item.id %}"><i class="icon inbox"></i>View My Brick</a>
             {% else %}
-                <a class="ui blue small button" href="{% url 'items:add' %}?product={{ product.brick_code }}"><i class="icon inbox"></i>Add To My Brick</a>
+                <a class="ui blue small button" href="{% url 'items:add' %}?product={{ brickset.brick_code }}"><i class="icon inbox"></i>Add To My Brick</a>
                 {% if have_bookmark %}
                 <button class="ui grey small button disabled"><i class="icon shopping bag"></i>Bookmarked</button>
                 {% else %}
-                <a class="ui grey small button" href="{% url 'bookmarks:update' %}?product_id={{ product.id }}"><i class="icon shopping bag"></i>Bookmark</a>
+                <a class="ui grey small button" href="{% url 'bookmarks:update' %}?product_id={{ brickset.id }}"><i class="icon shopping bag"></i>Bookmark</a>
                 {% endif %}
             {% endif %}
-            <a class="ui small yellow button" href="{{ product.official_url }}"><i class="icon world"></i>Official</a>
-            <a class="ui small button" href="{{ product.bricklink_url }}"><i class="icon world"></i>Bricklink</a>
+            <a class="ui small yellow button" href="{{ brickset.official_url }}"><i class="icon world"></i>Official</a>
+            <a class="ui small button" href="{{ brickset.bricklink_url }}"><i class="icon world"></i>Bricklink</a>
         </div>
     </div>
     <div class="ui divider"></div>
@@ -235,7 +235,7 @@ showLineChartC3('#chart-ebay-used', [
             <div id="chart-ebay-used"></div>
         </div>
     </div>
-    {% if product.ebay_item_set.count > 0 %}
+    {% if brickset.ebay_item_set.count > 0 %}
         <div class="ui divider"></div>
         {% include "snippets/ebay_items.html" with product=product %}
     {% endif %}

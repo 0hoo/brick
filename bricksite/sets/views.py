@@ -5,27 +5,27 @@ from braces.views import LoginRequiredMixin
 
 from .viewmixins import NullOrderableListMixin
 from .models import BrickSet
-from .forms import ProductForm
+from .forms import BrickSetForm
 
 from items.models import Item
 from bookmarks.models import Bookmark
 
 
-class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
+class BrickSetListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     model = BrickSet
-    context_object_name = 'products'
+    context_object_name = 'bricksets'
     template_name = 'sets/list.html'
     paginate_by = 40
     order_by = 'official_price'
     ordering = 'desc'
 
     def get_queryset(self):
-        queryset = super(ProductListView, self).get_queryset()
+        queryset = super(BrickSetListView, self).get_queryset()
         theme_title = self.kwargs.get('theme_title', None)
         return queryset.filter(theme_title=theme_title) if theme_title else queryset
 
     def get_context_data(self, **kwargs):
-        context = super(ProductListView, self).get_context_data(**kwargs)
+        context = super(BrickSetListView, self).get_context_data(**kwargs)
         theme_title = self.kwargs.get('theme_title', None)
         theme_titles = BrickSet.objects.theme_titles()
 
@@ -49,9 +49,9 @@ class ProductListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
         return context
 
 
-class ProductSearchForAddView(LoginRequiredMixin, NullOrderableListMixin, ListView):
+class BrickSetSearchForAddView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     model = BrickSet
-    context_object_name = 'products'
+    context_object_name = 'bricksets'
     template_name = 'sets/search.html'
     paginate_by = 50
     order_by = 'official_price'
@@ -65,23 +65,23 @@ class ProductSearchForAddView(LoginRequiredMixin, NullOrderableListMixin, ListVi
             return BrickSet.objects.none()
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class BrickSetDetailView(LoginRequiredMixin, DetailView):
     model = BrickSet
-    context_object_name = 'product'
+    context_object_name = 'brickset'
     template_name = 'sets/detail.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ProductDetailView, self).get_context_data(**kwargs)
-        product = self.get_object()
-        context['have_item'] = Item.objects.user_has_item(self.request.user, product)
-        existing_bookmarks = Bookmark.objects.filter(product=product).filter(user=self.request.user)
+        context = super(BrickSetDetailView, self).get_context_data(**kwargs)
+        brickset = self.get_object()
+        context['have_item'] = Item.objects.user_has_item(self.request.user, brickset)
+        existing_bookmarks = Bookmark.objects.filter(product=brickset).filter(user=self.request.user)
         if existing_bookmarks.count() > 0:
             context['have_bookmark'] = existing_bookmarks[0]
 
         return context
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class BrickSetCreateView(LoginRequiredMixin, CreateView):
     model = BrickSet
-    form_class = ProductForm
+    form_class = BrickSetForm
     template_name = 'sets/form.html'

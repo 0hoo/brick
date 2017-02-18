@@ -4,7 +4,7 @@ from common.forms import Html5TelInput
 from .views import BrickSet
 
 
-class ProductForm(forms.ModelForm):
+class BrickSetForm(forms.ModelForm):
     official_price = forms.DecimalField(label='Official Price', widget=Html5TelInput(), required=False)
 
     class Meta:
