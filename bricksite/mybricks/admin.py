@@ -4,18 +4,18 @@ from common.admin import ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, S
 from .models import MyBrick, MyBrickRecord, MyBrickItem
 
 
-class ItemAdmin(ListFilterCreatedAdminMixin, SearchByBrickSetAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
+class MyBrickAdmin(ListFilterCreatedAdminMixin, SearchByBrickSetAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
     search_fields = SearchByBrickSetAdminMixin.search_fields + ['user__username']
 
 
-class ItemRecordAdmin(ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
+class MyBrickRecordAdmin(ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
     pass
 
 
-class ThingAdmin(ReadonlyDatesAdminMixin, admin.ModelAdmin):
+class MyBrickItemAdmin(ReadonlyDatesAdminMixin, admin.ModelAdmin):
     pass
 
 
-admin.site.register(MyBrick, ItemAdmin)
-admin.site.register(MyBrickRecord, ItemRecordAdmin)
-admin.site.register(MyBrickItem, ThingAdmin)
+admin.site.register(MyBrick, MyBrickAdmin)
+admin.site.register(MyBrickRecord, MyBrickRecordAdmin)
+admin.site.register(MyBrickItem, MyBrickItemAdmin)

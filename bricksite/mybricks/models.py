@@ -13,9 +13,9 @@ from sets.models import BrickSet
 
 class MyBrickManager(models.Manager):
     def user_brickset(self, user, brickset):
-        existing_items = self.filter(brickset=brickset).filter(user=user)
-        if existing_items.count() > 0:
-            return existing_items[0]
+        existing = self.filter(brickset=brickset).filter(user=user)
+        if existing.count() > 0:
+            return existing[0]
         return None
 
 
