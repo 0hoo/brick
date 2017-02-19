@@ -28,7 +28,7 @@ class EbaySpider(scrapy.Spider):
         return spider
 
     def parse(self, response):
-        brick_codes = MyBrick.objects.order_by().values_list('product__brick_code', flat=True).distinct()
+        brick_codes = MyBrick.objects.order_by().values_list('brickset__brick_code', flat=True).distinct()
         for brick_code in brick_codes:
             product = BrickSet.objects.get(brick_code=brick_code)
             product.ebay_item_set.all().delete()

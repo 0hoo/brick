@@ -41,7 +41,7 @@ showLineChartC3('#chart-item-count', [
 
 showPieChartC3('#chart-item-count-themes',
     {% autoescape off %}
-        {% generate_c3_pie_array item_count_by_theme label='product__theme_title' field='count' %}
+        {% generate_c3_pie_array item_count_by_theme label='brickset__theme_title' field='count' %}
     {% endautoescape %}
 );
 
@@ -54,7 +54,7 @@ showLineChartC3('#chart-total-quantity', [
 
 showPieChartC3('#chart-total-quantity-themes',
     {% autoescape off %}
-        {% generate_c3_pie_array item_quantity_by_theme label='item__product__theme_title' field='count' %}
+        {% generate_c3_pie_array item_quantity_by_theme label='mybrick__brickset__theme_title' field='count' %}
     {% endautoescape %}
 );
 
@@ -67,7 +67,7 @@ showLineChartC3('#chart-official', [
 
 showPieChartC3('#chart-official-themes',
     {% autoescape off %}
-        {% generate_c3_pie_array official_price_by_theme label='product__theme_title' field='official_price' %}
+        {% generate_c3_pie_array official_price_by_theme label='brickset__theme_title' field='official_price' %}
     {% endautoescape %}
 );
 
@@ -189,7 +189,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <tbody>
                 {% for item_count_by_theme in item_count_by_theme %}
                     <tr>
-                        <td>{{ item_count_by_theme.product__theme_title }}</td>
+                        <td>{{ item_count_by_theme.brickset__theme_title }}</td>
                         <td>{{ item_count_by_theme.count }}</td>
                     </tr>
                 {% endfor %}
@@ -225,7 +225,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <tbody>
                 {% for quantity_by_theme in item_quantity_by_theme %}
                     <tr>
-                        <td>{{ quantity_by_theme.item__product__theme_title }}</td>
+                        <td>{{ quantity_by_theme.mybrick__brickset__theme_title }}</td>
                         <td>{{ quantity_by_theme.count }}</td>
                     </tr>
                 {% endfor %}
@@ -261,7 +261,7 @@ showPieChartC3('#chart-sold-price-themes',
                 <tbody>
                 {% for official_by_theme in official_price_by_theme %}
                     <tr>
-                        <td>{{ official_by_theme.product__theme_title }}</td>
+                        <td>{{ official_by_theme.brickset__theme_title }}</td>
                         <td>{{ official_by_theme.official_price|floatformat:2|intcomma|price_no_data }}</td>
                     </tr>
                 {% endfor %}

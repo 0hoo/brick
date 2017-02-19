@@ -11,9 +11,9 @@ from django_extensions.db.models import TimeStampedModel
 from sets.models import BrickSet
 
 
-class ItemManager(models.Manager):
-    def user_has_item(self, user, product):
-        existing_items = self.filter(product=product).filter(user=user)
+class MyBrickManager(models.Manager):
+    def user_brickset(self, user, brickset):
+        existing_items = self.filter(brickset=brickset).filter(user=user)
         if existing_items.count() > 0:
             return existing_items[0]
         return None
@@ -27,7 +27,7 @@ class MyBrick(TimeStampedModel):
     user = models.ForeignKey(User)
     target_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
-    objects = ItemManager()
+    objects = MyBrickManager()
 
     @property
     def quantity(self):
@@ -74,7 +74,7 @@ class MyBrick(TimeStampedModel):
 
     @property
     def estimation(self) -> Estimation:
-        last_bricklink_record, last_ebay_record = (self.product.last_bricklink_record(), self.product.last_ebay_record())
+        last_bricklink_record, last_ebay_record = (self.brickset.last_bricklink_record(), self.brickset.last_ebay_record())
         if last_bricklink_record and last_bricklink_record.new_average_price:
             new_price = last_bricklink_record.new_average_price
             new_price_source = 'Bricklink'
@@ -82,7 +82,7 @@ class MyBrick(TimeStampedModel):
             new_price = last_ebay_record.new_average_price
             new_price_source = 'eBay'
         else:
-            new_price = self.product.official_price
+            new_price = self.brickset.official_price
             new_price_source = 'Official'
 
         if last_bricklink_record and last_bricklink_record.used_average_price:
@@ -92,7 +92,7 @@ class MyBrick(TimeStampedModel):
             used_price = last_ebay_record.used_average_price
             used_price_source = 'eBay'
         else:
-            used_price = self.product.official_price
+            used_price = self.brickset.official_price
             used_price_source = 'Official'
 
         unopened_count = self.thing_set.unopened().count()
@@ -108,14 +108,14 @@ class MyBrick(TimeStampedModel):
         return reverse('mybricks:detail', args=[str(self.id)])
 
     def __str__(self):
-        return '{} {} {}'.format(self.user.username, self.product.brick_code, self.product.title)
+        return '{} {} {}'.format(self.user.username, self.brickset.brick_code, self.brickset.title)
 
     class Meta:
         unique_together = ['brickset', 'user']
 
 
 class MyBrickRecord(TimeStampedModel):
-    item = models.ForeignKey(MyBrick, related_name='record_set')
+    mybrick = models.ForeignKey(MyBrick, related_name='record_set')
     quantity = models.PositiveIntegerField(default=1)
     opened_quantity = models.PositiveIntegerField(default=0)
     estimated_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
@@ -152,7 +152,7 @@ class MyBrickItemManager(models.Manager):
 
 
 class MyBrickItem(TimeStampedModel):
-    item = models.ForeignKey(MyBrick, related_name='thing_set')
+    mybrick = models.ForeignKey(MyBrick, related_name='thing_set')
     buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     opened = models.BooleanField(default=False)
     note = models.TextField(null=True, blank=True)
@@ -167,7 +167,7 @@ class MyBrickItem(TimeStampedModel):
         return 'opened' if self.opened else 'unopened'
 
     def __str__(self):
-        return '{} - {} {}'.format(self.item.product.title, "Opened" if self.opened else "Unopened", self.buying_price)
+        return '{} - {} {}'.format(self.mybrick.product.title, "Opened" if self.opened else "Unopened", self.buying_price)
 
     class Meta:
         verbose_name = 'Thing'

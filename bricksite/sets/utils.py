@@ -52,7 +52,7 @@ def update_record_from_ebay():
             item.delete()
 
         if new_count > 0 or used_count > 0:
-            record, created = EbayRecord.objects.get_or_create(product=product, created__date=today)
+            record, created = EbayRecord.objects.get_or_create(brickset=product, created__date=today)
             record.new_min_price = ebay_new_min_price
             record.new_max_price = ebay_new_max_price
             record.new_average_price = ebay_new_average_price

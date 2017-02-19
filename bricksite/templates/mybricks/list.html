@@ -39,9 +39,9 @@
                 <tbody>
                     {% for item in items %}
                     <tr>
-                        <td >{{ item.product.brick_code }}</td>
-                        <td><a href="{% url 'mybricks:detail' item.id %}">{{ item.product.title }}</a></td>
-                        <td>{{ item.product.theme_title }}</td>
+                        <td >{{ item.brickset.brick_code }}</td>
+                        <td><a href="{% url 'mybricks:detail' item.id %}">{{ item.brickset.title }}</a></td>
+                        <td>{{ item.brickset.theme_title }}</td>
                         <td>{{ item.quantity }}</td>
                         <td>{{ item.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
                         <td>{{ item.estimated_profit|floatformat:2|intcomma|price_no_data:"" }}</td>

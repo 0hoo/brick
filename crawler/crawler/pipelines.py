@@ -19,7 +19,7 @@ class BricklinkPipeline(object):
     def process_item(self, item: BricklinkRecordItem, spider):
         product = item['product']
         items = BricklinkRecord.objects.filter(created__date=datetime.utcnow().date(),
-                                               product__product_code=product.product_code)
+                                               brickset__product_code=product.product_code)
 
         product.bricklink_url = item.get('bricklink_url')
         product.save()

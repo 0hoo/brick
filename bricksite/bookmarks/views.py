@@ -21,7 +21,7 @@ class BookmarkUpdateView(LoginRequiredMixin, View):
         product_id = request.GET.get('product_id', None)
         product = get_object_or_404(BrickSet, pk=product_id)
         Bookmark.objects.get_or_create(
-            product=product,
+            brickset=product,
             user=request.user
         )
         link_text = '<a href="' + reverse('bookmarks:list') + '">Check my bookmarks</a>.'

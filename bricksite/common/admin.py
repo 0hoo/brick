@@ -3,7 +3,7 @@ class ReadonlyDatesAdminMixin(object):
 
 
 class SearchByProductAdminMixin(object):
-    search_fields = ['product__product_code', 'product__title']
+    search_fields = ['brickset__product_code', 'brickset__title']
 
 
 class ListFilterCreatedAdminMixin(object):

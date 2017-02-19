@@ -7,7 +7,7 @@ from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
 from .models import MyBrick
 from .forms import ItemForm, ThingFormCreateSet, ThingFormUpdateSet, ThingSoldFormSet
-from .viewmixins import ProductFormKwargsMixin
+from .viewmixins import BrickSetFormKwargsMixin
 from .utils import update_item_record
 
 
@@ -20,7 +20,7 @@ class ItemListView(LoginRequiredMixin, ListView):
         queryset = super(ItemListView, self).get_queryset()
         queryset = queryset.filter(user=self.request.user)
         theme_title = self.kwargs.get('theme_title', None)
-        return queryset.filter(product__theme_title=theme_title) if theme_title else queryset
+        return queryset.filter(brickset__theme_title=theme_title) if theme_title else queryset
 
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class ItemListView(LoginRequiredMixin, ListView):
             buying_price += float(item.total_buying_price or 0)
             estimated_price += item.total_estimated
             profit += item.estimated_profit
-            official_price += float(item.product.official_price * item.quantity)
+            official_price += float(item.brickset.official_price * item.quantity)
         context.update({
             'buying_price': buying_price,
             'estimated_price': estimated_price,
@@ -65,11 +65,11 @@ class EditItemView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EditItemView, self).get_context_data(**kwargs)
-        context['product'] = self.object.product
+        context['product'] = self.object.brickset
         return context
 
 
-class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsMixin, CreateView):
+class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, BrickSetFormKwargsMixin, CreateView):
     form_class = ItemForm
     template_name = 'mybricks/item_form.html'
 
@@ -78,24 +78,24 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, ProductFormKwargsM
 
     def dispatch(self, request, *args, **kwargs):
         handler = super(ItemCreateView, self).dispatch(request, *args, **kwargs)
-        existing_items = MyBrick.objects.filter(product=self.product).filter(user=request.user)
+        existing_items = MyBrick.objects.filter(brickset=self.brickset).filter(user=request.user)
         if existing_items.count() > 0:
             return redirect(reverse('mybricks:detail', args=[str(existing_items[0].id)]))
         return handler
 
-    def get_no_product_url(self):
+    def get_no_brickset_url(self):
         return reverse('sets:product_search_for_add')
 
     def get_context_data(self, **kwargs):
         context = super(ItemCreateView, self).get_context_data(**kwargs)
-        context['product'] = self.product
+        context['product'] = self.brickset
 
         if self.request.POST:
             context['things'] = ThingFormCreateSet(self.request.POST)
         else:
             formset = ThingFormCreateSet()
             for thing_form in formset:
-                thing_form.initial = {'buying_price': self.product.official_price}
+                thing_form.initial = {'buying_price': self.brickset.official_price}
             context['things'] = formset
         return context
 
@@ -119,7 +119,7 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ItemUpdateView, self).get_context_data(**kwargs)
-        context['product'] = self.object.product
+        context['product'] = self.object.brickset
 
         if self.request.POST:
             context['things'] = ThingFormUpdateSet(self.request.POST, instance=self.object, queryset=self.object.thing_set.unsold())

@@ -8,13 +8,13 @@ from common.forms import Html5TelInput
 from .models import MyBrick, MyBrickItem
 
 
-class ProductKwargModelFormMixin(object):
+class BrickSetKwargModelFormMixin(object):
     def __init__(self, *args, **kwargs):
-        self.product = kwargs.pop("product", None)
-        super(ProductKwargModelFormMixin, self).__init__(*args, **kwargs)
+        self.brickset = kwargs.pop('brickset', None)
+        super(BrickSetKwargModelFormMixin, self).__init__(*args, **kwargs)
 
 
-class ItemForm(UserKwargModelFormMixin, ProductKwargModelFormMixin, ModelForm):
+class ItemForm(UserKwargModelFormMixin, BrickSetKwargModelFormMixin, ModelForm):
     target_price = forms.DecimalField(label='Target Price', widget=Html5TelInput(), required=False)
 
     class Meta:
@@ -24,8 +24,8 @@ class ItemForm(UserKwargModelFormMixin, ProductKwargModelFormMixin, ModelForm):
     def save(self, force_insert=False, force_update=False, commit=True):
         obj = super(ItemForm, self).save(commit=False)
         obj.user = self.user
-        if self.product:
-            obj.product = self.product
+        if self.brickset:
+            obj.brickset = self.brickset
         if commit:
             obj.save()
         return obj

@@ -23,7 +23,7 @@ def snapshot_latest_dashboard(user):
     total_sold_price = 0
 
     for item in items:
-        official_price = item.product.official_price
+        official_price = item.brickset.official_price
 
         item_quantity += item.quantity
         sold_quantity += item.sold_quantity

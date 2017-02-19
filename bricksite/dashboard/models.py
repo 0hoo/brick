@@ -36,19 +36,19 @@ class Dashboard(TimeStampedModel):
 
 
 def theme_titles(user):
-    return MyBrick.objects.filter(user=user).values_list('product__theme_title', flat=True).distinct().order_by('product__theme_title')
+    return MyBrick.objects.filter(user=user).values_list('brickset__theme_title', flat=True).distinct().order_by('brickset__theme_title')
 
 
 def item_count_by_theme(user):
-    return MyBrick.objects.filter(user=user).values('product__theme_title').annotate(count=Count('id')).order_by('-count')
+    return MyBrick.objects.filter(user=user).values('brickset__theme_title').annotate(count=Count('id')).order_by('-count')
 
 
 def item_quantity_by_theme(user):
-    return MyBrickItem.objects.filter(item__user=user).values('item__product__theme_title').annotate(count=Count('id')).order_by('-count')
+    return MyBrickItem.objects.filter(mybrick__user=user).values('mybrick__brickset__theme_title').annotate(count=Count('id')).order_by('-count')
 
 
 def official_price_by_theme(user):
-    return MyBrick.objects.filter(user=user).values('product__theme_title').annotate(official_price=Sum('product__official_price')).order_by('-official_price')
+    return MyBrick.objects.filter(user=user).values('brickset__theme_title').annotate(official_price=Sum('brickset__official_price')).order_by('-official_price')
 
 
 def total_prices_by_theme(user):
@@ -58,11 +58,11 @@ def total_prices_by_theme(user):
     sold_quantity_counter = Counter()
     sold_price_counter = Counter()
     for item in MyBrick.objects.filter(user=user):
-        estimated_counter[item.product.theme_title] += item.total_estimated
-        profit_counter[item.product.theme_title] += item.estimated_profit
-        buying_price_counter[item.product.theme_title] += item.total_buying_price
+        estimated_counter[item.brickset.theme_title] += item.total_estimated
+        profit_counter[item.brickset.theme_title] += item.estimated_profit
+        buying_price_counter[item.brickset.theme_title] += item.total_buying_price
         if item.sold_quantity:
-            sold_quantity_counter[item.product.theme_title] += item.sold_quantity
+            sold_quantity_counter[item.brickset.theme_title] += item.sold_quantity
         if item.total_sold_price:
-            sold_price_counter[item.product.theme_title] += item.total_sold_price
+            sold_price_counter[item.brickset.theme_title] += item.total_sold_price
     return estimated_counter.most_common(), profit_counter.most_common(), buying_price_counter.most_common(), sold_quantity_counter.most_common(), sold_price_counter.most_common()
