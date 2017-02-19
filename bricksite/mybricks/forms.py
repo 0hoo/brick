@@ -14,7 +14,7 @@ class BrickSetKwargModelFormMixin(object):
         super(BrickSetKwargModelFormMixin, self).__init__(*args, **kwargs)
 
 
-class ItemForm(UserKwargModelFormMixin, BrickSetKwargModelFormMixin, ModelForm):
+class MyBrickForm(UserKwargModelFormMixin, BrickSetKwargModelFormMixin, ModelForm):
     target_price = forms.DecimalField(label='Target Price', widget=Html5TelInput(), required=False)
 
     class Meta:
@@ -22,7 +22,7 @@ class ItemForm(UserKwargModelFormMixin, BrickSetKwargModelFormMixin, ModelForm):
         fields = ['target_price']
 
     def save(self, force_insert=False, force_update=False, commit=True):
-        obj = super(ItemForm, self).save(commit=False)
+        obj = super(MyBrickForm, self).save(commit=False)
         obj.user = self.user
         if self.brickset:
             obj.brickset = self.brickset

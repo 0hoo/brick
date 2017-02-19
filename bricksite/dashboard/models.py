@@ -57,12 +57,12 @@ def total_prices_by_theme(user):
     buying_price_counter = Counter()
     sold_quantity_counter = Counter()
     sold_price_counter = Counter()
-    for item in MyBrick.objects.filter(user=user):
-        estimated_counter[item.brickset.theme_title] += item.total_estimated
-        profit_counter[item.brickset.theme_title] += item.estimated_profit
-        buying_price_counter[item.brickset.theme_title] += item.total_buying_price
-        if item.sold_quantity:
-            sold_quantity_counter[item.brickset.theme_title] += item.sold_quantity
-        if item.total_sold_price:
-            sold_price_counter[item.brickset.theme_title] += item.total_sold_price
+    for mybrick in MyBrick.objects.filter(user=user):
+        estimated_counter[mybrick.brickset.theme_title] += mybrick.total_estimated
+        profit_counter[mybrick.brickset.theme_title] += mybrick.estimated_profit
+        buying_price_counter[mybrick.brickset.theme_title] += mybrick.total_buying_price
+        if mybrick.sold_quantity:
+            sold_quantity_counter[mybrick.brickset.theme_title] += mybrick.sold_quantity
+        if mybrick.total_sold_price:
+            sold_price_counter[mybrick.brickset.theme_title] += mybrick.total_sold_price
     return estimated_counter.most_common(), profit_counter.most_common(), buying_price_counter.most_common(), sold_quantity_counter.most_common(), sold_price_counter.most_common()

@@ -10,7 +10,7 @@ logger.addHandler(logging.StreamHandler())
 
 
 def snapshot_latest_dashboard(user):
-    items = MyBrick.objects.filter(user=user)
+    mybricks = MyBrick.objects.filter(user=user)
 
     item_quantity = 0
     sold_quantity = 0
@@ -22,18 +22,18 @@ def snapshot_latest_dashboard(user):
     total_target_price = 0
     total_sold_price = 0
 
-    for item in items:
-        official_price = item.brickset.official_price
+    for mybrick in mybricks:
+        official_price = mybrick.brickset.official_price
 
-        item_quantity += item.quantity
-        sold_quantity += item.sold_quantity
+        item_quantity += mybrick.quantity
+        sold_quantity += mybrick.sold_quantity
 
-        total_buying_price += float(item.total_buying_price or 0)
-        total_estimated_price += item.total_estimated
-        total_profit += item.estimated_profit
-        total_official_price += float(official_price * item.quantity)
-        total_target_price += float(item.target_price or 0) * item.quantity
-        total_sold_price += float(item.total_sold_price or 0)
+        total_buying_price += float(mybrick.total_buying_price or 0)
+        total_estimated_price += mybrick.total_estimated
+        total_profit += mybrick.estimated_profit
+        total_official_price += float(official_price * mybrick.quantity)
+        total_target_price += float(mybrick.target_price or 0) * mybrick.quantity
+        total_sold_price += float(mybrick.total_sold_price or 0)
 
     today = datetime.utcnow().date()
     exists = Dashboard.objects.filter(user=user, target_at=today)
@@ -43,7 +43,7 @@ def snapshot_latest_dashboard(user):
         dashboard = Dashboard()
 
     dashboard.user = user
-    dashboard.item_count = len(items)
+    dashboard.item_count = len(mybricks)
     dashboard.item_quantity = item_quantity
     dashboard.sold_quantity = sold_quantity
     dashboard.total_buying_price = total_buying_price

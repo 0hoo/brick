@@ -8,11 +8,11 @@
 <div class="ui breadcrumb">
     <a href="{% url 'mybricks:list' %}" class="section">My Bricks</a>
     <div class="divider"> / </div>
-    {% if item.brickset.theme_title %}
-        <a href="{% url 'mybricks:list_by_theme' item.brickset.theme_title %}" class="section">{{ item.brickset.theme_title }}</a>
+    {% if mybrick.brickset.theme_title %}
+        <a href="{% url 'mybricks:list_by_theme' mybrick.brickset.theme_title %}" class="section">{{ mybrick.brickset.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ item.brickset.brick_code }}</div>
+    <div class="active section">{{ mybrick.brickset.brick_code }}</div>
 </div>
 {% else %}
 <div class="ui breadcrumb">
@@ -26,7 +26,7 @@
 </div>
 {% endif %}
 <h1 class="ui header">
-    {% if item %}
+    {% if mybrick %}
         Edit My Brick
     {% else %}
         Add My Brick
@@ -71,7 +71,7 @@
                     {{ form.target_price }}
                 </div>
                 <button type="submit" class="ui blue button">Save My Brick</button>
-                <a href="{% if item %}{% url 'mybricks:detail' item.id %}{% else %}{% url 'sets:detail' brickset.id %}{% endif %}" class="ui button">Cancel</a>
+                <a href="{% if mybrick %}{% url 'mybricks:detail' mybrick.id %}{% else %}{% url 'sets:detail' brickset.id %}{% endif %}" class="ui button">Cancel</a>
              </form>
         </div>
     </div>
@@ -92,8 +92,8 @@
         deleteText: 'Remove',
         deleteCssClass: 'delete-row ui button',
         prefix: 'thing_set',
-        askWhenDelete: {% if item %}true{% else %}false{% endif %},
-        hideDeleteForFirst: {% if item %}false{% else %}true{% endif %},
+        askWhenDelete: {% if mybrick %}true{% else %}false{% endif %},
+        hideDeleteForFirst: {% if mybrick %}false{% else %}true{% endif %},
         clearFieldWhenAdd: false,
         afterRemoved: function(formCount) {
             if (formCount == 0) {

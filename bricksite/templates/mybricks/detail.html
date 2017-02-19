@@ -14,8 +14,8 @@
 {% block javascript_code %}
 showLineChartC3('#chart-profit', [
     {% autoescape off %}
-    {% generate_c3_array item.record_set.all field='created' label='date' is_date=True %},
-    {% generate_c3_array item.record_set.all field='estimated_profit' label='Gain & Lose' %},
+    {% generate_c3_array mybrick.record_set.all field='created' label='date' is_date=True %},
+    {% generate_c3_array mybrick.record_set.all field='estimated_profit' label='Gain & Lose' %},
     {% endautoescape %}
 ], 920)
 {% endblock %}
@@ -25,19 +25,19 @@ showLineChartC3('#chart-profit', [
 <div class="ui breadcrumb">
     <a href="{% url 'mybricks:list' %}" class="section">My Bricks</a>
     <div class="divider"> / </div>
-    {% if item.brickset.theme_title %}
-        <a href="{% url 'mybricks:list_by_theme' item.brickset.theme_title %}" class="section">{{ item.brickset.theme_title }}</a>
+    {% if mybrick.brickset.theme_title %}
+        <a href="{% url 'mybricks:list_by_theme' mybrick.brickset.theme_title %}" class="section">{{ mybrick.brickset.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ item.brickset.brick_code }}</div>
+    <div class="active section">{{ mybrick.brickset.brick_code }}</div>
 </div>
-<h1 class="ui header">{{ item.brickset.title }}
-    <div class="sub header">{{ item.brickset.brick_code }}</div>
+<h1 class="ui header">{{ mybrick.brickset.title }}
+    <div class="sub header">{{ mybrick.brickset.brick_code }}</div>
 </h1>
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            {% include "snippets/product_card.html" with brickset=item.brickset %}
+            {% include "snippets/product_card.html" with brickset=mybrick.brickset %}
         </div>
         <div class="eleven wide column grid">
             <div class="column">
@@ -49,26 +49,26 @@ showLineChartC3('#chart-profit', [
                                 <td class="six wide">
                                     <div class="ui label">Official</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.brickset.official_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ mybrick.brickset.official_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Spent</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.total_buying_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ mybrick.total_buying_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Target</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.target_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ mybrick.target_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
-                            {% if item.sold_quantity %}
+                            {% if mybrick.sold_quantity %}
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Sold Quantity</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.sold_quantity }}</td>
+                                <td class="ten wide right aligned">{{ mybrick.sold_quantity }}</td>
                             </tr>
                             {% endif %}
                             </tbody>
@@ -82,7 +82,7 @@ showLineChartC3('#chart-profit', [
                                     <div class="ui label">Quantity</div>
                                 </td>
                                 <td class="ten wide right aligned">
-                                    {{ item.quantity }}
+                                    {{ mybrick.quantity }}
                                 </td>
                             </tr>
                             <tr>
@@ -95,15 +95,15 @@ showLineChartC3('#chart-profit', [
                                 <td class="six wide">
                                     <div class="ui green label">Gain & Lose</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.estimated_profit|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ mybrick.estimated_profit|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
-                            {% if item.sold_quantity %}
+                            {% if mybrick.sold_quantity %}
                             <tr>
                                 <td class="six wide">
                                     <div class="ui label">Earnings</div>
                                 </td>
                                 <td class="ten wide right aligned">
-                                    {{ item.total_sold_price|floatformat:2|intcomma|price_no_data }}
+                                    {{ mybrick.total_sold_price|floatformat:2|intcomma|price_no_data }}
                                 </td>
                             </tr>
                             {% endif %}
@@ -112,20 +112,20 @@ showLineChartC3('#chart-profit', [
                     </div>
                 </div>
                 <div class="ui divider"></div>
-                {% if item.quantity == 1 %}
+                {% if mybrick.quantity == 1 %}
                     <p>
                         You have <span class="ui circular label">1</span>
-                        <strong>{{ item.thing_set.first.opened_text }}</strong> thing of this brick.
+                        <strong>{{ mybrick.thing_set.first.opened_text }}</strong> thing of this brick.
                     </p>
                 {% else %}
                     <p>
-                        You have <strong>{{ item.quantity }}</strong> thing{{ item.quantity|pluralize }} of this brick.
-                        {% if item.sold_quantity %}
-                        You sold <strong>{{ item.sold_quantity }}</strong> thing{{ item.sold_quantity|pluralize }} of this brick.
+                        You have <strong>{{ mybrick.quantity }}</strong> thing{{ mybrick.quantity|pluralize }} of this brick.
+                        {% if mybrick.sold_quantity %}
+                        You sold <strong>{{ mybrick.sold_quantity }}</strong> thing{{ mybrick.sold_quantity|pluralize }} of this brick.
                         {% endif %}
                     </p>
                     <div class="ui list">
-                    {% for thing in item.thing_set.all %}
+                    {% for thing in mybrick.thing_set.all %}
                         <div class="item">
                             <span class="ui basic label"><i class="cube icon"></i>{{ forloop.counter }}</span>
                             {% if thing.sold %}
@@ -142,9 +142,9 @@ showLineChartC3('#chart-profit', [
             </div>
             <div class="ui hidden divider"></div>
             <div class="ui basic">
-                <a href="{% url 'sets:detail' item.brickset.id %}" class="ui grey small button">View Set</a>
-                <a href="{% url 'mybricks:sold' item.id %}" class="ui small button gray"><i class="icon dollar"></i>Sold Brick</a>
-                <a href="{% url 'mybricks:edit' item.id %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
+                <a href="{% url 'sets:detail' mybrick.brickset.id %}" class="ui grey small button">View Set</a>
+                <a href="{% url 'mybricks:sold' mybrick.id %}" class="ui small button gray"><i class="icon dollar"></i>Sold Brick</a>
+                <a href="{% url 'mybricks:edit' mybrick.id %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
             </div>
         </div>
     </div>
@@ -172,19 +172,19 @@ showLineChartC3('#chart-profit', [
                     <td class="six wide">
                         <div class="ui label">Avg</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_bricklink_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Max</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_bricklink_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Min</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_bricklink_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -201,19 +201,19 @@ showLineChartC3('#chart-profit', [
                     <td class="six wide">
                         <div class="ui label">Avg</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_bricklink_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Max</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_bricklink_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Min</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_bricklink_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -230,19 +230,19 @@ showLineChartC3('#chart-profit', [
                     <td class="six wide">
                         <div class="ui label">Avg</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_ebay_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Max</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_ebay_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Min</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_ebay_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -259,27 +259,27 @@ showLineChartC3('#chart-profit', [
                     <td class="six wide">
                         <div class="ui label">Avg</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_ebay_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Max</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_ebay_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Min</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ mybrick.brickset.last_ebay_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    {% if item.brickset.ebay_item_set.count > 0 %}
+    {% if mybrick.brickset.ebay_item_set.count > 0 %}
         <div class="ui divider"></div>
-        {% include "snippets/ebay_items.html" with brickset=item.brickset %}
+        {% include "snippets/ebay_items.html" with brickset=mybrick.brickset %}
     {% endif %}
 </div>
 {% endblock %}

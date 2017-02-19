@@ -1,39 +1,39 @@
 from django.db import transaction
 from django.shortcuts import redirect, reverse
-from django.views.generic import ListView, DetailView, UpdateView, CreateView, FormView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib import messages
 
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
 from .models import MyBrick
-from .forms import ItemForm, ThingFormCreateSet, ThingFormUpdateSet, ThingSoldFormSet
+from .forms import MyBrickForm, ThingFormCreateSet, ThingFormUpdateSet, ThingSoldFormSet
 from .viewmixins import BrickSetFormKwargsMixin
-from .utils import update_item_record
+from .utils import update_mybrick_record
 
 
-class ItemListView(LoginRequiredMixin, ListView):
+class MyBrickListView(LoginRequiredMixin, ListView):
     model = MyBrick
-    context_object_name = 'items'
+    context_object_name = 'mybricks'
     template_name = 'mybricks/list.html'
 
     def get_queryset(self):
-        queryset = super(ItemListView, self).get_queryset()
+        queryset = super(MyBrickListView, self).get_queryset()
         queryset = queryset.filter(user=self.request.user)
         theme_title = self.kwargs.get('theme_title', None)
         return queryset.filter(brickset__theme_title=theme_title) if theme_title else queryset
 
     def get_context_data(self, **kwargs):
-        context = super(ItemListView, self).get_context_data(**kwargs)
-        items = context['items']
+        context = super(MyBrickListView, self).get_context_data(**kwargs)
+        mybricks = context['mybricks']
         buying_price = 0
         estimated_price = 0
         profit = 0
         official_price = 0
-        for item in items:
-            buying_price += float(item.total_buying_price or 0)
-            estimated_price += item.total_estimated
-            profit += item.estimated_profit
-            official_price += float(item.brickset.official_price * item.quantity)
+        for mybrick in mybricks:
+            buying_price += float(mybrick.total_buying_price or 0)
+            estimated_price += mybrick.total_estimated
+            profit += mybrick.estimated_profit
+            official_price += float(mybrick.brickset.official_price * mybrick.quantity)
         context.update({
             'buying_price': buying_price,
             'estimated_price': estimated_price,
@@ -43,51 +43,40 @@ class ItemListView(LoginRequiredMixin, ListView):
         return context
 
 
-class ItemDetailView(LoginRequiredMixin, DetailView):
+class MyBrickDetailView(LoginRequiredMixin, DetailView):
     model = MyBrick
-    context_object_name = 'item'
+    context_object_name = 'mybrick'
     template_name = 'mybricks/detail.html'
 
     def get_queryset(self):
-        update_item_record(self.request.user)
-        return super(ItemDetailView, self).get_queryset()
+        update_mybrick_record(self.request.user)
+        return super(MyBrickDetailView, self).get_queryset()
 
     def get_context_data(self, **kwargs):
-        context = super(ItemDetailView, self).get_context_data(**kwargs)
+        context = super(MyBrickDetailView, self).get_context_data(**kwargs)
         context['estimation'] = self.object.estimation
         return context
 
 
-class EditItemView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
-    form_class = ItemForm
-    model = MyBrick
-    template_name = 'mybricks/item_form.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(EditItemView, self).get_context_data(**kwargs)
-        context['brickset'] = self.object.brickset
-        return context
-
-
-class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, BrickSetFormKwargsMixin, CreateView):
-    form_class = ItemForm
-    template_name = 'mybricks/item_form.html'
+class MyBrickCreateView(LoginRequiredMixin, UserFormKwargsMixin, BrickSetFormKwargsMixin, CreateView):
+    form_class = MyBrickForm
+    template_name = 'mybricks/mybrick_form.html'
 
     def get_success_url(self):
         return redirect(reverse('mybricks:detail', args=[self.object.id]))
 
     def dispatch(self, request, *args, **kwargs):
-        handler = super(ItemCreateView, self).dispatch(request, *args, **kwargs)
-        existing_items = MyBrick.objects.filter(brickset=self.brickset).filter(user=request.user)
-        if existing_items.count() > 0:
-            return redirect(reverse('mybricks:detail', args=[str(existing_items[0].id)]))
+        handler = super(MyBrickCreateView, self).dispatch(request, *args, **kwargs)
+        existing = MyBrick.objects.filter(brickset=self.brickset).filter(user=request.user)
+        if existing.count() > 0:
+            return redirect(reverse('mybricks:detail', args=[str(existing[0].id)]))
         return handler
 
     def get_no_brickset_url(self):
         return reverse('sets:product_search_for_add')
 
     def get_context_data(self, **kwargs):
-        context = super(ItemCreateView, self).get_context_data(**kwargs)
+        context = super(MyBrickCreateView, self).get_context_data(**kwargs)
         context['brickset'] = self.brickset
 
         if self.request.POST:
@@ -107,18 +96,18 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, BrickSetFormKwargs
             if things_form.is_valid():
                 things_form.instance = self.object
                 things_form.save()
-                messages.success(self.request, 'You successfully added a brick item.', extra_tags='Items')
-        return super(ItemCreateView, self).form_valid(form)
+                messages.success(self.request, 'You successfully added a brick.', extra_tags='My Bricks')
+        return super(MyBrickCreateView, self).form_valid(form)
 
 
-class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
+class MyBrickUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     model = MyBrick
-    form_class = ItemForm
-    template_name = 'mybricks/item_form.html'
-    context_object_name = 'item'
+    form_class = MyBrickForm
+    template_name = 'mybricks/mybrick_form.html'
+    context_object_name = 'mybrick'
 
     def get_context_data(self, **kwargs):
-        context = super(ItemUpdateView, self).get_context_data(**kwargs)
+        context = super(MyBrickUpdateView, self).get_context_data(**kwargs)
         context['brickset'] = self.object.brickset
 
         if self.request.POST:
@@ -142,18 +131,18 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
             things_form.save()
             things = [t.instance for t in things_form]
             [t.delete() for t in existing_things if not list(filter(lambda thing: thing.id == t.id, things))]
-            messages.success(self.request, 'You brick item is just updated', extra_tags='Items')
-        return super(ItemUpdateView, self).form_valid(form)
+            messages.success(self.request, 'You brick is just updated', extra_tags='My Bricks')
+        return super(MyBrickUpdateView, self).form_valid(form)
 
 
-class ItemSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
+class MyBrickSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     model = MyBrick
-    form_class = ItemForm
-    template_name = 'mybricks/item_sold_form.html'
-    context_object_name = 'item'
+    form_class = MyBrickForm
+    template_name = 'mybricks/mybrick_sold_form.html'
+    context_object_name = 'mybrick'
 
     def get_context_data(self, **kwargs):
-        context = super(ItemSoldView, self).get_context_data(**kwargs)
+        context = super(MyBrickSoldView, self).get_context_data(**kwargs)
         if self.request.POST:
             context['things'] = ThingSoldFormSet(self.request.POST, queryset=self.object.thing_set.all().order_by('sold'))
         else:
@@ -167,5 +156,5 @@ class ItemSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
             if not things_form.is_valid():
                 return self.form_invalid(form)
             things_form.save()
-            messages.success(self.request, 'You brick item is just updated', extra_tags='Items')
-        return super(ItemSoldView, self).form_valid(form)
+            messages.success(self.request, 'You brick is just updated', extra_tags='My Bricks')
+        return super(MyBrickSoldView, self).form_valid(form)

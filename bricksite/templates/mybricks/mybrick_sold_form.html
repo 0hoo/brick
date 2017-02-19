@@ -10,20 +10,20 @@
 <div class="ui breadcrumb">
     <a href="{% url 'mybricks:list' %}" class="section">My Bricks</a>
     <div class="divider"> / </div>
-    {% if item.brickset.theme_title %}
-        <a href="{% url 'mybricks:list_by_theme' item.brickset.theme_title %}" class="section">{{ item.brickset.theme_title }}</a>
+    {% if mybrick.brickset.theme_title %}
+        <a href="{% url 'mybricks:list_by_theme' mybrick.brickset.theme_title %}" class="section">{{ mybrick.brickset.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ item.brickset.brick_code }}</div>
+    <div class="active section">{{ mybrick.brickset.brick_code }}</div>
 </div>
 <h1 class="ui header">
     Sold My Brick
-    <div class="sub header">{{ item.brickset.title }}, {{ item.brickset.brick_code }}</div>
+    <div class="sub header">{{ mybrick.brickset.title }}, {{ mybrick.brickset.brick_code }}</div>
 </h1>
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            {% include "snippets/product_card.html" with brickset=item.brickset %}
+            {% include "snippets/product_card.html" with brickset=mybrick.brickset %}
         </div>
         <div class="eleven wide column grid">
             <form method="post" class="ui form segment">
