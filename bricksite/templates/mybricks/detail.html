@@ -25,19 +25,19 @@ showLineChartC3('#chart-profit', [
 <div class="ui breadcrumb">
     <a href="{% url 'mybricks:list' %}" class="section">My Bricks</a>
     <div class="divider"> / </div>
-    {% if item.product.theme_title %}
-        <a href="{% url 'mybricks:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
+    {% if item.brickset.theme_title %}
+        <a href="{% url 'mybricks:list_by_theme' item.brickset.theme_title %}" class="section">{{ item.brickset.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ item.product.brick_code }}</div>
+    <div class="active section">{{ item.brickset.brick_code }}</div>
 </div>
-<h1 class="ui header">{{ item.product.title }}
-    <div class="sub header">{{ item.product.brick_code }}</div>
+<h1 class="ui header">{{ item.brickset.title }}
+    <div class="sub header">{{ item.brickset.brick_code }}</div>
 </h1>
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            {% include "snippets/product_card.html" with product=item.product %}
+            {% include "snippets/product_card.html" with brickset=item.brickset %}
         </div>
         <div class="eleven wide column grid">
             <div class="column">
@@ -49,7 +49,7 @@ showLineChartC3('#chart-profit', [
                                 <td class="six wide">
                                     <div class="ui label">Official</div>
                                 </td>
-                                <td class="ten wide right aligned">{{ item.product.official_price|floatformat:2|intcomma|price_no_data }}</td>
+                                <td class="ten wide right aligned">{{ item.brickset.official_price|floatformat:2|intcomma|price_no_data }}</td>
                             </tr>
                             <tr>
                                 <td class="six wide">
@@ -142,7 +142,7 @@ showLineChartC3('#chart-profit', [
             </div>
             <div class="ui hidden divider"></div>
             <div class="ui basic">
-                <a href="{% url 'sets:detail' item.product.id %}" class="ui grey small button">View Set</a>
+                <a href="{% url 'sets:detail' item.brickset.id %}" class="ui grey small button">View Set</a>
                 <a href="{% url 'mybricks:sold' item.id %}" class="ui small button gray"><i class="icon dollar"></i>Sold Brick</a>
                 <a href="{% url 'mybricks:edit' item.id %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
             </div>
@@ -172,19 +172,19 @@ showLineChartC3('#chart-profit', [
                     <td class="six wide">
                         <div class="ui label">Avg</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_bricklink_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Max</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_bricklink_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Min</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_bricklink_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -201,19 +201,19 @@ showLineChartC3('#chart-profit', [
                     <td class="six wide">
                         <div class="ui label">Avg</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_bricklink_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Max</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_bricklink_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Min</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_bricklink_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_bricklink_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -230,19 +230,19 @@ showLineChartC3('#chart-profit', [
                     <td class="six wide">
                         <div class="ui label">Avg</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_ebay_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.new_average_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Max</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_ebay_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.new_max_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Min</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_ebay_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.new_min_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -259,27 +259,27 @@ showLineChartC3('#chart-profit', [
                     <td class="six wide">
                         <div class="ui label">Avg</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_ebay_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.used_average_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Max</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_ebay_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.used_max_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 <tr>
                     <td class="six wide">
                         <div class="ui label">Min</div>
                     </td>
-                    <td class="ten wide right aligned">{{ item.product.last_ebay_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
+                    <td class="ten wide right aligned">{{ item.brickset.last_ebay_record.used_min_price|floatformat:2|intcomma|price_no_data }}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    {% if item.product.ebay_item_set.count > 0 %}
+    {% if item.brickset.ebay_item_set.count > 0 %}
         <div class="ui divider"></div>
-        {% include "snippets/ebay_items.html" with product=item.product %}
+        {% include "snippets/ebay_items.html" with brickset=item.brickset %}
     {% endif %}
 </div>
 {% endblock %}

@@ -62,7 +62,7 @@ showLineChartC3('#chart-ebay-used', [
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            {% include "snippets/product_card.html" with product=brickset %}
+            {% include "snippets/product_card.html" with brickset=brickset %}
         </div>
         <div class="eleven wide column grid">
             <div class="column">
@@ -191,7 +191,7 @@ showLineChartC3('#chart-ebay-used', [
                 {% if have_bookmark %}
                 <button class="ui grey small button disabled"><i class="icon shopping bag"></i>Bookmarked</button>
                 {% else %}
-                <a class="ui grey small button" href="{% url 'bookmarks:update' %}?product_id={{ brickset.id }}"><i class="icon shopping bag"></i>Bookmark</a>
+                <a class="ui grey small button" href="{% url 'bookmarks:update' %}?brickset_id={{ brickset.id }}"><i class="icon shopping bag"></i>Bookmark</a>
                 {% endif %}
             {% endif %}
             <a class="ui small yellow button" href="{{ brickset.official_url }}"><i class="icon world"></i>Official</a>
@@ -237,7 +237,7 @@ showLineChartC3('#chart-ebay-used', [
     </div>
     {% if brickset.ebay_item_set.count > 0 %}
         <div class="ui divider"></div>
-        {% include "snippets/ebay_items.html" with product=product %}
+        {% include "snippets/ebay_items.html" with brickset=brickset %}
     {% endif %}
 </div>
 

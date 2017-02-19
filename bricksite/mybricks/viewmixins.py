@@ -5,7 +5,7 @@ from sets.models import BrickSet
 
 
 class BrickSetDispatchMixin(object):
-    product = None
+    brickset = None
 
     def get_no_brickset_url(self):
         return ''

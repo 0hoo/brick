@@ -1,9 +1,9 @@
 <div class="row">
     <div class="sixteen wide column">
         <table class="ui basic table">
-            <thead><tr><th>{{ product.title }} matches in eBay</th><th>Price</th><th>Package</th><th>Available</th></tr></thead>
+            <thead><tr><th>{{ brickset.title }} matches in eBay</th><th>Price</th><th>Package</th><th>Available</th></tr></thead>
             <tbody>
-                {% for ebay_item in product.ebay_item_set.all %}
+                {% for ebay_item in brickset.ebay_item_set.all %}
                 <tr {% if ebay_item.used %}class="warning"{% endif %}>
                     <td style="max-width: 630px" class="hide_extra"><a href="{{ ebay_item.link }}">{{ ebay_item.title }}</a></td>
                     <td class="right aligned">{{ ebay_item.price }}</td>

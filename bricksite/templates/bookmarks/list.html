@@ -18,12 +18,12 @@
     <tbody>
         {% for bookmark in bookmarks %}
         <tr>
-            <td >{{ bookmark.product.product_code }}</td>
-            <td><a href="{% url 'sets:detail' bookmark.product.id %}">{{ bookmark.product.title }}</a></td>
-            <td>{{ bookmark.product.theme_title }} </td>
-            <td>{{ bookmark.product.official_price|floatformat:2|intcomma|price_no_data:"" }}</td>
-            <td>{{ bookmark.product.ages }}</td>
-            <td>{% if bookmark.product.official_rating %}{{ bookmark.product.official_rating }}{% endif %}</td>
+            <td >{{ bookmark.brickset.brick_code }}</td>
+            <td><a href="{% url 'sets:detail' bookmark.brickset.id %}">{{ bookmark.brickset.title }}</a></td>
+            <td>{{ bookmark.brickset.theme_title }} </td>
+            <td>{{ bookmark.brickset.official_price|floatformat:2|intcomma|price_no_data:"" }}</td>
+            <td>{{ bookmark.brickset.ages }}</td>
+            <td>{% if bookmark.brickset.official_rating %}{{ bookmark.brickset.official_rating }}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>

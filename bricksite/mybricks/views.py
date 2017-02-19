@@ -65,7 +65,7 @@ class EditItemView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EditItemView, self).get_context_data(**kwargs)
-        context['product'] = self.object.brickset
+        context['brickset'] = self.object.brickset
         return context
 
 
@@ -88,7 +88,7 @@ class ItemCreateView(LoginRequiredMixin, UserFormKwargsMixin, BrickSetFormKwargs
 
     def get_context_data(self, **kwargs):
         context = super(ItemCreateView, self).get_context_data(**kwargs)
-        context['product'] = self.brickset
+        context['brickset'] = self.brickset
 
         if self.request.POST:
             context['things'] = ThingFormCreateSet(self.request.POST)
@@ -119,7 +119,7 @@ class ItemUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ItemUpdateView, self).get_context_data(**kwargs)
-        context['product'] = self.object.brickset
+        context['brickset'] = self.object.brickset
 
         if self.request.POST:
             context['things'] = ThingFormUpdateSet(self.request.POST, instance=self.object, queryset=self.object.thing_set.unsold())

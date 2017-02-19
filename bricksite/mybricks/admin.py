@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from common.admin import ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, SearchByProductAdminMixin
+from common.admin import ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, SearchByBrickSetAdminMixin
 from .models import MyBrick, MyBrickRecord, MyBrickItem
 
 
-class ItemAdmin(ListFilterCreatedAdminMixin, SearchByProductAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
-    search_fields = SearchByProductAdminMixin.search_fields + ['user__username']
+class ItemAdmin(ListFilterCreatedAdminMixin, SearchByBrickSetAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
+    search_fields = SearchByBrickSetAdminMixin.search_fields + ['user__username']
 
 
 class ItemRecordAdmin(ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):

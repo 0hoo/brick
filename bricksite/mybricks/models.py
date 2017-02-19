@@ -55,7 +55,7 @@ class MyBrick(TimeStampedModel):
 
     @property
     def estimated_total_buying_price(self):
-        return sum((thing.buying_price or self.product.official_price for thing in self.thing_set.unsold()))
+        return sum((thing.buying_price or self.brickset.official_price for thing in self.thing_set.unsold()))
 
     @property
     def estimated_profit(self):
@@ -112,6 +112,7 @@ class MyBrick(TimeStampedModel):
 
     class Meta:
         unique_together = ['brickset', 'user']
+        verbose_name = 'My Brick'
 
 
 class MyBrickRecord(TimeStampedModel):
@@ -126,12 +127,12 @@ class MyBrickRecord(TimeStampedModel):
         return int(time.mktime(self.created.timetuple()) * 1000)
 
     def __str__(self):
-        return '{} {} Record {}'.format(self.item.user.username, self.item.product.title, self.created)
+        return '{} {} Record {}'.format(self.mybrick.user.username, self.mybrick.brickset.title, self.created)
 
     class Meta:
         get_latest_by = 'created'
         ordering = ('-created',)
-        verbose_name = 'Item Record'
+        verbose_name = 'My Brick Record'
 
 
 class MyBrickItemManager(models.Manager):
@@ -167,7 +168,7 @@ class MyBrickItem(TimeStampedModel):
         return 'opened' if self.opened else 'unopened'
 
     def __str__(self):
-        return '{} - {} {}'.format(self.mybrick.product.title, "Opened" if self.opened else "Unopened", self.buying_price)
+        return '{} - {} {}'.format(self.mybrick.brickset.title, "Opened" if self.opened else "Unopened", self.buying_price)
 
     class Meta:
-        verbose_name = 'Thing'
+        verbose_name = 'My Brick Item'

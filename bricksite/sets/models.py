@@ -55,6 +55,9 @@ class BrickSet(TimeStampedModel):
     def __str__(self):
         return '{} : {}'.format(self.title, self.brick_code)
 
+    class Meta:
+        verbose_name = 'Brick Set'
+
 
 class BrickSetRecordModel(TimeStampedModel):
     new_min_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
@@ -76,7 +79,7 @@ class BricklinkRecord(BrickSetRecordModel):
     brickset = models.ForeignKey(BrickSet, related_name='bricklink_record_set')
 
     def __str__(self):
-        return 'Bricklink: {} : {}'.format(self.product.title, self.created)
+        return 'Bricklink: {} : {}'.format(self.brickset.title, self.created)
 
     class Meta:
         get_latest_by = 'created'
@@ -88,12 +91,12 @@ class EbayRecord(BrickSetRecordModel):
     brickset = models.ForeignKey(BrickSet, related_name='ebay_record_set')
 
     def __str__(self):
-        return 'Ebay: {} : {}'.format(self.product.title, self.created)
+        return 'eBay: {} : {}'.format(self.brickset.title, self.created)
 
     class Meta:
         get_latest_by = 'created'
         ordering = ('-created',)
-        verbose_name = 'Ebay Record'
+        verbose_name = 'ebay Record'
 
 
 class EbayItemManager(models.Manager):
@@ -128,7 +131,7 @@ class EbayItem(TimeStampedModel):
         return self.available
 
     def __str__(self):
-        return '[Used:{}] {}: {} {}'.format(self.used, self.product.brick_code, self.price, self.title)
+        return '[Used:{}] {}: {} {}'.format(self.used, self.brickset.brick_code, self.price, self.title)
 
     class Meta:
-        verbose_name = 'Ebay Item'
+        verbose_name = 'eBay Item'

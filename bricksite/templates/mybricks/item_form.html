@@ -8,21 +8,21 @@
 <div class="ui breadcrumb">
     <a href="{% url 'mybricks:list' %}" class="section">My Bricks</a>
     <div class="divider"> / </div>
-    {% if item.product.theme_title %}
-        <a href="{% url 'mybricks:list_by_theme' item.product.theme_title %}" class="section">{{ item.product.theme_title }}</a>
+    {% if item.brickset.theme_title %}
+        <a href="{% url 'mybricks:list_by_theme' item.brickset.theme_title %}" class="section">{{ item.brickset.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ item.product.brick_code }}</div>
+    <div class="active section">{{ item.brickset.brick_code }}</div>
 </div>
 {% else %}
 <div class="ui breadcrumb">
     <a href="{% url 'sets:list' %}" class="section">Sets</a>
     <div class="divider"> / </div>
-    {% if product.theme_title %}
-        <a href="{% url 'sets:list_by_theme' product.theme_title %}" class="section">{{ product.theme_title }}</a>
+    {% if brickset.theme_title %}
+        <a href="{% url 'sets:list_by_theme' brickset.theme_title %}" class="section">{{ brickset.theme_title }}</a>
         <div class="divider"> / </div>
     {% endif %}
-    <div class="active section">{{ product.brick_code }}</div>
+    <div class="active section">{{ brickset.brick_code }}</div>
 </div>
 {% endif %}
 <h1 class="ui header">
@@ -31,12 +31,12 @@
     {% else %}
         Add My Brick
     {% endif %}
-    <div class="sub header">{{ product.title }}, {{ product.brick_code }}</div>
+    <div class="sub header">{{ brickset.title }}, {{ brickset.brick_code }}</div>
 </h1>
 <div class="ui grid">
     <div class="row">
         <div class="five wide column">
-            {% include "snippets/product_card.html" with product=product %}
+            {% include "snippets/product_card.html" with brickset=brickset %}
         </div>
         <div class="eleven wide column grid">
             <form method="post" class="ui form segment">
@@ -71,7 +71,7 @@
                     {{ form.target_price }}
                 </div>
                 <button type="submit" class="ui blue button">Save My Brick</button>
-                <a href="{% if item %}{% url 'mybricks:detail' item.id %}{% else %}{% url 'sets:detail' product.id %}{% endif %}" class="ui button">Cancel</a>
+                <a href="{% if item %}{% url 'mybricks:detail' item.id %}{% else %}{% url 'sets:detail' brickset.id %}{% endif %}" class="ui button">Cancel</a>
              </form>
         </div>
     </div>

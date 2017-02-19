@@ -4,7 +4,6 @@
 
 {% block content %}
 <h1 class="ui header">Search Sets</h1>
-<!---->
 <form class="ui form">
     <div class="fields">
         <div class="eight wide field">
@@ -28,13 +27,13 @@
     </tr>
     </thead>
     <tbody>
-        {% for product in products %}
+        {% for brickset in bricksets %}
         <tr>
-            <td >{{ product.product_code }}</td>
-            <td><a href="{% url 'sets:detail' product.id %}">{{ product.title }}</a></td>
-            <td>{{ product.theme_title }}</td>
-            <td>{{ product.official_price|floatformat:2|intcomma|price_no_data }}</td>
-            <td>{{ product.ages }}</td>
+            <td >{{ brickset.brick_code }}</td>
+            <td><a href="{% url 'sets:detail' brickset.id %}">{{ brickset.title }}</a></td>
+            <td>{{ brickset.theme_title }}</td>
+            <td>{{ brickset.official_price|floatformat:2|intcomma|price_no_data }}</td>
+            <td>{{ brickset.ages }}</td>
         </tr>
         {% endfor %}
     </tbody>

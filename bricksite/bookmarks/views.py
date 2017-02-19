@@ -10,6 +10,7 @@ from .models import Bookmark
 
 from sets.models import BrickSet
 
+
 class BookmarkListView(LoginRequiredMixin, ListView):
     model = Bookmark
     context_object_name = 'bookmarks'
@@ -18,12 +19,12 @@ class BookmarkListView(LoginRequiredMixin, ListView):
 
 class BookmarkUpdateView(LoginRequiredMixin, View):
     def get(self, request):
-        product_id = request.GET.get('product_id', None)
-        product = get_object_or_404(BrickSet, pk=product_id)
+        brickset_id = request.GET.get('brickset_id', None)
+        brickset = get_object_or_404(BrickSet, pk=brickset_id)
         Bookmark.objects.get_or_create(
-            brickset=product,
+            brickset=brickset,
             user=request.user
         )
         link_text = '<a href="' + reverse('bookmarks:list') + '">Check my bookmarks</a>.'
         messages.info(request, mark_safe('This set is bookmarked. ' + link_text), extra_tags='Bookmarks')
-        return redirect(product)
+        return redirect(brickset)

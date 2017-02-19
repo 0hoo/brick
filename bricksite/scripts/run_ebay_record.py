@@ -17,7 +17,7 @@ def setup():
 
 
 def ebay_history():
-    from products.utils import update_record_from_ebay
+    from sets.utils import update_record_from_ebay
     logger.info('START: ebay_history')
     update_record_from_ebay()
     logger.info('END: ebay_history')
