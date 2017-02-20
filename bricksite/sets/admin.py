@@ -5,7 +5,7 @@ from .models import BrickSet, BricklinkRecord, EbayRecord, EbayItem
 
 
 class BrickSetAdmin(ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
-    search_fields = ['product_code', 'title']
+    search_fields = ['brick_code', 'title']
 
 
 class BricklinkRecordAdmin(ListFilterCreatedAdminMixin, SearchByBrickSetAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):

@@ -4,8 +4,8 @@ from scrapy_djangoitem import DjangoItem
 from sets.models import BrickSet, BricklinkRecord, EbayItem
 
 
-class ProductItem(DjangoItem):
-    django_model = Product
+class BrickSetItem(DjangoItem):
+    django_model = BrickSet
 
 
 class BricklinkRecordItem(DjangoItem):

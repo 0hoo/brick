@@ -1,9 +1,9 @@
 import logging
 from datetime import datetime
 
-from django.db import IntegrityError
+from django.db.utils import IntegrityError
 
-from .items import ProductItem, EbayItem, BricklinkRecordItem
+from .items import BrickSet, EbayItem, BricklinkRecordItem
 from sets.models import BrickSet, BricklinkRecord
 
 logger = logging.getLogger()
@@ -17,12 +17,12 @@ class EbayPipeline(object):
 
 class BricklinkPipeline(object):
     def process_item(self, item: BricklinkRecordItem, spider):
-        product = item['product']
+        brickset = item['brickset']
         items = BricklinkRecord.objects.filter(created__date=datetime.utcnow().date(),
-                                               brickset__product_code=product.product_code)
+                                               brickset__brick_code=brickset.brick_code)
 
-        product.bricklink_url = item.get('bricklink_url')
-        product.save()
+        brickset.bricklink_url = item.get('bricklink_url')
+        brickset.save()
 
         if len(items) > 0:
             logger.debug('UPDATE EXIST HISTORY')
@@ -41,26 +41,26 @@ class BricklinkPipeline(object):
         return item
 
 
-class ProductPipeline(object):
-    def process_item(self, item: ProductItem, spider):
-        if not item['product_code']:
-            logger.warn("No product code: " + item['title'])
+class BrickSetPipeline(object):
+    def process_item(self, item: BrickSet, spider):
+        if not item['brick_code']:
+            logger.warning("No product code: " + item['title'])
             return
         try:
             return item.save()
         except IntegrityError as e:
             logger.info('Catch IntegrityError')
-            product = BrickSet.objects.get(product_code=item['product_code'])
-            product.title = item['title']
-            product.official_price = item.get('official_price', None)
-            product.official_image_url = item.get('official_image_url', '')
-            product.ages = item.get('ages', '')
-            product.pieces = item.get('pieces', '')
-            product.marketing_text = item.get('marketing_text', '')
-            product.official_url = item.get('official_url', '')
-            product.theme_title = item.get('theme_title', None)
-            product.official_review_count = item.get('official_review_count', None)
-            product.official_rating = item.get('official_rating', None)
-            product.bricklink_url = item.get('bricklink_url', '')
-            product.save()
+            brickset = BrickSet.objects.get(brick_code=item['brick_code'])
+            brickset.title = item['title']
+            brickset.official_price = item.get('official_price', None)
+            brickset.official_image_url = item.get('official_image_url', '')
+            brickset.ages = item.get('ages', '')
+            brickset.pieces = item.get('pieces', '')
+            brickset.marketing_text = item.get('marketing_text', '')
+            brickset.official_url = item.get('official_url', '')
+            brickset.theme_title = item.get('theme_title', '')
+            brickset.official_review_count = item.get('official_review_count', None)
+            brickset.official_rating = item.get('official_rating', None)
+            brickset.bricklink_url = item.get('bricklink_url', '')
+            brickset.save()
             logger.info("Update: " + item['title'])

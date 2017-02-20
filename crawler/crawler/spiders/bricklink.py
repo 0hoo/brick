@@ -37,15 +37,15 @@ class BricklinkSpider(InitSpider):
         return self.initialized()
 
     def parse(self, response):
-        for product in BrickSet.objects.all():
-            logger.info(product.product_code)
-            url = 'http://www.bricklink.com/catalogPG.asp?S=' + product.product_code + '-1'
-            yield scrapy.Request(url, callback=self.parse_price, dont_filter=True, meta={'product': product})
+        for brickset in BrickSet.objects.all():
+            logger.info(brickset.brick_code)
+            url = 'http://www.bricklink.com/catalogPG.asp?S=' + brickset.brick_code + '-1'
+            yield scrapy.Request(url, callback=self.parse_price, dont_filter=True, meta={'brickset': brickset})
 
     def parse_price(self, response: scrapy.http.Response):
         item = BricklinkRecordItem()
         item['bricklink_url'] = response.url
-        item['product'] = response.meta['product']
+        item['brickset'] = response.meta['brickset']
         new_rows = response.xpath("//table[@id='id-main-legacy-table']/tr/td/table[3]/tr[3]/td[3]/table//table/tr")
         if len(new_rows) > 0:
             item['new_min_price'] = xpath_get_price(new_rows[2], "td/b/text()")

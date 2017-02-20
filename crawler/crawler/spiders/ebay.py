@@ -2,7 +2,6 @@ import logging
 
 import scrapy
 from scrapy import signals
-from scrapy import Spider
 
 from ..items import EbayItem
 from .utils import xpath_get_price, xpath_get
@@ -30,21 +29,21 @@ class EbaySpider(scrapy.Spider):
     def parse(self, response):
         brick_codes = MyBrick.objects.order_by().values_list('brickset__brick_code', flat=True).distinct()
         for brick_code in brick_codes:
-            product = BrickSet.objects.get(brick_code=brick_code)
-            product.ebay_item_set.all().delete()
+            brickset = BrickSet.objects.get(brick_code=brick_code)
+            brickset.ebay_item_set.all().delete()
             logger.info(brick_code)
             url = 'http://www.ebay.com/sch/i.html?_from=R40&_nkw=lego+' + brick_code + '&_sacat=0'
-            yield scrapy.Request(url, callback=self.parse_search_list, meta={'product': product})
+            yield scrapy.Request(url, callback=self.parse_search_list, meta={'brickset': brickset})
 
     def parse_search_list(self, response):
         links = response.xpath("//div[@id='ResultSetItems']/ul/li//h3[@class='lvtitle']/a/@href").extract()
-        product = response.meta['product']
+        brickset = response.meta['brickset']
         for link in links:
-            yield scrapy.Request(link, callback=self.parse_ebay_item, meta={'product': product})
+            yield scrapy.Request(link, callback=self.parse_ebay_item, meta={'brickset': brickset})
 
     def parse_ebay_item(self, response):
         item = EbayItem()
-        item['product'] = response.meta['product']
+        item['brickset'] = response.meta['brickset']
         item['link'] = response.url
         item['title'] = response.xpath("//h1[@class='it-ttl']/text()").extract()[0]
         item['used'] = response.xpath("//div[@itemprop='itemCondition']/text()").extract()[0].upper() != 'NEW'
