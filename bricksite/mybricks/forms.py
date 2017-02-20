@@ -31,7 +31,7 @@ class MyBrickForm(UserKwargModelFormMixin, BrickSetKwargModelFormMixin, ModelFor
         return obj
 
 
-class ThingForm(ModelForm):
+class ItemForm(ModelForm):
     buying_price = forms.DecimalField(label='Buying Price', widget=Html5TelInput(), required=False)
 
     class Meta:
@@ -41,11 +41,11 @@ class ThingForm(ModelForm):
             'note': forms.Textarea(attrs={'rows': 1, 'style': 'padding: 9px 14px'}),
         }
 
-ThingFormCreateSet = inlineformset_factory(MyBrick, MyBrickItem, form=ThingForm, extra=1)
-ThingFormUpdateSet = inlineformset_factory(MyBrick, MyBrickItem, form=ThingForm, extra=0)
+ItemFormCreateSet = inlineformset_factory(MyBrick, MyBrickItem, form=ItemForm, extra=1)
+ItemFormUpdateSet = inlineformset_factory(MyBrick, MyBrickItem, form=ItemForm, extra=0)
 
 
-class ThingSoldForm(ModelForm):
+class ItemSoldForm(ModelForm):
     sold_price = forms.DecimalField(label='Sold Price', widget=Html5TelInput, required=False)
     sold_at = forms.DateField(input_formats=('%m/%d/%Y',), widget=forms.DateInput(format='%m/%d/%Y'), required=False)
 
@@ -69,4 +69,4 @@ class ThingSoldForm(ModelForm):
         model = MyBrickItem
         fields = ['sold', 'sold_price', 'sold_at']
 
-ThingSoldFormSet = modelformset_factory(MyBrickItem, form=ThingSoldForm, extra=0)
+ItemSoldFormSet = modelformset_factory(MyBrickItem, form=ItemSoldForm, extra=0)

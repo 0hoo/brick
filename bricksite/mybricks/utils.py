@@ -15,7 +15,7 @@ def update_mybrick_record(user):
     for mybrick in mybricks:
         record, created = MyBrickRecord.objects.get_or_create(mybrick=mybrick, created__date=today)
         record.quantity = mybrick.quantity
-        record.opened_quantity = mybrick.thing_set.filter(opened=True).count()
+        record.opened_quantity = mybrick.item_set.filter(opened=True).count()
         record.estimated_price = mybrick.total_estimated
         record.estimated_profit = mybrick.estimated_profit
         record.save()

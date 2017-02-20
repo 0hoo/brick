@@ -29,45 +29,45 @@
             <form method="post" class="ui form segment">
                 <h3 class="ui header">My Things</h3>
                 {% csrf_token %}
-                {{ things.management_form }}
-                {% for thing_form in things.forms %}
-                    {{ thing_form.non_field_errors }}
-                    {% ifchanged thing_form.instance.sold %}
+                {{ items.management_form }}
+                {% for item_form in items.forms %}
+                    {{ item_form.non_field_errors }}
+                    {% ifchanged item_form.instance.sold %}
                         {% if not forloop.first %}
                             <div class="ui divider"></div>
-                            <h3 class="ui header">Sold Things</h3>
+                            <h3 class="ui header">Sold items</h3>
                         {% endif %}
                     {% endifchanged %}
                     <div class="fields formset_fields">
                         <div class="two wide field">
                             <label>Sold</label>
                             <div class="ui toggle checkbox segment" style="margin-top: 0px; padding: 7px 5px; width: 100%">
-                                {% render_field thing_form.sold class+="sold" %}
+                                {% render_field item_form.sold class+="sold" %}
                                 <label><strong></strong></label>
                             </div>
                         </div>
-                        <div class="three wide field {% if thing_form.sold_price.errors %}error{% endif %}">
+                        <div class="three wide field {% if item_form.sold_price.errors %}error{% endif %}">
                             <label>Earning</label>
-                            {% for hidden in thing_form.hidden_fields %}
+                            {% for hidden in item_form.hidden_fields %}
                                 {{ hidden }}
                             {% endfor %}
-                            {{ thing_form.sold_price }}
+                            {{ item_form.sold_price }}
                         </div>
-                        <div class="four wide field {% if thing_form.sold_at.errors %}error{% endif %}">
-                            {{ thing_form.sold_at.label_tag }}
-                            {{ thing_form.sold_at|html_placeholder:"MM/DD/YYYY" }}
+                        <div class="four wide field {% if item_form.sold_at.errors %}error{% endif %}">
+                            {{ item_form.sold_at.label_tag }}
+                            {{ item_form.sold_at|html_placeholder:"MM/DD/YYYY" }}
                         </div>
                         <div class="eight wide field">
                             <label>&nbsp</label>
                             <div style="margin-top: 9px">
-                                {% if thing_form.instance.buying_price %}
-                                <span class="ui basic label"><i class="toggle {% if thing_form.instance.opened %}on{% else %}off{% endif %} icon"></i>{{ thing_form.instance.opened_text|capfirst }}</span>
+                                {% if item_form.instance.buying_price %}
+                                <span class="ui basic label"><i class="toggle {% if item_form.instance.opened %}on{% else %}off{% endif %} icon"></i>{{ item_form.instance.opened_text|capfirst }}</span>
                                 <span class="ui basic label">
-                                Spent {{ thing_form.instance.buying_price|floatformat:2|intcomma|price_no_data }}
+                                Spent {{ item_form.instance.buying_price|floatformat:2|intcomma|price_no_data }}
                                 </span>
                                 {% endif %}
-                                {% if thing_form.instance.note %}
-                                <span class="ui basic label">{{ thing_form.instance.note }}</span>
+                                {% if item_form.instance.note %}
+                                <span class="ui basic label">{{ item_form.instance.note }}</span>
                                 {% endif %}
                             </div>
                         </div>

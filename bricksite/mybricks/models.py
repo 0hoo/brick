@@ -31,31 +31,31 @@ class MyBrick(TimeStampedModel):
 
     @property
     def quantity(self):
-        return self.thing_set.filter(sold=False).count()
+        return self.item_set.filter(sold=False).count()
 
     @property
     def sold_quantity(self):
-        return self.thing_set.filter(sold=True).count()
+        return self.item_set.filter(sold=True).count()
 
     @property
     def average_sold_price(self):
-        return self.thing_set.exclude(sold_price__isnull=True).exclude(sold=False).aggregate(Avg('sold_price'))['sold_price__avg']
+        return self.item_set.exclude(sold_price__isnull=True).exclude(sold=False).aggregate(Avg('sold_price'))['sold_price__avg']
 
     @property
     def total_sold_price(self):
-        return self.thing_set.exclude(sold_price__isnull=True).exclude(sold=False).aggregate(Sum('sold_price'))['sold_price__sum']
+        return self.item_set.exclude(sold_price__isnull=True).exclude(sold=False).aggregate(Sum('sold_price'))['sold_price__sum']
 
     @property
     def average_buying_price(self):
-        return self.thing_set.exclude(buying_price__isnull=True).exclude(sold=True).aggregate(Avg('buying_price'))['buying_price__avg']
+        return self.item_set.exclude(buying_price__isnull=True).exclude(sold=True).aggregate(Avg('buying_price'))['buying_price__avg']
 
     @property
     def total_buying_price(self):
-        return self.thing_set.exclude(buying_price__isnull=True).exclude(sold=True).aggregate(Sum('buying_price'))['buying_price__sum']
+        return self.item_set.exclude(buying_price__isnull=True).exclude(sold=True).aggregate(Sum('buying_price'))['buying_price__sum']
 
     @property
     def estimated_total_buying_price(self):
-        return sum((thing.buying_price or self.brickset.official_price for thing in self.thing_set.unsold()))
+        return sum((item.buying_price or self.brickset.official_price for item in self.item_set.unsold()))
 
     @property
     def estimated_profit(self):
@@ -70,7 +70,7 @@ class MyBrick(TimeStampedModel):
         return self.estimation.price
         prices = self.estimated_new_old_price
         new_price, used_price = prices[0][0], prices[1][0]
-        return self.thing_set.unopened().count() * new_price + self.thing_set.opened().count() * used_price
+        return self.item_set.unopened().count() * new_price + self.item_set.opened().count() * used_price
 
     @property
     def estimation(self) -> Estimation:
@@ -95,8 +95,8 @@ class MyBrick(TimeStampedModel):
             used_price = self.brickset.official_price
             used_price_source = 'Official'
 
-        unopened_count = self.thing_set.unopened().count()
-        opened_count = self.thing_set.opened().count()
+        unopened_count = self.item_set.unopened().count()
+        opened_count = self.item_set.opened().count()
         total_new_price = unopened_count * new_price
         total_used_price = opened_count * used_price
         price = total_new_price + total_used_price
@@ -153,7 +153,7 @@ class MyBrickItemManager(models.Manager):
 
 
 class MyBrickItem(TimeStampedModel):
-    mybrick = models.ForeignKey(MyBrick, related_name='thing_set')
+    mybrick = models.ForeignKey(MyBrick, related_name='item_set')
     buying_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     opened = models.BooleanField(default=False)
     note = models.TextField(null=True, blank=True)

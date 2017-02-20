@@ -41,27 +41,27 @@
         <div class="eleven wide column grid">
             <form method="post" class="ui form segment">
                 {% csrf_token %}
-                {{ things.management_form }}
-                {% for thing_form in things.forms %}
-                    {{ thing_form.non_field_errors }}
+                {{ items.management_form }}
+                {% for item_form in items.forms %}
+                    {{ item_form.non_field_errors }}
                     <div class="fields formset_fields">
-                        <div class="six wide field {% if thing_form.buying_price.errors %}error{% endif %}">
+                        <div class="six wide field {% if item_form.buying_price.errors %}error{% endif %}">
                             <label>Spent</label>
-                            {% for hidden in thing_form.hidden_fields %}
+                            {% for hidden in item_form.hidden_fields %}
                                 {{ hidden }}
                             {% endfor %}
-                            {{ thing_form.buying_price }}
+                            {{ item_form.buying_price }}
                         </div>
                         <div class="five wide field">
                             <label>Opened</label>
                             <div class="ui toggle checkbox segment" style="margin-top: 0px; padding: 7px 14px; width: 100%">
-                                {% render_field thing_form.opened class+="opened" %}
-                                <label><strong>{% if thing_form.opened.value %}Opened{% else %}Unopened{% endif %}</strong></label>
+                                {% render_field item_form.opened class+="opened" %}
+                                <label><strong>{% if item_form.opened.value %}Opened{% else %}Unopened{% endif %}</strong></label>
                             </div>
                         </div>
                         <div class="five wide field">
                             <label>Note</label>
-                            {{ thing_form.note }}
+                            {{ item_form.note }}
                         </div>
                     </div>
                 {% endfor %}

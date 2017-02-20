@@ -6,7 +6,7 @@ from django.contrib import messages
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 
 from .models import MyBrick
-from .forms import MyBrickForm, ThingFormCreateSet, ThingFormUpdateSet, ThingSoldFormSet
+from .forms import MyBrickForm, ItemFormCreateSet, ItemFormUpdateSet, ItemSoldFormSet
 from .viewmixins import BrickSetFormKwargsMixin
 from .utils import update_mybrick_record
 
@@ -80,22 +80,22 @@ class MyBrickCreateView(LoginRequiredMixin, UserFormKwargsMixin, BrickSetFormKwa
         context['brickset'] = self.brickset
 
         if self.request.POST:
-            context['things'] = ThingFormCreateSet(self.request.POST)
+            context['items'] = ItemFormCreateSet(self.request.POST)
         else:
-            formset = ThingFormCreateSet()
-            for thing_form in formset:
-                thing_form.initial = {'buying_price': self.brickset.official_price}
-            context['things'] = formset
+            formset = ItemFormCreateSet()
+            for item_form in formset:
+                item_form.initial = {'buying_price': self.brickset.official_price}
+            context['items'] = formset
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        things_form = context['things']
+        items_form = context['items']
         with transaction.atomic():
             self.object = form.save()
-            if things_form.is_valid():
-                things_form.instance = self.object
-                things_form.save()
+            if items_form.is_valid():
+                items_form.instance = self.object
+                items_form.save()
                 messages.success(self.request, 'You successfully added a brick.', extra_tags='My Bricks')
         return super(MyBrickCreateView, self).form_valid(form)
 
@@ -111,26 +111,26 @@ class MyBrickUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
         context['brickset'] = self.object.brickset
 
         if self.request.POST:
-            context['things'] = ThingFormUpdateSet(self.request.POST, instance=self.object, queryset=self.object.thing_set.unsold())
+            context['items'] = ItemFormUpdateSet(self.request.POST, instance=self.object, queryset=self.object.item_set.unsold())
         else:
-            context['things'] = ThingFormUpdateSet(instance=self.object, queryset=self.object.thing_set.unsold())
+            context['items'] = ItemFormUpdateSet(instance=self.object, queryset=self.object.item_set.unsold())
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        things_form = context['things']
-        existing_things = self.object.thing_set.unsold()
+        items_form = context['items']
+        existing_items = self.object.item_set.unsold()
         with transaction.atomic():
             self.object = form.save()
-            if not things_form.is_valid():
+            if not items_form.is_valid():
                 return self.form_invalid(form)
-            if len(things_form) == 0:
+            if len(items_form) == 0:
                 self.object.delete()
                 return redirect(reverse('mybricks:list'))
-            things_form.instance = self.object
-            things_form.save()
-            things = [t.instance for t in things_form]
-            [t.delete() for t in existing_things if not list(filter(lambda thing: thing.id == t.id, things))]
+            items_form.instance = self.object
+            items_form.save()
+            items = [i.instance for i in items_form]
+            [i.delete() for i in existing_items if not list(filter(lambda item: item.id == i.id, items))]
             messages.success(self.request, 'You brick is just updated', extra_tags='My Bricks')
         return super(MyBrickUpdateView, self).form_valid(form)
 
@@ -144,17 +144,17 @@ class MyBrickSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(MyBrickSoldView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['things'] = ThingSoldFormSet(self.request.POST, queryset=self.object.thing_set.all().order_by('sold'))
+            context['items'] = ItemSoldFormSet(self.request.POST, queryset=self.object.item_set.all().order_by('sold'))
         else:
-            context['things'] = ThingSoldFormSet(queryset=self.object.thing_set.all().order_by('sold'))
+            context['items'] = ItemSoldFormSet(queryset=self.object.item_set.all().order_by('sold'))
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        things_form = context['things']
+        items_form = context['items']
         with transaction.atomic():
-            if not things_form.is_valid():
+            if not items_form.is_valid():
                 return self.form_invalid(form)
-            things_form.save()
+            items_form.save()
             messages.success(self.request, 'You brick is just updated', extra_tags='My Bricks')
         return super(MyBrickSoldView, self).form_valid(form)

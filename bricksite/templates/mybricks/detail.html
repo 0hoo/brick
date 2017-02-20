@@ -115,7 +115,7 @@ showLineChartC3('#chart-profit', [
                 {% if mybrick.quantity == 1 %}
                     <p>
                         You have <span class="ui circular label">1</span>
-                        <strong>{{ mybrick.thing_set.first.opened_text }}</strong> thing of this brick.
+                        <strong>{{ mybrick.item_set.first.opened_text }}</strong> thing of this brick.
                     </p>
                 {% else %}
                     <p>
@@ -125,15 +125,15 @@ showLineChartC3('#chart-profit', [
                         {% endif %}
                     </p>
                     <div class="ui list">
-                    {% for thing in mybrick.thing_set.all %}
+                    {% for item in mybrick.item_set.all %}
                         <div class="item">
                             <span class="ui basic label"><i class="cube icon"></i>{{ forloop.counter }}</span>
-                            {% if thing.sold %}
+                            {% if item.sold %}
                             <span class="ui basic label"><i class="money icon"></i>Sold</span>
                             {% endif %}
-                            <span class="ui basic label"><i class="toggle {% if thing.opened %}on{% else %}off{% endif %} icon"></i>{{ thing.opened_text|capfirst }}</span>
-                            <span class="ui basic label">Spent {{ thing.buying_price|floatformat:2|intcomma|price_no_data }}</span>
-                            {% if thing.note %}<span class="ui basic label">{{ thing.note }}</span>{% endif %}
+                            <span class="ui basic label"><i class="toggle {% if item.opened %}on{% else %}off{% endif %} icon"></i>{{ item.opened_text|capfirst }}</span>
+                            <span class="ui basic label">Spent {{ item.buying_price|floatformat:2|intcomma|price_no_data }}</span>
+                            {% if item.note %}<span class="ui basic label">{{ item.note }}</span>{% endif %}
                         </div>
                     {% endfor %}
                     </div>
