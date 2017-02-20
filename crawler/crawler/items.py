@@ -1,7 +1,7 @@
 import scrapy
 from scrapy_djangoitem import DjangoItem
 
-from sets.models import BrickSet, BricklinkRecord, EbayItem
+from sets.models import BrickSet, BricklinkRecord, EbayEntry
 
 
 class BrickSetItem(DjangoItem):
@@ -13,5 +13,5 @@ class BricklinkRecordItem(DjangoItem):
     bricklink_url = scrapy.Field()
 
 
-class EbayItem(DjangoItem):
-    django_model = EbayItem
+class EbayEntryItem(DjangoItem):
+    django_model = EbayEntry

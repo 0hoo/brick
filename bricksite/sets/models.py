@@ -99,20 +99,20 @@ class EbayRecord(BrickSetRecordModel):
         verbose_name = 'ebay Record'
 
 
-class EbayItemManager(models.Manager):
+class EbayEntryManager(models.Manager):
     def get_queryset(self):
-        return super(EbayItemManager, self).get_queryset().order_by('-price')
+        return super(EbayEntryManager, self).get_queryset().order_by('-price')
 
 
-class EbayItem(TimeStampedModel):
-    brickset = models.ForeignKey(BrickSet, related_name='ebay_item_set')
+class EbayEntry(TimeStampedModel):
+    brickset = models.ForeignKey(BrickSet, related_name='ebay_entry_set')
     title = models.CharField(max_length=255, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     used = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     available = models.CharField(max_length=255, null=True, blank=True)
 
-    objects = EbayItemManager()
+    objects = EbayEntryManager()
 
     @property
     def available_text(self):

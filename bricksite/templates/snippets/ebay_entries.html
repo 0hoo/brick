@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="sixteen wide column">
+        <table class="ui basic table">
+            <thead><tr><th>{{ brickset.title }} matches in eBay</th><th>Price</th><th>Package</th><th>Available</th></tr></thead>
+            <tbody>
+                {% for ebay_entry in brickset.ebay_entry_set.all %}
+                <tr {% if ebay_entry.used %}class="warning"{% endif %}>
+                    <td style="max-width: 630px" class="hide_extra"><a href="{{ ebay_entry.link }}">{{ ebay_entry.title }}</a></td>
+                    <td class="right aligned">{{ ebay_entry.price }}</td>
+                    <td class="center aligned">{% if ebay_entry.used %}<strong>Used</strong>{% else %}<strong>New</strong>{% endif %}</td>
+                    <td style="max-width: 92px" class="hide_extra center aligned">{{ ebay_entry.available_text }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

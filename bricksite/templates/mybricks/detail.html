@@ -277,9 +277,9 @@ showLineChartC3('#chart-profit', [
             </table>
         </div>
     </div>
-    {% if mybrick.brickset.ebay_item_set.count > 0 %}
+    {% if mybrick.brickset.ebay_entry_set.count > 0 %}
         <div class="ui divider"></div>
-        {% include "snippets/ebay_items.html" with brickset=mybrick.brickset %}
+        {% include "snippets/ebay_entries.html" with brickset=mybrick.brickset %}
     {% endif %}
 </div>
 {% endblock %}

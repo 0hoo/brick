@@ -3,7 +3,7 @@ import logging
 import scrapy
 from scrapy import signals
 
-from ..items import EbayItem
+from ..items import EbayEntryItem
 from .utils import xpath_get_price, xpath_get
 from .utils import post_message_to_telegram_bot
 
@@ -30,7 +30,7 @@ class EbaySpider(scrapy.Spider):
         brick_codes = MyBrick.objects.order_by().values_list('brickset__brick_code', flat=True).distinct()
         for brick_code in brick_codes:
             brickset = BrickSet.objects.get(brick_code=brick_code)
-            brickset.ebay_item_set.all().delete()
+            brickset.ebay_entry_set.all().delete()
             logger.info(brick_code)
             url = 'http://www.ebay.com/sch/i.html?_from=R40&_nkw=lego+' + brick_code + '&_sacat=0'
             yield scrapy.Request(url, callback=self.parse_search_list, meta={'brickset': brickset})
@@ -42,7 +42,7 @@ class EbaySpider(scrapy.Spider):
             yield scrapy.Request(link, callback=self.parse_ebay_item, meta={'brickset': brickset})
 
     def parse_ebay_item(self, response):
-        item = EbayItem()
+        item = EbayEntryItem()
         item['brickset'] = response.meta['brickset']
         item['link'] = response.url
         item['title'] = response.xpath("//h1[@class='it-ttl']/text()").extract()[0]

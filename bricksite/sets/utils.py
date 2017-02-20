@@ -8,8 +8,8 @@ def update_record_from_ebay():
     today = datetime.utcnow().date()
 
     for brickset in BrickSet.objects.all():
-        ebay_items = brickset.ebay_item_set.filter(created__date=today)
-        if ebay_items.count() == 0:
+        ebay_entries = brickset.ebay_entry_set.filter(created__date=today)
+        if ebay_entries.count() == 0:
             continue
 
         ebay_new_min_price = brickset.official_price
@@ -24,22 +24,22 @@ def update_record_from_ebay():
         new_count = 0
         used_count = 0
 
-        for ebay_item in ebay_items:
-            if not ebay_item.price or \
-                    (not ebay_item.used and ebay_item.price < (brickset.official_price / Decimal(3.0))) or \
-                    (ebay_item.used and ebay_item.price < (brickset.official_price / Decimal(5.0))):
-                items_to_delete.append(ebay_item)
+        for ebay_entry in ebay_entries:
+            if not ebay_entry.price or \
+                    (not ebay_entry.used and ebay_entry.price < (brickset.official_price / Decimal(3.0))) or \
+                    (ebay_entry.used and ebay_entry.price < (brickset.official_price / Decimal(5.0))):
+                items_to_delete.append(ebay_entry)
                 continue
 
-            if ebay_item.used:
-                ebay_used_min_price = min(ebay_used_min_price, ebay_item.price)
-                ebay_used_max_price = max(ebay_used_max_price, ebay_item.price)
-                used_sum += ebay_item.price
+            if ebay_entry.used:
+                ebay_used_min_price = min(ebay_used_min_price, ebay_entry.price)
+                ebay_used_max_price = max(ebay_used_max_price, ebay_entry.price)
+                used_sum += ebay_entry.price
                 used_count += 1
             else:
-                ebay_new_min_price = min(ebay_new_min_price, ebay_item.price)
-                ebay_new_max_price = max(ebay_new_max_price, ebay_item.price)
-                new_sum += ebay_item.price
+                ebay_new_min_price = min(ebay_new_min_price, ebay_entry.price)
+                ebay_new_max_price = max(ebay_new_max_price, ebay_entry.price)
+                new_sum += ebay_entry.price
                 new_count += 1
 
         if new_count > 0:

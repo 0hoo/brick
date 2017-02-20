@@ -235,9 +235,9 @@ showLineChartC3('#chart-ebay-used', [
             <div id="chart-ebay-used"></div>
         </div>
     </div>
-    {% if brickset.ebay_item_set.count > 0 %}
+    {% if brickset.ebay_entry_set.count > 0 %}
         <div class="ui divider"></div>
-        {% include "snippets/ebay_items.html" with brickset=brickset %}
+        {% include "snippets/ebay_entries.html" with brickset=brickset %}
     {% endif %}
 </div>
 

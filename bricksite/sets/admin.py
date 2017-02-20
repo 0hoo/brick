@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from common.admin import ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, SearchByBrickSetAdminMixin
-from .models import BrickSet, BricklinkRecord, EbayRecord, EbayItem
+from .models import BrickSet, BricklinkRecord, EbayRecord, EbayEntry
 
 
 class BrickSetAdmin(ListFilterCreatedAdminMixin, ReadonlyDatesAdminMixin, admin.ModelAdmin):
@@ -23,4 +23,4 @@ class EbayItemAdmin(SearchByBrickSetAdminMixin, ReadonlyDatesAdminMixin, admin.M
 admin.site.register(BrickSet, BrickSetAdmin)
 admin.site.register(BricklinkRecord, BricklinkRecordAdmin)
 admin.site.register(EbayRecord, EbayRecordAdmin)
-admin.site.register(EbayItem, EbayItemAdmin)
+admin.site.register(EbayEntry, EbayItemAdmin)

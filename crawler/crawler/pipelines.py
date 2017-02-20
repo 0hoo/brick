@@ -3,14 +3,14 @@ from datetime import datetime
 
 from django.db.utils import IntegrityError
 
-from .items import BrickSet, EbayItem, BricklinkRecordItem
+from .items import BrickSet, EbayEntryItem, BricklinkRecordItem
 from sets.models import BrickSet, BricklinkRecord
 
 logger = logging.getLogger()
 
 
 class EbayPipeline(object):
-    def process_item(self, item: EbayItem, spider):
+    def process_item(self, item: EbayEntryItem, spider):
         item.save()
         return item
 
