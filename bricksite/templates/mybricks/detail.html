@@ -115,13 +115,13 @@ showLineChartC3('#chart-profit', [
                 {% if mybrick.quantity == 1 %}
                     <p>
                         You have <span class="ui circular label">1</span>
-                        <strong>{{ mybrick.item_set.first.opened_text }}</strong> thing of this brick.
+                        <strong>{{ mybrick.item_set.first.opened_text }}</strong> item of this brick.
                     </p>
                 {% else %}
                     <p>
-                        You have <strong>{{ mybrick.quantity }}</strong> thing{{ mybrick.quantity|pluralize }} of this brick.
+                        You have <strong>{{ mybrick.quantity }}</strong> item{{ mybrick.quantity|pluralize }} of this brick.
                         {% if mybrick.sold_quantity %}
-                        You sold <strong>{{ mybrick.sold_quantity }}</strong> thing{{ mybrick.sold_quantity|pluralize }} of this brick.
+                        You sold <strong>{{ mybrick.sold_quantity }}</strong> item{{ mybrick.sold_quantity|pluralize }} of this brick.
                         {% endif %}
                     </p>
                     <div class="ui list">

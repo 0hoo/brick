@@ -27,7 +27,7 @@
         </div>
         <div class="eleven wide column grid">
             <form method="post" class="ui form segment">
-                <h3 class="ui header">My Things</h3>
+                <h3 class="ui header">My Items</h3>
                 {% csrf_token %}
                 {{ items.management_form }}
                 {% for item_form in items.forms %}
@@ -35,7 +35,7 @@
                     {% ifchanged item_form.instance.sold %}
                         {% if not forloop.first %}
                             <div class="ui divider"></div>
-                            <h3 class="ui header">Sold items</h3>
+                            <h3 class="ui header">Sold Items</h3>
                         {% endif %}
                     {% endifchanged %}
                     <div class="fields formset_fields">

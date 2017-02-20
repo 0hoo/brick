@@ -87,11 +87,11 @@
     });
 
     $('.formset_fields').formset({
-        addText: 'Add Thing',
+        addText: 'Add Item',
         addCssClass: 'add-row ui secondary basic button',
         deleteText: 'Remove',
         deleteCssClass: 'delete-row ui button',
-        prefix: 'thing_set',
+        prefix: 'item_set',
         askWhenDelete: {% if mybrick %}true{% else %}false{% endif %},
         hideDeleteForFirst: {% if mybrick %}false{% else %}true{% endif %},
         clearFieldWhenAdd: false,
