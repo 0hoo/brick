@@ -43,7 +43,7 @@ def snapshot_latest_dashboard(user):
         dashboard = Dashboard()
 
     dashboard.user = user
-    dashboard.item_count = len(mybricks)
+    dashboard.mybrick_count = len(mybricks)
     dashboard.item_quantity = item_quantity
     dashboard.sold_quantity = sold_quantity
     dashboard.total_buying_price = total_buying_price

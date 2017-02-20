@@ -23,7 +23,7 @@ class DashboardTests(TestCase):
         self.assertEqual(Dashboard.objects.count(), 1)
         self.assertIsNotNone(dashboard)
         self.assertEqual(dashboard.user, self.user)
-        self.assertEqual(dashboard.item_count, 0)
+        self.assertEqual(dashboard.mybrick_count, 0)
         self.assertEqual(dashboard.item_quantity, 0)
         self.assertEqual(dashboard.total_buying_price, 0)
         self.assertEqual(dashboard.total_estimated_price, 0)
@@ -49,7 +49,7 @@ class DashboardTests(TestCase):
 
         dashboard = snapshot_latest_dashboard(self.user)
         self.assertEqual(Dashboard.objects.count(), 1)
-        self.assertEqual(dashboard.item_count, 1)
+        self.assertEqual(dashboard.mybrick_count, 1)
         self.assertEqual(dashboard.item_quantity, 2)
         self.assertEqual(dashboard.total_buying_price, 8.0 + 9.0)
         self.assertEqual(dashboard.total_estimated_price, 20)
@@ -62,7 +62,7 @@ class DashboardTests(TestCase):
 
         dashboard = snapshot_latest_dashboard(self.user)
         self.assertEqual(Dashboard.objects.count(), 1)
-        self.assertEqual(dashboard.item_count, 1)
+        self.assertEqual(dashboard.mybrick_count, 1)
         self.assertEqual(dashboard.item_quantity, 3)
         self.assertEqual(dashboard.total_buying_price, 8.0 + 9.0 + 7.0)
         self.assertEqual(dashboard.total_estimated_price, 15.0 * 2 + 12.5)

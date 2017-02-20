@@ -12,7 +12,7 @@ from mybricks.models import MyBrick, MyBrickItem
 class Dashboard(TimeStampedModel):
     user = models.ForeignKey(User, related_name='dashboard_set')
 
-    item_count = models.PositiveIntegerField()
+    mybrick_count = models.PositiveIntegerField()
     item_quantity = models.PositiveIntegerField()
     sold_quantity = models.PositiveIntegerField()
     bookmarked_item_count = models.PositiveIntegerField()
@@ -39,7 +39,7 @@ def theme_titles(user):
     return MyBrick.objects.filter(user=user).values_list('brickset__theme_title', flat=True).distinct().order_by('brickset__theme_title')
 
 
-def item_count_by_theme(user):
+def mybrick_count_by_theme(user):
     return MyBrick.objects.filter(user=user).values('brickset__theme_title').annotate(count=Count('id')).order_by('-count')
 
 

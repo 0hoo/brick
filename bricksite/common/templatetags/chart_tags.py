@@ -36,5 +36,4 @@ def generate_c3_pie_array_dict(dict_items):
     for k, v in dict_items:
         result += "['%s', %s], " % (k, v)
     result += ']'
-    print(result)
     return result
