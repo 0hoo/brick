@@ -10,103 +10,103 @@ from .utils import update_mybrick_record
 from sets.models import BrickSet, BricklinkRecord, EbayRecord
 
 
-class ItemTests(TestCase):
+class MyBrickTests(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
         BrickSet.objects.create(brick_code=1, title='Test Product', official_price=10.0)
-        self.product = BrickSet.objects.get(brick_code=1)
+        self.brickset = BrickSet.objects.get(brick_code=1)
 
-    def test_buying_price_with_no_things(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        self.assertEqual(item.quantity, 0)
-        self.assertEqual(item.total_buying_price, None)
-        self.assertEqual(item.average_buying_price, None)
-        self.assertEqual(item.estimated_total_buying_price, 0)
+    def test_buying_price_with_no_items(self):
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        self.assertEqual(mybrick.quantity, 0)
+        self.assertEqual(mybrick.total_buying_price, None)
+        self.assertEqual(mybrick.average_buying_price, None)
+        self.assertEqual(mybrick.estimated_total_buying_price, 0)
 
-    def test_buying_price_with_things(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        MyBrickItem.objects.create(item=item, buying_price=15.0)
-        MyBrickItem.objects.create(item=item, buying_price=18.0)
-        MyBrickItem.objects.create(item=item, buying_price=14.0)
-        self.assertEqual(item.quantity, 3)
-        self.assertEqual(item.total_buying_price, 15.0 + 18.0 + 14.0)
-        self.assertEqual(item.estimated_total_buying_price, item.total_buying_price)
-        self.assertEqual(item.average_buying_price, float(item.total_buying_price) / 3.0)
+    def test_buying_price_with_items(self):
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        MyBrickItem.objects.create(mybrick=mybrick, buying_price=15.0)
+        MyBrickItem.objects.create(mybrick=mybrick, buying_price=18.0)
+        MyBrickItem.objects.create(mybrick=mybrick, buying_price=14.0)
+        self.assertEqual(mybrick.quantity, 3)
+        self.assertEqual(mybrick.total_buying_price, 15.0 + 18.0 + 14.0)
+        self.assertEqual(mybrick.estimated_total_buying_price, mybrick.total_buying_price)
+        self.assertEqual(mybrick.average_buying_price, float(mybrick.total_buying_price) / 3.0)
 
-        MyBrickItem.objects.create(item=item)
-        self.assertEqual(item.quantity, 4)
-        self.assertEqual(item.total_buying_price, 15.0 + 18.0 + 14.0)
-        self.assertEqual(item.average_buying_price, float(item.total_buying_price) / 3.0)
-        self.assertNotEqual(item.estimated_total_buying_price, item.total_buying_price)
-        self.assertEqual(item.estimated_total_buying_price, item.total_buying_price + self.product.official_price)
+        MyBrickItem.objects.create(mybrick=mybrick)
+        self.assertEqual(mybrick.quantity, 4)
+        self.assertEqual(mybrick.total_buying_price, 15.0 + 18.0 + 14.0)
+        self.assertEqual(mybrick.average_buying_price, float(mybrick.total_buying_price) / 3.0)
+        self.assertNotEqual(mybrick.estimated_total_buying_price, mybrick.total_buying_price)
+        self.assertEqual(mybrick.estimated_total_buying_price, mybrick.total_buying_price + self.brickset.official_price)
 
-    def test_total_estimated_with_bricklink_history_no_things(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        BricklinkRecord.objects.create(product=self.product, new_average_price=99.0)
-        self.assertEqual(item.total_estimated, 0, "Estimated value of item which have no things is zero")
+    def test_total_estimated_with_bricklink_history_no_items(self):
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        BricklinkRecord.objects.create(brickset=self.brickset, new_average_price=99.0)
+        self.assertEqual(mybrick.total_estimated, 0, "Estimated value of item which have no things is zero")
 
-    def test_total_estimated_with_opened_things(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        MyBrickItem.objects.create(item=item, opened=False)
-        MyBrickItem.objects.create(item=item, opened=True)
-        BricklinkRecord.objects.create(product=self.product, new_average_price=22.0, used_average_price=16.0)
-        self.assertEqual(item.total_estimated, 22.0 + 16.0)
+    def test_total_estimated_with_opened_items(self):
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=False)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=True)
+        BricklinkRecord.objects.create(brickset=self.brickset, new_average_price=22.0, used_average_price=16.0)
+        self.assertEqual(mybrick.total_estimated, 22.0 + 16.0)
 
-    def test_total_estimated_with_ebay_history(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        MyBrickItem.objects.create(item=item, opened=False)
-        MyBrickItem.objects.create(item=item, opened=True)
-        EbayRecord.objects.create(product=self.product, new_average_price=20.0, used_average_price=15.5)
-        self.assertEqual(item.total_estimated, 20.0 + 15.5)
+    def test_total_estimated_with_ebay_record(self):
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=False)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=True)
+        EbayRecord.objects.create(brickset=self.brickset, new_average_price=20.0, used_average_price=15.5)
+        self.assertEqual(mybrick.total_estimated, 20.0 + 15.5)
 
     def test_total_estimated_with_bricklink_new_ebay_used(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        MyBrickItem.objects.create(item=item, opened=False)
-        MyBrickItem.objects.create(item=item, opened=True)
-        BricklinkRecord.objects.create(product=self.product, new_average_price=22.0)
-        EbayRecord.objects.create(product=self.product, used_average_price=15.5)
-        self.assertEqual(item.total_estimated, 22.0 + 15.5)
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=False)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=True)
+        BricklinkRecord.objects.create(brickset=self.brickset, new_average_price=22.0)
+        EbayRecord.objects.create(brickset=self.brickset, used_average_price=15.5)
+        self.assertEqual(mybrick.total_estimated, 22.0 + 15.5)
 
-    def test_total_estimated_with_official_price_if_history_missing(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        self.assertEqual(item.total_estimated, self.product.official_price * item.quantity)
+    def test_total_estimated_with_official_price_if_record_missing(self):
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        self.assertEqual(mybrick.total_estimated, self.brickset.official_price * mybrick.quantity)
 
-        record = EbayRecord.objects.create(product=self.product, used_average_price=Decimal(15.5))
-        MyBrickItem.objects.create(item=item, opened=False)
-        MyBrickItem.objects.create(item=item, opened=True)
-        self.assertEqual(item.total_estimated, self.product.official_price + record.used_average_price)
+        record = EbayRecord.objects.create(brickset=self.brickset, used_average_price=Decimal(15.5))
+        MyBrickItem.objects.create(mybrick=mybrick, opened=False)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=True)
+        self.assertEqual(mybrick.total_estimated, self.brickset.official_price + record.used_average_price)
 
         record.delete()
-        self.assertEqual(item.total_estimated, self.product.official_price + self.product.official_price)
+        self.assertEqual(mybrick.total_estimated, self.brickset.official_price + self.brickset.official_price)
 
     def test_estimated_profit(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        MyBrickItem.objects.create(item=item, buying_price=15.0, opened=False)
-        MyBrickItem.objects.create(item=item, opened=True)
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        MyBrickItem.objects.create(mybrick=mybrick, buying_price=15.0, opened=False)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=True)
 
-        BricklinkRecord.objects.create(product=self.product, new_average_price=22.0)
-        EbayRecord.objects.create(product=self.product, used_average_price=15.5)
+        BricklinkRecord.objects.create(brickset=self.brickset, new_average_price=22.0)
+        EbayRecord.objects.create(brickset=self.brickset, used_average_price=15.5)
 
-        self.assertEqual(item.total_estimated, 22.0 + 15.5)
-        self.assertEqual(item.total_buying_price, 15.0)
-        self.assertEqual(item.estimated_total_buying_price, 15.0 + float(self.product.official_price))
-        self.assertEqual(item.estimated_profit, item.total_estimated - item.estimated_total_buying_price)
+        self.assertEqual(mybrick.total_estimated, 22.0 + 15.5)
+        self.assertEqual(mybrick.total_buying_price, 15.0)
+        self.assertEqual(mybrick.estimated_total_buying_price, 15.0 + float(self.brickset.official_price))
+        self.assertEqual(mybrick.estimated_profit, mybrick.total_estimated - mybrick.estimated_total_buying_price)
 
         
-class ItemRecordTests(TestCase):
+class MyBrickRecordTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
         BrickSet.objects.create(brick_code=1, title='Test Product', official_price=10.0)
-        self.product = BrickSet.objects.get(brick_code=1)
+        self.brickset = BrickSet.objects.get(brick_code=1)
 
     def test_update_item_record_make_no_record(self):
         self.assertEqual(MyBrickRecord.objects.count(), 0)
@@ -115,19 +115,19 @@ class ItemRecordTests(TestCase):
 
     def test_update_item_record_make_update_record(self):
         self.assertEqual(MyBrickRecord.objects.count(), 0)
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        MyBrickItem.objects.create(item=item, opened=False)
-        MyBrickItem.objects.create(item=item, opened=False)
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=False)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=False)
         update_mybrick_record(self.user)
         self.assertEqual(MyBrickRecord.objects.count(), 1)
         record = MyBrickRecord.objects.latest()
         self.assertEqual(record.created.date(), datetime.utcnow().date())
         self.assertEqual(record.quantity, 2)
-        self.assertEqual(record.estimated_price, item.total_estimated)
-        self.assertEqual(record.estimated_profit, item.estimated_profit)
+        self.assertEqual(record.estimated_price, mybrick.total_estimated)
+        self.assertEqual(record.estimated_profit, mybrick.estimated_profit)
 
-        BricklinkRecord.objects.create(product=self.product, new_average_price=16.0)
+        BricklinkRecord.objects.create(brickset=self.brickset, new_average_price=16.0)
         update_mybrick_record(self.user)
         self.assertEqual(MyBrickRecord.objects.count(), 1)
         record = MyBrickRecord.objects.latest()
@@ -135,11 +135,11 @@ class ItemRecordTests(TestCase):
         self.assertEqual(record.estimated_price, 16 * 2.0)
 
     def test_update_item_record_opened_quantity(self):
-        MyBrick.objects.create(product=self.product, user=self.user)
-        item = MyBrick.objects.get(product=self.product)
-        MyBrickItem.objects.create(item=item, opened=False)
-        MyBrickItem.objects.create(item=item, opened=True)
-        MyBrickItem.objects.create(item=item, opened=True)
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=False)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=True)
+        MyBrickItem.objects.create(mybrick=mybrick, opened=True)
 
         update_mybrick_record(self.user)
 
