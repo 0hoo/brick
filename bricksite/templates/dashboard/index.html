@@ -26,7 +26,7 @@ showLineChartC3('#chart-dashboard2', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
         {% generate_c3_array user.dashboard_set.all field='mybrick_count' label='My Bricks' %},
-        {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Total Quantity' %},
+        {% generate_c3_array user.dashboard_set.all field='mybrick_quantity' label='Total Quantity' %},
         {% generate_c3_array user.dashboard_set.all field='sold_quantity' label='Sold Quantity' %},
     {% endautoescape %}
 ], 900, 'line');
@@ -48,13 +48,13 @@ showPieChartC3('#chart-item-count-themes',
 showLineChartC3('#chart-total-quantity', [
     {% autoescape off %}
         {% generate_c3_array user.dashboard_set.all field='created' label='date' is_date=True %},
-        {% generate_c3_array user.dashboard_set.all field='item_quantity' label='Quantity' %},
+        {% generate_c3_array user.dashboard_set.all field='mybrick_quantity' label='Quantity' %},
     {% endautoescape %}
 ], 900, 'line');
 
 showPieChartC3('#chart-total-quantity-themes',
     {% autoescape off %}
-        {% generate_c3_pie_array item_quantity_by_theme label='mybrick__brickset__theme_title' field='count' %}
+        {% generate_c3_pie_array mybrick_quantity_by_theme label='mybrick__brickset__theme_title' field='count' %}
     {% endautoescape %}
 );
 
@@ -155,7 +155,7 @@ showPieChartC3('#chart-sold-price-themes',
 
 <div class="ui five stackable cards">
     {% include "dashboard/widget.html" with title="My Bricks" value_size="small" icon="inbox" value=dashboard.mybrick_count history_link='#divider-item-count' theme_link='#divider-item-count' %}
-    {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.item_quantity history_link='#divider-total-quantity' theme_link='#divider-total-quantity' %}
+    {% include "dashboard/widget.html" with title="Total Quantity" value_size="small" icon="archive" value=dashboard.mybrick_quantity history_link='#divider-total-quantity' theme_link='#divider-total-quantity' %}
     {% include "dashboard/widget.html" with title="Sold Quantity" value_size="small" icon="archive" value=dashboard.sold_quantity history_link='#divider-sold-quantity' theme_link='#divider-sold-quantity' %}
     {% include "dashboard/widget.html" with title="Total Earnings" value_size="tiny" value=dashboard.total_sold_price|floatformat:2|intcomma icon="dollar" history_link='#divider-sold' theme_link='#divider-sold' %}
     {% include "dashboard/widget.html" with title="Bookmarks" value_size="small" icon="inbox" value=request.user.bookmark_set.count hide_extra=True %}
@@ -202,7 +202,7 @@ showPieChartC3('#chart-sold-price-themes',
 <div class="ui divider" id="divider-total-quantity"></div>
 
 <h3 class="ui header">Total Quantity
-    <div class="sub header">Latest: {{ dashboard.item_quantity }}</div>
+    <div class="sub header">Latest: {{ dashboard.mybrick_quantity }}</div>
 </h3>
 <div class="ui grid">
     <div class="row">
@@ -223,7 +223,7 @@ showPieChartC3('#chart-sold-price-themes',
                     </tr>
                 </thead>
                 <tbody>
-                {% for quantity_by_theme in item_quantity_by_theme %}
+                {% for quantity_by_theme in mybrick_quantity_by_theme %}
                     <tr>
                         <td>{{ quantity_by_theme.mybrick__brickset__theme_title }}</td>
                         <td>{{ quantity_by_theme.count }}</td>

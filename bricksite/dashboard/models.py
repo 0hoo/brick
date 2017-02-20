@@ -13,7 +13,7 @@ class Dashboard(TimeStampedModel):
     user = models.ForeignKey(User, related_name='dashboard_set')
 
     mybrick_count = models.PositiveIntegerField()
-    item_quantity = models.PositiveIntegerField()
+    mybrick_quantity = models.PositiveIntegerField()
     sold_quantity = models.PositiveIntegerField()
     bookmarked_item_count = models.PositiveIntegerField()
 
@@ -43,7 +43,7 @@ def mybrick_count_by_theme(user):
     return MyBrick.objects.filter(user=user).values('brickset__theme_title').annotate(count=Count('id')).order_by('-count')
 
 
-def item_quantity_by_theme(user):
+def mybrick_quantity_by_theme(user):
     return MyBrickItem.objects.filter(mybrick__user=user).values('mybrick__brickset__theme_title').annotate(count=Count('id')).order_by('-count')
 
 

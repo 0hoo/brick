@@ -3,7 +3,7 @@ from braces.views import LoginRequiredMixin
 
 from .utils import snapshot_latest_dashboard
 
-from .models import mybrick_count_by_theme, item_quantity_by_theme, official_price_by_theme, total_prices_by_theme
+from .models import mybrick_count_by_theme, mybrick_quantity_by_theme, official_price_by_theme, total_prices_by_theme
 from sets.models import BrickSet
 
 
@@ -27,7 +27,7 @@ class IndexView(LoginRequiredMixin, ListView):
             'dashboard': dashboard,
             'show_profit_chart': self.show_profit_chart,
             'mybrick_count_by_theme': mybrick_count_by_theme(self.request.user),
-            'item_quantity_by_theme': item_quantity_by_theme(self.request.user),
+            'mybrick_quantity_by_theme': mybrick_quantity_by_theme(self.request.user),
             'official_price_by_theme': official_price_by_theme(self.request.user),
             'total_estimated_by_theme': total_estimated_by_theme,
             'total_profit_by_theme': total_profit_by_theme,
