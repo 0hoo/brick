@@ -3,7 +3,7 @@ from datetime import datetime
 
 from django.db.utils import IntegrityError
 
-from .items import BrickSet, EbayEntryItem, BricklinkRecordItem
+from .items import BrickSetItem, EbayEntryItem, BricklinkRecordItem
 from sets.models import BrickSet, BricklinkRecord
 
 logger = logging.getLogger()
@@ -41,8 +41,8 @@ class BricklinkPipeline(object):
         return item
 
 
-class BrickSetPipeline(object):
-    def process_item(self, item: BrickSet, spider):
+class LegoBrickSetPipeline(object):
+    def process_item(self, item: BrickSetItem, spider):
         if not item['brick_code']:
             logger.warning("No product code: " + item['title'])
             return
@@ -64,3 +64,29 @@ class BrickSetPipeline(object):
             brickset.bricklink_url = item.get('bricklink_url', '')
             brickset.save()
             logger.info("Update: " + item['title'])
+
+
+class BricksetDotComPricePipeline(object):
+    def process_item(self, item: BrickSetItem, spider):
+        brickset = BrickSet.objects.get(brick_code=item['brick_code'])
+        if not brickset.official_price:
+            brickset.official_price = item.get('official_price', None)
+            if brickset.official_price:
+                logger.info('Save from brickset.com: %s', (brickset.brick_code, brickset.official_price))
+                brickset.save()
+            else:
+                logger.info('Skip: %s', (brickset.brick_code, brickset.official_price))
+        return item
+
+
+class BricksetDotComThemePipeline(object):
+    def process_item(self, item: BrickSetItem, spider):
+        brickset = BrickSet.objects.get(brick_code=item['brick_code'])
+        if not brickset.theme_title:
+            brickset.theme_title = item.get('theme_title', '')
+            if brickset.theme_title:
+                logger.info('Save from brickset.com: %s', (brickset.brick_code, brickset.theme_title))
+                brickset.save()
+            else:
+                logger.info('Skip: %s', (brickset.brick_code, brickset.theme_title))
+        return item

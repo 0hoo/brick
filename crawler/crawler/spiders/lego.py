@@ -16,7 +16,7 @@ START_URL = 'https://shop.lego.com/en-US/New-Sets?S1=&callback=json&cc=us&do=jso
 class LegoSpider(scrapy.Spider):
     name = 'lego'
     base_url = 'https://shop.lego.com/en-US'
-    custom_settings = {'ITEM_PIPELINES': {'crawler.pipelines.BrickSetPipeline': 400}}
+    custom_settings = {'ITEM_PIPELINES': {'crawler.pipelines.LegoBrickSetPipeline': 400}}
     start_urls = [START_URL, ]
     not_product_urls = ['http://shop.lego.com/en-US/Pick-A-Brick-11998',
                         'http://shop.lego.com/en-US/LEGO-Gift-Card-2853101',
