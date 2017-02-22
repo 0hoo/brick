@@ -136,7 +136,7 @@ class MyBrickUpdateView(LoginRequiredMixin, UserFormKwargsMixin, DispatchMyBrick
             items_form.save()
             items = [i.instance for i in items_form]
             [i.delete() for i in existing_items if not list(filter(lambda item: item.id == i.id, items))]
-            messages.success(self.request, 'You brick is just updated', extra_tags='My Bricks')
+            messages.info(self.request, 'You brick is just updated', extra_tags='My Bricks')
         return super(MyBrickUpdateView, self).form_valid(form)
 
 
@@ -161,5 +161,5 @@ class MyBrickSoldView(LoginRequiredMixin, UserFormKwargsMixin, DispatchMyBrickBy
             if not items_form.is_valid():
                 return self.form_invalid(form)
             items_form.save()
-            messages.success(self.request, 'You brick is just updated', extra_tags='My Bricks')
+            messages.info(self.request, 'You brick is just updated', extra_tags='My Bricks')
         return super(MyBrickSoldView, self).form_valid(form)

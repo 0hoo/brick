@@ -47,7 +47,7 @@ class BrickSet(TimeStampedModel):
             return None
 
     def get_absolute_url(self):
-        return reverse('sets:detail', args=[str(self.id)])
+        return reverse('sets:detail', args=[self.brick_code])
 
     def __str__(self):
         return '{} : {}'.format(self.title, self.brick_code)

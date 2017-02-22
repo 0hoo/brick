@@ -16,11 +16,15 @@ class BookmarkListView(LoginRequiredMixin, ListView):
     context_object_name = 'bookmarks'
     template_name = 'bookmarks/list.html'
 
+    def get_queryset(self):
+        queryset = super(BookmarkListView, self).get_queryset()
+        return queryset.filter(user=self.request.user).order_by('-id')
+
 
 class BookmarkUpdateView(LoginRequiredMixin, View):
     def get(self, request):
-        brickset_id = request.GET.get('brickset_id', None)
-        brickset = get_object_or_404(BrickSet, pk=brickset_id)
+        brick_code = request.GET.get('brick_code', None)
+        brickset = get_object_or_404(BrickSet, brick_code=brick_code)
         Bookmark.objects.get_or_create(
             brickset=brickset,
             user=request.user

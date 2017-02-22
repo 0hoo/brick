@@ -191,7 +191,7 @@ showLineChartC3('#chart-ebay-used', [
                 {% if have_bookmark %}
                 <button class="ui grey small button disabled"><i class="icon shopping bag"></i>Bookmarked</button>
                 {% else %}
-                <a class="ui grey small button" href="{% url 'bookmarks:update' %}?brickset_id={{ brickset.id }}"><i class="icon shopping bag"></i>Bookmark</a>
+                <a class="ui grey small button" href="{% url 'bookmarks:update' %}?brick_code={{ brickset.brick_code }}"><i class="icon shopping bag"></i>Bookmark</a>
                 {% endif %}
             {% endif %}
             <a class="ui small yellow button" href="{{ brickset.official_url }}"><i class="icon world"></i>Official</a>
