@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
+from django.shortcuts import get_object_or_404
 
 from braces.views import LoginRequiredMixin
 
@@ -69,6 +70,9 @@ class BrickSetDetailView(LoginRequiredMixin, DetailView):
     model = BrickSet
     context_object_name = 'brickset'
     template_name = 'sets/detail.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(BrickSet, brick_code=self.kwargs.get('brick_code'))
 
     def get_context_data(self, **kwargs):
         context = super(BrickSetDetailView, self).get_context_data(**kwargs)

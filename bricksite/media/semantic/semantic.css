@@ -19076,7 +19076,7 @@ ol.ui.horizontal.list li:before,
 
 .ui.inverted.menu .search.dropdown.item > .search,
 .ui.inverted.menu .search.dropdown.item > .text {
-  color: rgba(255, 255, 255, 0.9);
+  color: #222;
 }
 
 /* Vertical */
@@ -19873,7 +19873,7 @@ Floated Menu / Item
 }
 
 .ui.secondary.inverted.pointing.menu .item {
-  color: rgba(255, 255, 255, 0.9);
+  color: #222;
 }
 
 .ui.secondary.inverted.pointing.menu .header.item {
@@ -20254,7 +20254,7 @@ Floated Menu / Item
 
 .ui.inverted.menu {
   border: 0px solid transparent;
-  background: #80A6CD;
+  background: #FFC700;
   box-shadow: none;
 }
 
@@ -20263,7 +20263,7 @@ Floated Menu / Item
 .ui.inverted.menu .item,
 .ui.inverted.menu .item > a:not(.ui) {
   background: transparent;
-  color: rgba(255, 255, 255, 0.9);
+  color: #222;
 }
 
 .ui.inverted.menu .item.menu {

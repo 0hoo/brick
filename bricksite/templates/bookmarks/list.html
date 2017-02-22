@@ -19,7 +19,7 @@
         {% for bookmark in bookmarks %}
         <tr>
             <td >{{ bookmark.brickset.brick_code }}</td>
-            <td><a href="{% url 'sets:detail' bookmark.brickset.id %}">{{ bookmark.brickset.title }}</a></td>
+            <td><a href="{% url 'sets:detail' bookmark.brickset.brick_code %}">{{ bookmark.brickset.title }}</a></td>
             <td>{{ bookmark.brickset.theme_title }} </td>
             <td>{{ bookmark.brickset.official_price|floatformat:2|intcomma|price_no_data:"" }}</td>
             <td>{{ bookmark.brickset.ages }}</td>

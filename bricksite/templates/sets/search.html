@@ -30,7 +30,7 @@
         {% for brickset in bricksets %}
         <tr>
             <td >{{ brickset.brick_code }}</td>
-            <td><a href="{% url 'sets:detail' brickset.id %}">{{ brickset.title }}</a></td>
+            <td><a href="{% url 'sets:detail' brickset.brick_code %}">{{ brickset.title }}</a></td>
             <td>{{ brickset.theme_title }}</td>
             <td>{{ brickset.official_price|floatformat:2|intcomma|price_no_data }}</td>
             <td>{{ brickset.ages }}</td>

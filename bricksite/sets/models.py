@@ -34,9 +34,6 @@ class BrickSet(TimeStampedModel):
 
     objects = BrickSetManager()
 
-    def get_absolute_url(self):
-        return reverse('sets:detail', args=[str(self.id)])
-
     def last_bricklink_record(self):
         try:
             return self.bricklink_record_set.latest()
