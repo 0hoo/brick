@@ -105,7 +105,7 @@ class MyBrick(TimeStampedModel):
                           used_price=used_price, used_price_source=used_price_source, total_used_price=total_used_price)
 
     def get_absolute_url(self):
-        return reverse('mybricks:detail', args=[str(self.id)])
+        return reverse('mybricks:detail', args=[str(self.brickset.brick_code)])
 
     def __str__(self):
         return '{} {} {}'.format(self.user.username, self.brickset.brick_code, self.brickset.title)

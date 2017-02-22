@@ -143,8 +143,8 @@ showLineChartC3('#chart-profit', [
             <div class="ui hidden divider"></div>
             <div class="ui basic">
                 <a href="{% url 'sets:detail' mybrick.brickset.brick_code %}" class="ui grey small button">View Set</a>
-                <a href="{% url 'mybricks:sold' mybrick.id %}" class="ui small button gray"><i class="icon dollar"></i>Sold Brick</a>
-                <a href="{% url 'mybricks:edit' mybrick.id %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
+                <a href="{% url 'mybricks:sold' mybrick.brickset.brick_code %}" class="ui small button gray"><i class="icon dollar"></i>Sold Brick</a>
+                <a href="{% url 'mybricks:edit' mybrick.brickset.brick_code %}" class="ui small button"><i class="icon edit"></i>Edit Brick</a>
             </div>
         </div>
     </div>

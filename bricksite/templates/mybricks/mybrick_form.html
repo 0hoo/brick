@@ -71,7 +71,7 @@
                     {{ form.target_price }}
                 </div>
                 <button type="submit" class="ui blue button">Save My Brick</button>
-                <a href="{% if mybrick %}{% url 'mybricks:detail' mybrick.id %}{% else %}{% url 'sets:detail' brickset.brick_code %}{% endif %}" class="ui button">Cancel</a>
+                <a href="{% if mybrick %}{% url 'mybricks:detail' mybrick.brickset.brick_code %}{% else %}{% url 'sets:detail' brickset.brick_code %}{% endif %}" class="ui button">Cancel</a>
              </form>
         </div>
     </div>

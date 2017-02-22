@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect, reverse, get_object_or_404
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib import messages
 
@@ -43,7 +43,12 @@ class MyBrickListView(LoginRequiredMixin, ListView):
         return context
 
 
-class MyBrickDetailView(LoginRequiredMixin, DetailView):
+class DispatchMyBrickByBrickCodeMixin(object):
+    def get_object(self, queryset=None):
+        return get_object_or_404(MyBrick, brickset__brick_code=self.kwargs.get('brick_code'))
+
+
+class MyBrickDetailView(LoginRequiredMixin, DispatchMyBrickByBrickCodeMixin, DetailView):
     model = MyBrick
     context_object_name = 'mybrick'
     template_name = 'mybricks/detail.html'
@@ -63,13 +68,13 @@ class MyBrickCreateView(LoginRequiredMixin, UserFormKwargsMixin, BrickSetFormKwa
     template_name = 'mybricks/mybrick_form.html'
 
     def get_success_url(self):
-        return redirect(reverse('mybricks:detail', args=[self.object.id]))
+        return redirect(reverse('mybricks:detail', args=[self.object.brickset.brick_code]))
 
     def dispatch(self, request, *args, **kwargs):
         handler = super(MyBrickCreateView, self).dispatch(request, *args, **kwargs)
         existing = MyBrick.objects.filter(brickset=self.brickset).filter(user=request.user)
         if existing.count() > 0:
-            return redirect(reverse('mybricks:detail', args=[str(existing[0].id)]))
+            return redirect(reverse('mybricks:detail', args=[str(existing[0].brickset.brick_code)]))
         return handler
 
     def get_no_brickset_url(self):
@@ -100,7 +105,7 @@ class MyBrickCreateView(LoginRequiredMixin, UserFormKwargsMixin, BrickSetFormKwa
         return super(MyBrickCreateView, self).form_valid(form)
 
 
-class MyBrickUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
+class MyBrickUpdateView(LoginRequiredMixin, UserFormKwargsMixin, DispatchMyBrickByBrickCodeMixin, UpdateView):
     model = MyBrick
     form_class = MyBrickForm
     template_name = 'mybricks/mybrick_form.html'
@@ -135,7 +140,7 @@ class MyBrickUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
         return super(MyBrickUpdateView, self).form_valid(form)
 
 
-class MyBrickSoldView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
+class MyBrickSoldView(LoginRequiredMixin, UserFormKwargsMixin, DispatchMyBrickByBrickCodeMixin, UpdateView):
     model = MyBrick
     form_class = MyBrickForm
     template_name = 'mybricks/mybrick_sold_form.html'

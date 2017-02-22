@@ -40,7 +40,7 @@
                     {% for mybrick in mybricks %}
                     <tr>
                         <td >{{ mybrick.brickset.brick_code }}</td>
-                        <td><a href="{% url 'mybricks:detail' mybrick.id %}">{{ mybrick.brickset.title }}</a></td>
+                        <td><a href="{% url 'mybricks:detail' mybrick.brickset.brick_code %}">{{ mybrick.brickset.title }}</a></td>
                         <td>{{ mybrick.brickset.theme_title }}</td>
                         <td>{{ mybrick.quantity }}</td>
                         <td>{{ mybrick.buying_average_price|floatformat:2|intcomma|price_no_data:"" }}</td>
