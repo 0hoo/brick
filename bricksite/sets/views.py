@@ -21,7 +21,7 @@ class BrickSetListView(LoginRequiredMixin, NullOrderableListMixin, ListView):
     ordering = 'desc'
 
     def get_queryset(self):
-        queryset = super(BrickSetListView, self).get_queryset()
+        queryset = super(BrickSetListView, self).get_queryset().filter(is_approved=True)
         theme_title = self.kwargs.get('theme_title', None)
         return queryset.filter(theme_title=theme_title) if theme_title else queryset
 

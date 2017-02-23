@@ -17,7 +17,7 @@ class BrickSetDispatchMixin(object):
         try:
             self.brickset = BrickSet.objects.get(brick_code=brick_code)
         except BrickSet.DoesNotExist:
-            raise Http404('Product does not exist')
+            raise Http404('Brick set does not exist')
         return super(BrickSetDispatchMixin, self).dispatch(request, *args, **kwargs)
 
 

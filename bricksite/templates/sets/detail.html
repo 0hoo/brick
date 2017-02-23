@@ -187,7 +187,9 @@ showLineChartC3('#chart-ebay-used', [
             {% if have_mybrick %}
                 <a class="ui grey small button" href="{% url 'mybricks:detail' have_mybrick.brickset.brick_code %}"><i class="icon inbox"></i>View My Brick</a>
             {% else %}
+                {% if brickset.is_approved %}
                 <a class="ui blue small button" href="{% url 'mybricks:add' %}?brickset={{ brickset.brick_code }}"><i class="icon inbox"></i>Add To My Brick</a>
+                {% endif %}
                 {% if have_bookmark %}
                 <button class="ui grey small button disabled"><i class="icon shopping bag"></i>Bookmarked</button>
                 {% else %}
