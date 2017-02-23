@@ -17,3 +17,4 @@ elm-stuff
 .ipynb_checkpoints
 *.ipynb
 main.js
+secret_key.txt

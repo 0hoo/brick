@@ -17,7 +17,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+#SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+
+with open(BASE_DIR + '/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -161,7 +164,7 @@ try:
 except ImportError:
     pass
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '138.68.20.85', '162.243.252.89']
+ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost', '138.68.20.85', '162.243.252.89']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
