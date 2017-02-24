@@ -182,6 +182,14 @@ class BrickSetDetailViewTest(TestCase):
         self.assertNotContains(response, 'chart-ebay-new')
         self.assertContains(response, 'chart-ebay-used')
 
+        BricklinkRecord.objects.create(brickset=brickset, used_average_price=6.5)
+        response = self.client.get(reverse('sets:detail', kwargs={'brick_code': 1}))
+        self.assertContains(response, 'chart-new')
+        self.assertContains(response, 'chart-used')
+        self.assertNotContains(response, 'chart-ebay-new')
+        self.assertContains(response, 'chart-ebay-used')
+
+
 class EbayRecordTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')

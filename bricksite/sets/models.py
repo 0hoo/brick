@@ -49,22 +49,22 @@ class BrickSet(TimeStampedModel):
     @property
     def has_bricklink_new_values(self):
         return self.bricklink_record_set.filter(
-            new_average_price__isnull=False, new_min_price__isnull=False, new_max_price__isnull=False).count() > 0
+            Q(new_average_price__isnull=False) | Q(new_min_price__isnull=False) | Q(new_max_price__isnull=False)).count() > 0
 
     @property
     def has_bricklink_used_values(self):
         return self.bricklink_record_set.filter(
-            used_average_price__isnull=False, used_min_price__isnull=False, used_max_price__isnull=False).count() > 0
+            Q(used_average_price__isnull=False) | Q(used_min_price__isnull=False) | Q(used_max_price__isnull=False)).count() > 0
 
     @property
     def has_ebay_new_values(self):
         return self.ebay_record_set.filter(
-            new_average_price__isnull=False, new_min_price__isnull=False, new_max_price__isnull=False).count() > 0
+            Q(new_average_price__isnull=False) | Q(new_min_price__isnull=False) | Q(new_max_price__isnull=False)).count() > 0
 
     @property
     def has_ebay_used_values(self):
         return self.ebay_record_set.filter(
-            used_average_price__isnull=False, used_min_price__isnull=False, used_max_price__isnull=False).count() > 0
+            Q(used_average_price__isnull=False) | Q(used_min_price__isnull=False) | Q(used_max_price__isnull=False)).count() > 0
 
     def get_absolute_url(self):
         return reverse('sets:detail', args=[self.brick_code])
