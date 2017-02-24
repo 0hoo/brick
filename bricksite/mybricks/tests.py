@@ -35,6 +35,11 @@ class MyBricksViewTests(TestCase):
         response = self.client.get(reverse('mybricks:list'))
         self.assertQuerysetEqual(response.context['mybricks'], [repr(mybrick2), repr(mybrick1)])
 
+    def test_list_theme_titles(self):
+        response = self.client.get(reverse('mybricks:list'))
+        self.assertEqual(len(response.context['theme_titles']), 0)
+        #self.assertEqual(response.status_code, 200)
+
 
 class MyBrickTests(TestCase):
 
