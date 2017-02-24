@@ -12,6 +12,8 @@
 {% endblock %}
 
 {% block javascript_code %}
+
+{% if brickset.has_bricklink_new_values %}
 showLineChartC3('#chart-new', [
     {% autoescape off %}
     {% generate_c3_array brickset.bricklink_record_set.all field='created' label='date' is_date=True %},
@@ -20,6 +22,9 @@ showLineChartC3('#chart-new', [
     {% generate_c3_array brickset.bricklink_record_set.all field='new_min_price' label='New Minimum' %},
     {% endautoescape %}
 ], 920);
+{% endif %}
+
+{% if brickset.has_bricklink_used_values %}
 showLineChartC3('#chart-used', [
     {% autoescape off %}
     {% generate_c3_array brickset.bricklink_record_set.all field='created' label='date' is_date=True %},
@@ -28,6 +33,9 @@ showLineChartC3('#chart-used', [
     {% generate_c3_array brickset.bricklink_record_set.all field='used_min_price' label='Used Minimum' %},
     {% endautoescape %}
 ], 920);
+{% endif %}
+
+{% if brickset.has_ebay_new_values %}
 showLineChartC3('#chart-ebay-new', [
     {% autoescape off %}
     {% generate_c3_array brickset.ebay_record_set.all field='created' label='date' is_date=True %},
@@ -36,6 +44,9 @@ showLineChartC3('#chart-ebay-new', [
     {% generate_c3_array brickset.ebay_record_set.all field='new_min_price' label='New Minimum' %},
     {% endautoescape %}
 ], 920);
+{% endif %}
+
+{% if brickset.has_ebay_used_values %}
 showLineChartC3('#chart-ebay-used', [
     {% autoescape off %}
     {% generate_c3_array brickset.ebay_record_set.all field='created' label='date' is_date=True %},
@@ -44,6 +55,8 @@ showLineChartC3('#chart-ebay-used', [
     {% generate_c3_array brickset.ebay_record_set.all field='used_min_price' label='Used Minimum' %},
     {% endautoescape %}
 ], 920);
+{% endif %}
+
 {% endblock %}
 
 {% block content %}
@@ -196,11 +209,16 @@ showLineChartC3('#chart-ebay-used', [
                 <a class="ui grey small button" href="{% url 'bookmarks:update' %}?brick_code={{ brickset.brick_code }}"><i class="icon shopping bag"></i>Bookmark</a>
                 {% endif %}
             {% endif %}
-            <a class="ui small yellow button" href="{{ brickset.official_url }}"><i class="icon world"></i>Official</a>
-            <a class="ui small button" href="{{ brickset.bricklink_url }}"><i class="icon world"></i>Bricklink</a>
+            {% if brickset.official_url %}
+                <a class="ui small yellow button" href="{{ brickset.official_url }}"><i class="icon world"></i>Official</a>
+            {% endif %}
+            {% if brickset.bricklink_url %}
+                <a class="ui small button" href="{{ brickset.bricklink_url }}"><i class="icon world"></i>Bricklink</a>
+            {% endif %}
         </div>
     </div>
     <div class="ui divider"></div>
+    {% if brickset.has_bricklink_new_values %}
     <div class="row">
         <div class="sixteen wide column">
             <h4 class="ui header">
@@ -210,6 +228,8 @@ showLineChartC3('#chart-ebay-used', [
             <div id="chart-new"></div>
         </div>
     </div>
+    {% endif %}
+    {% if brickset.has_bricklink_used_values %}
     <div class="row">
         <div class="sixteen wide column">
             <h4 class="ui header">
@@ -219,6 +239,8 @@ showLineChartC3('#chart-ebay-used', [
             <div id="chart-used"></div>
         </div>
     </div>
+    {% endif %}
+    {% if brickset.has_ebay_new_values %}
     <div class="row">
         <div class="sixteen wide column">
                 <h4 class="ui header">
@@ -228,6 +250,8 @@ showLineChartC3('#chart-ebay-used', [
             <div id="chart-ebay-new"></div>
         </div>
     </div>
+    {% endif %}
+    {% if brickset.has_ebay_used_values %}
     <div class="row">
         <div class="sixteen wide column">
             <h4 class="ui header">
@@ -237,6 +261,7 @@ showLineChartC3('#chart-ebay-used', [
             <div id="chart-ebay-used"></div>
         </div>
     </div>
+    {% endif %}
     {% if brickset.ebay_entry_set.count > 0 %}
         <div class="ui divider"></div>
         {% include "snippets/ebay_entries.html" with brickset=brickset %}

@@ -32,7 +32,7 @@
                 <tr>
                     <td >{{ brickset.brick_code }}</td>
                     <td><a href="{% url 'sets:detail' brickset.brick_code %}">{{ brickset.title }}</a></td>
-                    <td><a href="{% url 'sets:list_by_theme' brickset.theme_title %}">{{ brickset.theme_title }}</a></td>
+                    <td>{% if brickset.theme_title %}<a href="{% url 'sets:list_by_theme' brickset.theme_title %}">{{ brickset.theme_title }}</a>{% endif %}</td>
                     <td>{{ brickset.official_price|floatformat:2|intcomma|price_no_data:"" }}</td>
                     <td>{{ brickset.ages }}</td>
                     <td>{% if brickset.official_rating %}{{ brickset.official_rating }}{% endif %}</td>
