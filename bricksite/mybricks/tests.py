@@ -38,7 +38,20 @@ class MyBricksViewTests(TestCase):
     def test_list_theme_titles(self):
         response = self.client.get(reverse('mybricks:list'))
         self.assertEqual(len(response.context['theme_titles']), 0)
-        #self.assertEqual(response.status_code, 200)
+
+        set1 = BrickSet.objects.create(brick_code=1, title='Set1', official_price=10.0, is_approved=True, theme_title='A')
+        set2 = BrickSet.objects.create(brick_code=2, title='Set2', official_price=10.0, is_approved=True, theme_title='B')
+        mybrick1 = MyBrick.objects.create(brickset=set1, user=self.user)
+        mybrick2 = MyBrick.objects.create(brickset=set2, user=self.user)
+
+        response = self.client.get(reverse('mybricks:list'))
+        self.assertQuerysetEqual(response.context['theme_titles'], ["'A'", "'B'"])
+        self.assertEqual(response.context['theme_title'], None)
+        self.assertEqual(len(response.context['mybricks']), 2)
+
+        response = self.client.get(reverse('mybricks:list_by_theme', kwargs={'theme_title': 'B'}))
+        self.assertEqual(response.context['theme_title'], 'B')
+        self.assertEqual(len(response.context['mybricks']), 1)
 
 
 class MyBrickTests(TestCase):

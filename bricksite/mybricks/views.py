@@ -10,6 +10,8 @@ from .forms import MyBrickForm, ItemFormCreateSet, ItemFormUpdateSet, ItemSoldFo
 from .viewmixins import BrickSetFormKwargsMixin
 from .utils import update_mybrick_record
 
+from dashboard.models import theme_titles
+
 
 class MyBrickListView(LoginRequiredMixin, ListView):
     model = MyBrick
@@ -19,8 +21,8 @@ class MyBrickListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super(MyBrickListView, self).get_queryset().order_by('-id')
         queryset = queryset.filter(user=self.request.user)
-        theme_title = self.kwargs.get('theme_title', None)
-        return queryset.filter(brickset__theme_title=theme_title) if theme_title else queryset
+        self.theme_title = self.kwargs.get('theme_title', None)
+        return queryset.filter(brickset__theme_title=self.theme_title) if self.theme_title else queryset
 
     def get_context_data(self, **kwargs):
         context = super(MyBrickListView, self).get_context_data(**kwargs)
@@ -39,6 +41,8 @@ class MyBrickListView(LoginRequiredMixin, ListView):
             'estimated_price': estimated_price,
             'profit': profit,
             'official_price': official_price,
+            'theme_titles': theme_titles(self.request.user),
+            'theme_title': self.theme_title,
         })
         return context
 
