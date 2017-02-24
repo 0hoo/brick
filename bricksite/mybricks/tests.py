@@ -41,8 +41,8 @@ class MyBricksViewTests(TestCase):
 
         set1 = BrickSet.objects.create(brick_code=1, title='Set1', official_price=10.0, is_approved=True, theme_title='A')
         set2 = BrickSet.objects.create(brick_code=2, title='Set2', official_price=10.0, is_approved=True, theme_title='B')
-        mybrick1 = MyBrick.objects.create(brickset=set1, user=self.user)
-        mybrick2 = MyBrick.objects.create(brickset=set2, user=self.user)
+        MyBrick.objects.create(brickset=set1, user=self.user)
+        MyBrick.objects.create(brickset=set2, user=self.user)
 
         response = self.client.get(reverse('mybricks:list'))
         self.assertQuerysetEqual(response.context['theme_titles'], ["'A'", "'B'"])
@@ -51,6 +51,15 @@ class MyBricksViewTests(TestCase):
 
         response = self.client.get(reverse('mybricks:list_by_theme', kwargs={'theme_title': 'B'}))
         self.assertEqual(response.context['theme_title'], 'B')
+        self.assertEqual(len(response.context['mybricks']), 1)
+
+    def test_list_unapproved(self):
+        set1 = BrickSet.objects.create(brick_code=1, title='Set1', official_price=10.0, is_approved=True)
+        set2 = BrickSet.objects.create(brick_code=2, title='Set2', official_price=10.0, is_approved=False)
+        MyBrick.objects.create(brickset=set1, user=self.user)
+        MyBrick.objects.create(brickset=set2, user=self.user)
+
+        response = self.client.get(reverse('mybricks:list'))
         self.assertEqual(len(response.context['mybricks']), 1)
 
 
