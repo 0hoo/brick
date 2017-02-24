@@ -14,7 +14,7 @@ class BrickSetManager(models.Manager):
         ).order_by('title')[:10]
 
     def theme_titles(self):
-        return self.values_list('theme_title', flat=True).distinct().order_by('theme_title')
+        return self.filter(is_approved=True).values_list('theme_title', flat=True).distinct().order_by('theme_title')
 
 
 class BrickSet(TimeStampedModel):
