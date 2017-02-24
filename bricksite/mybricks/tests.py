@@ -2,6 +2,7 @@ from decimal import Decimal
 from datetime import datetime
 
 from django.test import TestCase
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 from .models import MyBrick, MyBrickItem, MyBrickRecord
@@ -10,11 +11,36 @@ from .utils import update_mybrick_record
 from sets.models import BrickSet, BricklinkRecord, EbayRecord
 
 
+class MyBricksViewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
+        self.client.login(username='tmb', password='tmb')
+
+    def test_list_with_no_mybricks(self):
+        response = self.client.get(reverse('mybricks:list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['mybricks'], [])
+        self.assertTemplateUsed(response, 'mybricks/list.html')
+
+    def test_list_with_bricks(self):
+        set1 = BrickSet.objects.create(brick_code=1, title='Set1', official_price=10.0, is_approved=True)
+        set2 = BrickSet.objects.create(brick_code=2, title='Set2', official_price=10.0, is_approved=True)
+
+        response = self.client.get(reverse('mybricks:list'))
+        self.assertQuerysetEqual(response.context['mybricks'], [])
+
+        mybrick1 = MyBrick.objects.create(brickset=set1, user=self.user)
+        mybrick2 = MyBrick.objects.create(brickset=set2, user=self.user)
+
+        response = self.client.get(reverse('mybricks:list'))
+        self.assertQuerysetEqual(response.context['mybricks'], [repr(mybrick2), repr(mybrick1)])
+
+
 class MyBrickTests(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
-        BrickSet.objects.create(brick_code=1, title='Test Product', official_price=10.0)
+        BrickSet.objects.create(brick_code=1, title='Test Set', official_price=10.0)
         self.brickset = BrickSet.objects.get(brick_code=1)
 
     def test_buying_price_with_no_items(self):
@@ -105,7 +131,7 @@ class MyBrickTests(TestCase):
 class MyBrickRecordTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
-        BrickSet.objects.create(brick_code=1, title='Test Product', official_price=10.0)
+        BrickSet.objects.create(brick_code=1, title='Test Set', official_price=10.0)
         self.brickset = BrickSet.objects.get(brick_code=1)
 
     def test_update_item_record_make_no_record(self):

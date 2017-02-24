@@ -17,7 +17,7 @@ class MyBrickListView(LoginRequiredMixin, ListView):
     template_name = 'mybricks/list.html'
 
     def get_queryset(self):
-        queryset = super(MyBrickListView, self).get_queryset()
+        queryset = super(MyBrickListView, self).get_queryset().order_by('-id')
         queryset = queryset.filter(user=self.request.user)
         theme_title = self.kwargs.get('theme_title', None)
         return queryset.filter(brickset__theme_title=theme_title) if theme_title else queryset
