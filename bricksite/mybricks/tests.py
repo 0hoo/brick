@@ -63,8 +63,22 @@ class MyBricksViewTests(TestCase):
         self.assertEqual(len(response.context['mybricks']), 1)
 
 
-class MyBrickTests(TestCase):
+class MyBrickDetailViewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
+        self.client.login(username='tmb', password='tmb')
 
+    #check quantity
+    #check - You have 1 unopened item of this brick.
+    #check items list
+    #check items list sort
+    #check How we estimated the price
+    #check gain & lose - red & green
+    #check sold
+    #check sold all -> 0
+    #check assure couldn't make a mybrick without items
+
+class MyBrickTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
         BrickSet.objects.create(brick_code=1, title='Test Set', official_price=10.0)
