@@ -136,9 +136,6 @@ class MyBrickRecord(TimeStampedModel):
 
 
 class MyBrickItemManager(models.Manager):
-    def get_queryset(self):
-        return super(MyBrickItemManager, self).get_queryset().order_by('sold')
-
     def unopened(self):
         return self.filter(sold=False, opened=False)
 
@@ -171,4 +168,5 @@ class MyBrickItem(TimeStampedModel):
         return '{} - {} {}'.format(self.mybrick.brickset.title, "Opened" if self.opened else "Unopened", self.buying_price)
 
     class Meta:
+        ordering = ['sold', 'id']
         verbose_name = 'My Brick Item'

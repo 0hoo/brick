@@ -68,15 +68,49 @@ class MyBrickDetailViewTests(TestCase):
         self.user = User.objects.create_user(username='tmb', email='tmb@trackmybrick.com', password='tmb')
         self.client.login(username='tmb', password='tmb')
 
-    #check quantity
-    #check - You have 1 unopened item of this brick.
-    #check items list
-    #check items list sort
-    #check How we estimated the price
-    #check gain & lose - red & green
-    #check sold
-    #check sold all -> 0
-    #check assure couldn't make a mybrick without items
+        self.set1 = BrickSet.objects.create(brick_code=1, title='Set1', official_price=10.0, is_approved=True)
+
+    def test_detail_404(self):
+        response = self.client.get(reverse('mybricks:detail', kwargs={'brick_code': self.set1.brick_code }))
+        self.assertEqual(response.status_code, 404)
+
+    def test_detail_200(self):
+        mybrick = MyBrick.objects.create(brickset=self.set1, user=self.user)
+        MyBrickItem.objects.create(mybrick=mybrick, buying_price=11.0, opened=False)
+
+        response = self.client.get(reverse('mybricks:detail', kwargs={'brick_code': mybrick.brickset.brick_code }))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(repr(response.context['mybrick']), repr(mybrick))
+        self.assertTemplateUsed(response, 'mybricks/detail.html')
+
+    def test_detail_item(self):
+        mybrick = MyBrick.objects.create(brickset=self.set1, user=self.user)
+        item = MyBrickItem.objects.create(mybrick=mybrick, buying_price=11.0, opened=False)
+
+        response = self.client.get(reverse('mybricks:detail', kwargs={'brick_code': mybrick.brickset.brick_code }))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<span class="ui circular label">1</span>')
+        self.assertContains(response, '<strong>unopened</strong>')
+        self.assertContains(response, ' item of this brick.')
+
+        item.opened = True
+        item.save()
+
+        response = self.client.get(reverse('mybricks:detail', kwargs={'brick_code': mybrick.brickset.brick_code}))
+        self.assertContains(response, '<span class="ui circular label">1</span>')
+        self.assertNotContains(response, '<strong>unopened</strong>')
+        self.assertContains(response, '<strong>opened</strong>')
+
+    def test_detail_items(self):
+        mybrick = MyBrick.objects.create(brickset=self.set1, user=self.user)
+        MyBrickItem.objects.create(mybrick=mybrick, buying_price=11.0, opened=False)
+        MyBrickItem.objects.create(mybrick=mybrick, buying_price=9.0, opened=True)
+
+        response = self.client.get(reverse('mybricks:detail', kwargs={'brick_code': mybrick.brickset.brick_code }))
+        self.assertContains(response, '<strong>2</strong>')
+        self.assertContains(response, ' items of this brick.')
+        self.assertContains(response, '<div class="ui list">')
+
 
 class MyBrickTests(TestCase):
     def setUp(self):
@@ -91,6 +125,24 @@ class MyBrickTests(TestCase):
         self.assertEqual(mybrick.total_buying_price, None)
         self.assertEqual(mybrick.average_buying_price, None)
         self.assertEqual(mybrick.estimated_total_buying_price, 0)
+
+    def test_order_of_items(self):
+        MyBrick.objects.create(brickset=self.brickset, user=self.user)
+        mybrick = MyBrick.objects.get(brickset=self.brickset)
+        item1 = MyBrickItem.objects.create(mybrick=mybrick, buying_price=10.0)
+        item1 = MyBrickItem.objects.get(id=item1.id)
+        item2 = MyBrickItem.objects.create(mybrick=mybrick, buying_price=12.0)
+        item2 = MyBrickItem.objects.get(id=item2.id)
+        item3 = MyBrickItem.objects.create(mybrick=mybrick, buying_price=7.0, opened=True)
+        item3 = MyBrickItem.objects.get(id=item3.id)
+        item4 = MyBrickItem.objects.create(mybrick=mybrick, buying_price=12.0)
+        item4 = MyBrickItem.objects.get(id=item4.id)
+
+        self.assertQuerysetEqual(mybrick.item_set.all(), [repr(item1), repr(item2), repr(item3), repr(item4)])
+
+        item1.sold = True
+        item1.save()
+        self.assertQuerysetEqual(mybrick.item_set.all(), [repr(item2), repr(item3), repr(item4), repr(item1)])
 
     def test_buying_price_with_items(self):
         MyBrick.objects.create(brickset=self.brickset, user=self.user)
